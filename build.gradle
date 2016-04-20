@@ -62,6 +62,7 @@ dependencies {
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
     compile 'org.grails.plugins:spring-security-core:3.0.4'
+    
 }
 
 task wrapper(type: Wrapper) {

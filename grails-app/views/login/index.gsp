@@ -34,14 +34,19 @@
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
 
-    <form method="POST" action="${resource(file:'j_spring_security_check')}">
+   %{-- <g:form name="banner-login" uri="/j_spring_security_check"> --}%
+   <form action='${ request.contextPath }/j_spring_security_check' method="POST">
+    <div class="fheader"><g:message code='springSecurity.login.header'/></div>
+    <g:if test='${flash.message}'>
+      <div class="login_message">${flash.message}</div>
+    </g:if>
       <div class="form-group has-feedback">
         <g:textField name="j_username" class="form-control" placeholder="username"/>
         %{-- <input type="email" class="form-control" placeholder="Email"> --}%
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input name="j_password" type="password" class="form-control" placeholder="Password"/>
+        <g:passwordField  name="j_password" class="form-control" placeholder="Password"/>
         %{-- <input type="password" class="form-control" placeholder="Password"> --}%
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
@@ -60,19 +65,8 @@
         </div>
         <!-- /.col -->
       </div>
+    %{-- </g:form> --}%
     </form>
-
-    <div class="social-auth-links text-center">
-      <p>- OR -</p>
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
-        Facebook</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
-        Google+</a>
-    </div>
-    <!-- /.social-auth-links -->
-
-    <a href="#">I forgot my password</a><br>
-    <a href="register.html" class="text-center">Register a new membership</a>
 
   </div>
   <!-- /.login-box-body -->
