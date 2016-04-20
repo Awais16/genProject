@@ -9,16 +9,16 @@
     <!-- Bootstrap 3.3.5 -->
     <asset:stylesheet src="bootstrap/css/bootstrap.min.css"/>
     <!-- Font Awesome -->
-    <asset:stylesheet href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
     <!-- Ionicons -->
-    <asset:stylesheet href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
     <!-- jvectormap -->
-    <asset:stylesheet href="plugins/jvectormap/jquery-jvectormap-1.2.2.css"/>
+    <asset:stylesheet src="plugins/jvectormap/jquery-jvectormap-1.2.2.css"/>
     <!-- Theme style -->
-    <asset:stylesheet href="dist/css/AdminLTE.min.css"/>
+    <asset:stylesheet src="dist/css/AdminLTE.min.css"/>
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <asset:stylesheet href="dist/css/skins/_all-skins.min.css"/>
+    <asset:stylesheet src="dist/css/skins/_all-skins.min.css"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,34 +47,26 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-          <ul class="nav navbar-nav">
+        <div class="collapse navbar-collapse " id="navbar-collapse">
+        
+          <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Link</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
+            
+            <li class="dropdown notifications-menu">
+              <!-- Menu toggle button -->
+              <a href="#" >
+                <i class="fa fa-bell-o"></i>
+                <span class="label label-warning">10</span>
+              </a>
             </li>
           </ul>
-          <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
-            </div>
-          </form>
         </div>
 
     </div>
     </nav>
     </header>
-    
+
 </div>
 
 <!-- Full Width Column -->
@@ -107,6 +99,7 @@
     <asset:javascript src="plugins/slimScroll/jquery.slimscroll.min.js"/>
     <!-- ChartJS 1.0.1 -->
     <asset:javascript src="plugins/chartjs/Chart.min.js"/>
+    
 </body>
 </html>
 
