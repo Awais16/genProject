@@ -40,25 +40,33 @@
       <div class="container">
 
         <div class="navbar-header">
-          <a href="#" class="navbar-brand"><b>Admin</b>LTE</a>
+          <a href="#" class="navbar-brand"><b>IKMB</b> GNOME PROJECT</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse " id="navbar-collapse">
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="${createLink(uri:'/questionnaire/')}">
+                    <i class="fa fa-file-text-o margin-r-5"></i> Questionnaire
+                </a>
+            </li>
+            <li>
+                <a  href="${createLink(uri:'/appointments/')}">
+                    <i class="fa fa-plus margin-r-5"></i> Appointments
+                </a>
+            </li>
+        </ul>
         
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Link</a></li>
-            
-            <li class="dropdown notifications-menu">
-              <!-- Menu toggle button -->
-              <a href="#" >
-                <i class="fa fa-bell-o"></i>
-                <span class="label label-warning">10</span>
-              </a>
+            <li>
+                <a href="${createLink(uri:'/logoff')}" >
+                    <i class="fa fa-sign-out margin-r-5"></i> Sign out
+                </a>
             </li>
           </ul>
         </div>
@@ -66,14 +74,15 @@
     </nav>
     </header>
 
-</div>
-
 <!-- Full Width Column -->
 <div class="content-wrapper">
     <div class="container">
-		<g:layoutBody />
-	</div>
+        <g:layoutBody />
+    </div>
 </div>
+
+</div>
+
 
 
 <!-- come footer-->
@@ -84,11 +93,11 @@
 <!-- jQuery 2.1.4 -->
     <asset:javascript src="plugins/jQuery/jQuery-2.1.4.min.js"/>
     <!-- Bootstrap 3.3.5 -->
-    <<asset:javascript src="bootstrap/js/bootstrap.min.js"/>
+    <asset:javascript src="bootstrap/js/bootstrap.min.js"/>
     <!-- FastClick -->
-    <<asset:javascript src="plugins/fastclick/fastclick.min.js"/>
+    <asset:javascript src="plugins/fastclick/fastclick.min.js"/>
     <!-- AdminLTE App -->
-    <<asset:javascript src="dist/js/app.min.js"/>
+    <asset:javascript src="dist/js/app.min.js"/>
     <!-- Sparkline -->
     <asset:javascript src="plugins/sparkline/jquery.sparkline.min.js"/>
     <!-- jvectormap -->
