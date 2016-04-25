@@ -7,8 +7,8 @@ grails.plugin.springsecurity.authority.className = 'com.ikmb.SecRole'
 grails.plugin.springsecurity.logout.postOnly = false
 
 grails.plugin.springsecurity.auth.loginFormUrl = '/'
-grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/dashboard/'
-grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/'
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/dashboard/'
+grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/?error=Unable to login, please try again'
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],

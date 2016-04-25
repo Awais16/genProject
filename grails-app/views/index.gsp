@@ -33,14 +33,13 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
-
-
-
    
    <form action='${ request.contextPath }/login/authenticate' method="POST">
-    <g:if test='${flash.message}'>
-      <div class="login_message">${flash.message}</div>
+   
+    <g:if test='${params.error}'>
+      <div class="alert alert-error login_message">${params.error}</div>
     </g:if>
+
       <div class="form-group has-feedback">
         <g:textField name="username" class="form-control" placeholder="username"/>
         %{-- <input type="email" class="form-control" placeholder="Email"> --}%
