@@ -52,6 +52,5 @@ class SecUser implements Serializable {
 	static mapping = {
 		password column: '`password`'
 	}
-
 	
 }

@@ -1,6 +1,8 @@
 import com.ikmb.SecRole
 import com.ikmb.SecUser
 import com.ikmb.SecUserSecRole
+import com.ikmb.Questionnaire
+
 class BootStrap {
 
     def init = { servletContext ->
@@ -19,6 +21,24 @@ class BootStrap {
 			it.flush()
 			it.clear()
     	}
+
+    	//if request map is enabled in application.groovy
+    	//initalizing security requestmap rules
+  	
+  	//   	for (String url in [
+	 //      '/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown',
+	 //      '/assets/**', '/**/js/**', '/**/css/**', '/**/images/**',
+	 //      '/login', '/login.*', '/login/*',
+	 //      '/logout', '/logout.*', '/logout/*']) {
+	 //   		new Requestmap(url: url, configAttribute: 'permitAll').save()
+		// }
+
+		// new Requestmap(url: '/dashboard/**',    configAttribute: 'IS_AUTHENTICATED_REMEMBERED').save()
+
+
+    	def questionnaire= new Questionnaire(name:"SF1",type: 0, data:"{\"question\":\"whatever\"}",identifier: "questionnaire1");
+    	questionnaire.save();
+
     }
     def destroy = {
     }
