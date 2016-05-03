@@ -2,11 +2,8 @@ package com.ikmb
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
-import grails.plugin.springsecurity.annotation.Secured
 
 @Transactional(readOnly = true)
-
-@Secured(['ROLE_ADMIN'])
 class UserQuestionnaireController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]

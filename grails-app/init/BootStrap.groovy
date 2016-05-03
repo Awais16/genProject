@@ -38,6 +38,8 @@ class BootStrap {
 
     	def questionnaire= new Questionnaire(name:"SF1",type: 0, data:"{\"question\":\"whatever\"}",identifier: "questionnaire1");
     	questionnaire.save();
+    	new Questionnaire(name:"SF2",type: 0, data:"{\"question\":\"whatever json\"}",identifier: "questionnaire2").save();
+    	
 
     }
     def destroy = {

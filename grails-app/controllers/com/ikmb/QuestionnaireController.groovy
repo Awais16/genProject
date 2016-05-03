@@ -2,7 +2,7 @@ package com.ikmb
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
-
+import grails.converters.*
 import grails.plugin.springsecurity.annotation.Secured
 
 
@@ -10,6 +10,8 @@ import grails.plugin.springsecurity.annotation.Secured
 
 
 class QuestionnaireController {
+
+    def questionnaireService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -111,8 +113,10 @@ class QuestionnaireController {
     }
 
 
-    @Secured(['ROLE_PARTICIPANTS','ROLE_ADMIN'])
     def home(){
         render(view:"questionnaire")
+        // def questionnaires=questionnaireService.getUserQuestionnaires()
+        // render questionnaires as JSON
     }
+    
 }
