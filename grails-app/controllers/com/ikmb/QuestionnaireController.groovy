@@ -113,17 +113,29 @@ class QuestionnaireController {
     }
 
     def home(){
-        def questionnaires=questionnaireService.getUserQuestionnaires()
+        def userquestionnaires=questionnaireService.getUserQuestionnaires()
         // println questionnaires as JSON
-        render(view:"home", model:[questionnaires: questionnaires])
+        render(view:"home", model:[questionnaires: userquestionnaires])
     }
 
     def status(){
         flash.message="questionnaire status goes here"
-        flash.type="alert-danger"
+        flash.type="alert-success"
         flash.title="Questionnaire Status"
 
         render(view: "status")  
+    }
+
+
+    def fill(){
+        if(!questionnaireService.haveAccessToQuestionnaire(params.id)){
+            flash.message="You don't have access to that questionnaire"
+            flash.type="alert-warning"
+            flash.title="No Access"
+         
+            redirect(controller:"questionnaire",action:"home")
+        }
+        render(view: "fill") 
     }
 
 }

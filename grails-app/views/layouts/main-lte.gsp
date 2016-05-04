@@ -51,7 +51,7 @@
 
         <ul class="nav navbar-nav">
             <li>
-                <a href="${createLink(uri:'/questionnaire/')}">
+                <a href="${createLink(uri:'/questionnaire/home')}">
                     <i class="fa fa-file-text-o margin-r-5"></i> Questionnaire
                 </a>
             </li>
@@ -81,7 +81,7 @@
 <!-- 
         displaing info,errors
         flash.message="message detail"
-        flash.type="alert-info" // could be alert-danger,-info,-warning,-success
+        flash.type="alert-info" // can be alert-danger,-info,-warning,-success
         flash.title="Header text"
         
         -->
