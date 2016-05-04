@@ -7,14 +7,15 @@
 		<body>
 			<div class="box box-default" style="margin-top: 10px">
 				<div class="box-header with-border">
-					<h3 class="box-title">Questionnaire Overview</h3>
+					<h3 class="box-title">Questionnaire Status</h3>
 					<a class="questionnaire_help" data-toggle="modal" data-target="#myModal" href="#">
 						<i class="fa fa-question"> help</i>
 					</a>
 					<div class="float_clear"></div>
 					
 				<div class="box-body">
-					Overview of questionniare goes here
+					Status of the questionnaire if have access [user questionniares]
+					
 				</div>
 				<!-- /.box-body -->
 			</div>

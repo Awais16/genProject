@@ -77,6 +77,22 @@
 <!-- Full Width Column -->
 <div class="content-wrapper">
     <div class="container">
+
+<!-- 
+        displaing info,errors
+        flash.message="message detail"
+        flash.type="alert-info" // could be alert-danger,-info,-warning,-success
+        flash.title="Header text"
+        
+        -->
+        <g:if test="${flash.message}">
+        <div class="alert ${flash.type} alert-dismissible" style="margin-top:2px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-info"></i> ${flash.title}</h4>
+                ${flash.message}
+        </div>
+        </g:if>
+
         <g:layoutBody />
     </div>
 </div>

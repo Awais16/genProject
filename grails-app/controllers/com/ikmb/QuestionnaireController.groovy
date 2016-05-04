@@ -112,11 +112,18 @@ class QuestionnaireController {
         }
     }
 
-
     def home(){
-        render(view:"questionnaire")
-        // def questionnaires=questionnaireService.getUserQuestionnaires()
-        // render questionnaires as JSON
+        def questionnaires=questionnaireService.getUserQuestionnaires()
+        // println questionnaires as JSON
+        render(view:"home", model:[questionnaires: questionnaires])
     }
-    
+
+    def status(){
+        flash.message="questionnaire status goes here"
+        flash.type="alert-danger"
+        flash.title="Questionnaire Status"
+
+        render(view: "status")  
+    }
+
 }
