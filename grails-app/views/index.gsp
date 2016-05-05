@@ -24,7 +24,13 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
+  %{-- redirecting to dashboard --}%
+  <sec:ifLoggedIn>
+    ${response.sendRedirect("dashboard")}
+  </sec:ifLoggedIn>
 </head>
+
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
@@ -34,11 +40,16 @@
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
    
-   <form action='${ request.contextPath }/login/authenticate' method="POST">
+   <form action='${request.contextPath }/login/authenticate' method="POST">
    
     <g:if test='${params.error}'>
       <div class="alert alert-error login_message">${params.error}</div>
     </g:if>
+
+    <g:if test='${flash}'>
+      <div class="alert alert-error login_message">${flash.message}</div>
+    </g:if>
+
 
       <div class="form-group has-feedback">
         <g:textField name="username" class="form-control" placeholder="username"/>
