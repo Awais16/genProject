@@ -30,6 +30,26 @@
     <title>
         <g:layoutTitle default="Gnome Project"/>
     </title>
+
+    
+<!-- jQuery 2.1.4 -->
+    <asset:javascript src="plugins/jQuery/jQuery-2.1.4.min.js"/>
+    <!-- Bootstrap 3.3.5 -->
+    <asset:javascript src="bootstrap/js/bootstrap.min.js"/>
+    <!-- FastClick -->
+    <asset:javascript src="plugins/fastclick/fastclick.min.js"/>
+    <!-- AdminLTE App -->
+    <asset:javascript src="dist/js/app.min.js"/>
+    <!-- Sparkline -->
+    <asset:javascript src="plugins/sparkline/jquery.sparkline.min.js"/>
+    <!-- jvectormap -->
+    <asset:javascript src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"/>
+    <asset:javascript src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"/>
+    <!-- SlimScroll 1.3.0 -->
+    <asset:javascript src="plugins/slimScroll/jquery.slimscroll.min.js"/>
+    <!-- ChartJS 1.0.1 -->
+    <asset:javascript src="plugins/chartjs/Chart.min.js"/>
+    
      <g:layoutHead />
   </head>
 <body class="hold-transition skin-blue layout-top-nav">
@@ -118,25 +138,6 @@
     enableBSToppltip: true
   };
 </script>
-
-
-<!-- jQuery 2.1.4 -->
-    <asset:javascript src="plugins/jQuery/jQuery-2.1.4.min.js"/>
-    <!-- Bootstrap 3.3.5 -->
-    <asset:javascript src="bootstrap/js/bootstrap.min.js"/>
-    <!-- FastClick -->
-    <asset:javascript src="plugins/fastclick/fastclick.min.js"/>
-    <!-- AdminLTE App -->
-    <asset:javascript src="dist/js/app.min.js"/>
-    <!-- Sparkline -->
-    <asset:javascript src="plugins/sparkline/jquery.sparkline.min.js"/>
-    <!-- jvectormap -->
-    <asset:javascript src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"/>
-    <asset:javascript src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"/>
-    <!-- SlimScroll 1.3.0 -->
-    <asset:javascript src="plugins/slimScroll/jquery.slimscroll.min.js"/>
-    <!-- ChartJS 1.0.1 -->
-    <asset:javascript src="plugins/chartjs/Chart.min.js"/>
     
 </body>
 </html>

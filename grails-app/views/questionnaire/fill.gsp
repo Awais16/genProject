@@ -3,6 +3,7 @@
 		<title>Questionnaires</title>
 		<meta name="layout" content="main-lte" />
 		<asset:stylesheet src="questionnaire.css"/>
+		<asset:javascript src="questionnaire.js"/>
 		</head>
 		<body>
 			<div class="box box-default" style="margin-top: 10px">
@@ -37,5 +38,16 @@
 					</div>
 				</div>
 			</div>
+			<script type="text/javascript" charset="utf-8">
+				
+				//on ready
+				$(function() {
+
+				  DZHK.QUESTIONNAIRE_DATA="${qJson}";
+				  DZHK.QUESTIONNAIRE_DATA=DZHK.QUESTIONNAIRE_DATA.replace(/&quot;/g,'"');
+				  DZHK.QUESTIONNAIRE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_DATA);
+				  //alert(DZHK.QUESTIONNAIRE_DATA);
+				});
+			</script>
 		</body>
 	</html>

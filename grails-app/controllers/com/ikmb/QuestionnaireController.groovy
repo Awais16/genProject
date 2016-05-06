@@ -123,7 +123,7 @@ class QuestionnaireController {
         flash.type="alert-success"
         flash.title="Questionnaire Status"
 
-        render(view: "status")  
+        render(view: "status")
     }
 
 
@@ -135,7 +135,21 @@ class QuestionnaireController {
          
             redirect(controller:"questionnaire",action:"home")
         }
-        render(view: "fill") 
+        def questionnaire= Questionnaire.findById(params.id)
+        println questionnaire.data
+        render(view: "fill", model:[qJson:questionnaire.data]) 
+    }
+
+    def getQuestionnaire(){
+        if(!questionnaireService.haveAccessToQuestionnaire(params.id)){
+            flash.message="You don't have access to that questionnaire"
+            flash.type="alert-warning"
+            flash.title="No Access"
+            redirect(controller:"questionnaire",action:"home")
+        }else{
+
+
+        }
     }
 
 }
