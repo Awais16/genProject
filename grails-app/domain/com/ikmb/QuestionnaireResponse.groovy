@@ -2,12 +2,21 @@ package com.ikmb
 
 class QuestionnaireResponse {
 
-	String questionnaireId
+	Questionnaire questionnaire
+	
 	int status
-	String response
+
+	String data
+	Date lastUpdated
+  	Date dateCreated
 
     static constraints = {
+    }
 
+    static mapping={
+    	columns {
+	      	data type: 'text'
+    	}
     }
 
 }

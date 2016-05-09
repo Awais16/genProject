@@ -49,6 +49,9 @@
     <asset:javascript src="plugins/slimScroll/jquery.slimscroll.min.js"/>
     <!-- ChartJS 1.0.1 -->
     <asset:javascript src="plugins/chartjs/Chart.min.js"/>
+
+    <asset:javascript src="moment.js"/>
+    <asset:javascript src="moment-with-locales.js"/>
     
      <g:layoutHead />
   </head>
