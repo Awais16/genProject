@@ -40,10 +40,9 @@
 					</div>
 				</div>
 
-
 				<div class="box box-solid box-primary">
 				  <div class="box-header with-border">
-				    <h3 class="box-title question-text">Question TExt</h3>
+				    <h2 class="question-text">Question TExt</h2>
 				  </div><!-- /.box-header -->
 				  <div class="box-body question-response">
 				    	Generate response controls

@@ -43,31 +43,42 @@ DZHK.quest.setProgress=function(percent){
 DZHK.quest.setGroupTitle=function(groupTitle){
 	$(".group-title").text(groupTitle);
 };
+
 DZHK.quest.setGroupText=function(groupText){
 	$(".group-text").text(groupText);
 };
 
 DZHK.quest.initGroup=function(groups){
 	this.currentGroup=0;
-	this.currentQuestion=0;
 	this.setGroup(groups[this.currentGroup]);
+	this.initQuestion(groups[this.currentGroup].question);
+};
 
-	//set progress
-	this.setProgressTitle("Group questions progress");
-	totalQuestions=groups[this.currentGroup].question.length;
-	this.setProgressNumber(this.currentQuestion+1,totalQuestions);
-
-}
 DZHK.quest.setGroup=function(group){
 	this.setGroupTitle(group.linkId);
 	this.setGroupText(group.title);
 };
 
-DZHK.quest.renderQuestion=function(question){
-	//generate question ui according question extension
+DZHK.quest.initQuestion=function(questions){
+
+	//set progress
+	this.setProgressTitle("Group questions progress");
+	this.setProgressNumber(this.currentQuestion+1,questions.length);
+	this.currentQuestion=0;
+	this.renderQuestion(questions[this.currentQuestion]);
 };
 
-DZHK.quest.setControl=function(){
-	//set back, next, save controls etc;
-}
+DZHK.quest.setQuestionText=function(question){
+	$(".question-text").text(question);
+};
 
+DZHK.quest.renderQuestion=function(question){
+	//render questionniare ui
+	this.setQuestionText(question.text);
+	//apply factory pattern for different type of questions to generate controls
+	
+};
+
+DZHK.quest.initControl=function(){
+	//set back, next, save controls etc; hook events
+};
