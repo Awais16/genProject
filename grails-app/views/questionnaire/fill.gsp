@@ -20,10 +20,9 @@
 				<div class="box box-info" style="margin-top: 10px">
 					<div class="box-header with-border">
 						<h3 class="box-title group-title">Group#</h3>
-						<a class="questionnaire_help" data-toggle="modal" data-target="#myModal" href="#">
-							<i class="fa fa-question"> help</i>
-						</a>
-						<div class="float_clear"></div>
+						<div class="box-tools pull-right">
+					      <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+					    </div>
 					</div>
 					<div class="box-body">
 						<p class="group-text">Generate questionniare forms along with the group status.</p>
