@@ -3,7 +3,10 @@
 			<title>Questionnaires</title>
 			<meta name="layout" content="main-lte" />
 			<asset:stylesheet src="questionnaire.css"/>
+
+			<asset:javascript src="QuestionFactory.js"/>
 			<asset:javascript src="questionnaire.js"/>
+
 			</head>
 			<body>
 			
@@ -14,8 +17,6 @@
 			        <small>Version 1.0</small>
 			      </h1>
 			    </section>
-				
-				
 				
 				<div class="box box-info" style="margin-top: 10px">
 					<div class="box-header with-border">

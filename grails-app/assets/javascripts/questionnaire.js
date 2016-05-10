@@ -75,6 +75,7 @@ DZHK.quest.setQuestionText=function(question){
 DZHK.quest.renderQuestion=function(question){
 	//render questionniare ui
 	this.setQuestionText(question.text);
+	
 	//apply factory pattern for different type of questions to generate controls
 	
 };
