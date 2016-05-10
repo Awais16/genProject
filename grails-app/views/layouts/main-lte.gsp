@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
     <!-- jvectormap -->
     <asset:stylesheet src="plugins/jvectormap/jquery-jvectormap-1.2.2.css"/>
+
+    <asset:stylesheet src="plugins/daterangepicker/daterangepicker-bs3.css"/>
+    <asset:stylesheet src="plugins/datepicker/datepicker3.css"/>
+
     <!-- Theme style -->
     <asset:stylesheet src="dist/css/AdminLTE.min.css"/>
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -52,6 +56,9 @@
 
     <asset:javascript src="moment.js"/>
     <asset:javascript src="moment-with-locales.js"/>
+
+    <asset:javascript src="plugins/daterangepicker/daterangepicker.js"/>
+    <asset:javascript src="plugins/datepicker/bootstrap-datepicker.js"/>
     
      <g:layoutHead />
   </head>

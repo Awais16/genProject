@@ -45,7 +45,7 @@
 				  <div class="box-header with-border">
 				    <h2 class="question-text">Question TExt</h2>
 				  </div><!-- /.box-header -->
-				  <div class="box-body question-response">
+				  <div class="box-body question-answer">
 				    	Generate response controls
 				  </div><!-- /.box-body -->
 				  <div class="box-footer question-controls">

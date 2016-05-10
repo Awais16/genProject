@@ -2,7 +2,6 @@ var DZHK = DZHK || {};
 
 DZHK.quest={};
 DZHK.QUESTIONNAIRE_DATA=":D";
-
 //for producing quiestionnaire response json
 DZHK.QUESTIONNAIRE_RESPONSE_DATA={
   "resourceType" : "QuestionnaireResponse",
@@ -19,11 +18,15 @@ DZHK.QUESTIONNAIRE_RESPONSE_DATA={
 
 DZHK.quest.currentGroup=0;
 DZHK.quest.currentQuestion=0;
+DZHK.quest.factory={};
 
 DZHK.quest.init=function(){
 	
+	this.factory= new DZHK.AnswerFactory(); //to generate AnwerTypes check QuestionFactory.js
+
 	//initialized with first group;
 	this.initGroup(DZHK.QUESTIONNAIRE_DATA.group.group);
+	
 };
 
 //to set the progress title
@@ -77,7 +80,11 @@ DZHK.quest.renderQuestion=function(question){
 	this.setQuestionText(question.text);
 	
 	//apply factory pattern for different type of questions to generate controls
-	
+	var qAnswer=this.factory.createAnswerClass(question);
+
+	qAnswer.render(".question-answer");
+
+
 };
 
 DZHK.quest.initControl=function(){
