@@ -25,7 +25,11 @@ DZHK.Answer.prototype.render=function(selector){
 
 
 DZHK.TextAnswer=function(){};
+DZHK.TextAnswer=function(question){
+	this.question=question;
+};
 DZHK.TextAnswer.prototype=new DZHK.Answer;
+DZHK.TextAnswer.prototype.constructor=new DZHK.Answer;
 
 
 
@@ -34,7 +38,6 @@ DZHK.DateAnswer=function(question){
 };
 DZHK.DateAnswer.prototype=new DZHK.Answer;
 DZHK.DateAnswer.prototype.constructor=new DZHK.Answer;
-
 DZHK.DateAnswer.prototype.generateUI=function(){
 	var html=
 			"<div class='form-group'>"+
@@ -65,7 +68,12 @@ DZHK.DateAnswer.prototype.render=function(selector){
 };
 
 
-DZHK.DateTimeAnswer=DZHK.Answer;
+
+DZHK.DateTimeAnswer=function(question){
+	this.question=question;
+};
+DZHK.DateTimeAnswer.prototype=new DZHK.Answer;
+DZHK.DateTimeAnswer.prototype.constructor=new DZHK.Answer;
 DZHK.DateTimeAnswer.prototype.generateUI=function(){
 	var html=
 			"<div class='form-group'>"+
@@ -95,20 +103,58 @@ DZHK.DateTimeAnswer.prototype.render=function(selector){
 	});
 };
 
-//factory pattern;
+
+/**
+*	IntegerAnswer Class
+*/
+DZHK.IntegerAnswer=function(question){
+	this.question=question;
+};
+DZHK.IntegerAnswer.prototype=new DZHK.Answer;
+DZHK.IntegerAnswer.prototype.constructor=new DZHK.Answer;
+DZHK.IntegerAnswer.prototype.generateUI=function(){
+	var html=
+			"<div class='form-group'>"+
+                "<div class='input-group date' id='answer-"+this.question.linkId+"'>"+
+                    "<input type='text' class='form-control' />"+
+                "</div>"+
+            "</div>";
+    return html;
+};
+DZHK.IntegerAnswer.prototype.render=function(selector){
+	var self=this;
+	$(selector).html(this.generateUI());
+	var input=$(selector+" #answer-"+this.question.linkId+" input");
+	$(input).change(function(){
+		self.question.answer={
+			"valueInteger":$(this).val()
+		}
+	});
+	
+};
+
+
+
+
+/**
+* factory to generate answer type objects
+*factory pattern;
+*/
 DZHK.AnswerFactory=function(){};
 DZHK.AnswerFactory.prototype.answerClass=DZHK.TextAnswer;
 DZHK.AnswerFactory.prototype.createAnswerClass=function(question){
 	switch(question.type){
 		case "date":
 			this.answerClass=DZHK.DateAnswer;
-		break;
+			break;
 		case "dateTime":
 			this.answerClass=DZHK.DateTimeAnswer;
-		break;
-
+			break;
+		case "integer":
+			this.answerClass=DZHK.IntegerAnswer;
+			break;
 		default:
-			console.log("unsupported answer type");
+			console.error("unsupported answer type:"+question.type);
 	}
 	return new this.answerClass(question);
 };

@@ -47,7 +47,7 @@
 				  </div><!-- /.box-header -->
 				  <div class="box-body">
 				    	<div class="row">
-				    		<div class="col-md-4 question-answer"></div>
+				    		<div class="col-md-5 question-answer"></div>
 				    	</div>
 				  </div><!-- /.box-body -->
 				  <div class="box-footer question-controls">
