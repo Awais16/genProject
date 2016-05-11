@@ -5,6 +5,8 @@
 var DZHK = DZHK || {};
 
 DZHK.Answer=function(question){
+	var tempQ=question;
+	alert
 	this.question=question;
 };
 
@@ -44,18 +46,54 @@ DZHK.DateAnswer.prototype.generateUI=function(){
                 "</div>"+
             "</div>";
     return html;
-}
+};
 DZHK.DateAnswer.prototype.render=function(selector){
+	var that=this;
 	$(selector).html(this.generateUI());
-	
 	//initiate datetimepicker
-	$(selector+" #answer-"+this.question.linkId).datetimepicker();//initialize datetimeppicker here
-}
+	var answerDatePicker=$(selector+" #answer-"+this.question.linkId).datetimepicker({
+		locale: 'de',
+		format: 'L'
+	});
 
-
+	//save answer
+	$(answerDatePicker).on("dp.change",function(e){
+		that.question.answer={
+			"valueDate":e.date.format("L")
+		}
+	});
+};
 
 
 DZHK.DateTimeAnswer=DZHK.Answer;
+DZHK.DateTimeAnswer.prototype.generateUI=function(){
+	var html=
+			"<div class='form-group'>"+
+                "<div class='input-group date' id='answer-"+this.question.linkId+"'>"+
+                    "<input type='text' class='form-control' />"+
+                    "<span class='input-group-addon'>"+
+                        "<span class='glyphicon glyphicon-calendar'></span>"+
+                    "</span>"+
+                "</div>"+
+            "</div>";
+    return html;
+};
+DZHK.DateTimeAnswer.prototype.render=function(selector){
+	var that=this;
+	$(selector).html(this.generateUI());
+	//initiate datetimepicker
+	var answerDatePicker=$(selector+" #answer-"+this.question.linkId).datetimepicker({
+		sideBySide:true,
+		locale: 'de' 
+	});
+
+	//save answer
+	$(answerDatePicker).on("dp.change",function(e){
+		that.question.answer={
+			"valueDateTime":e.date.format() //(ISO 8601)
+		}
+	});
+};
 
 //factory pattern;
 DZHK.AnswerFactory=function(){};
@@ -68,6 +106,9 @@ DZHK.AnswerFactory.prototype.createAnswerClass=function(question){
 		case "dateTime":
 			this.answerClass=DZHK.DateTimeAnswer;
 		break;
+
+		default:
+			console.log("unsupported answer type");
 	}
 	return new this.answerClass(question);
 };

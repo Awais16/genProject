@@ -45,15 +45,16 @@
 				  <div class="box-header with-border">
 				    <h2 class="question-text">Question TExt</h2>
 				  </div><!-- /.box-header -->
-				  <div class="box-body question-answer">
-				    	Generate response controls
+				  <div class="box-body">
+				    	<div class="row">
+				    		<div class="col-md-4 question-answer"></div>
+				    	</div>
 				  </div><!-- /.box-body -->
 				  <div class="box-footer question-controls">
-				    	<button type="button" class="btn btn-primary btn-lg">Previous</button>
-				    	<button type="button" class="btn btn-primary btn-lg">Next</button>
+				    	<button type="button" class="btn btn-primary btn-lg" id="bt-back">Previous</button>
+				    	<button type="button" class="btn btn-primary btn-lg" id="bt-next">Next</button>
 				  </div><!-- box-footer -->
 				</div><!-- /.box -->
-
 
 
 				%{-- to put hiddent data like dialogs etc --}%

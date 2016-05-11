@@ -15,9 +15,8 @@
     <!-- jvectormap -->
     <asset:stylesheet src="plugins/jvectormap/jquery-jvectormap-1.2.2.css"/>
 
-    <asset:stylesheet src="plugins/daterangepicker/daterangepicker-bs3.css"/>
-    <asset:stylesheet src="plugins/datepicker/datepicker3.css"/>
-
+    <asset:stylesheet src="build/css/bootstrap-datetimepicker.min.css"/>
+    
     <!-- Theme style -->
     <asset:stylesheet src="dist/css/AdminLTE.min.css"/>
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -30,6 +29,7 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 
     <title>
         <g:layoutTitle default="Gnome Project"/>
@@ -57,8 +57,7 @@
     <asset:javascript src="moment.js"/>
     <asset:javascript src="moment-with-locales.js"/>
 
-    <asset:javascript src="plugins/daterangepicker/daterangepicker.js"/>
-    <asset:javascript src="plugins/datepicker/bootstrap-datepicker.js"/>
+    <asset:javascript src="build/js/bootstrap-datetimepicker.min.js"/>
     
      <g:layoutHead />
   </head>

@@ -25,8 +25,12 @@ DZHK.quest.init=function(){
 	this.factory= new DZHK.AnswerFactory(); //to generate AnwerTypes check QuestionFactory.js
 
 	//initialized with first group;
-	this.initGroup(DZHK.QUESTIONNAIRE_DATA.group.group);
-	
+	var groupToCopy=$.extend(true,{},DZHK.QUESTIONNAIRE_DATA.group);
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.group=groupToCopy;
+	this.initGroup(DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group);
+
+	this.initControl();
+
 };
 
 //to set the progress title
@@ -67,7 +71,6 @@ DZHK.quest.initQuestion=function(questions){
 	//set progress
 	this.setProgressTitle("Group questions progress");
 	this.setProgressNumber(this.currentQuestion+1,questions.length);
-	this.currentQuestion=0;
 	this.renderQuestion(questions[this.currentQuestion]);
 };
 
@@ -76,17 +79,33 @@ DZHK.quest.setQuestionText=function(question){
 };
 
 DZHK.quest.renderQuestion=function(question){
+	
 	//render questionniare ui
 	this.setQuestionText(question.text);
 	
 	//apply factory pattern for different type of questions to generate controls
 	var qAnswer=this.factory.createAnswerClass(question);
-
 	qAnswer.render(".question-answer");
-
 
 };
 
+/**
+*set back, next, save controls etc; hook events
+*/
 DZHK.quest.initControl=function(){
-	//set back, next, save controls etc; hook events
+	var self=this;
+
+	$("#bt-back").click(function(){
+		//save state? check if answer exists. complicated
+
+	});
+
+	$("#bt-next").click(function(){
+		
+		if(self.currentQuestion<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length-1){
+			self.currentQuestion++;
+			self.initGroup(DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group);
+		}
+	});
+
 };
