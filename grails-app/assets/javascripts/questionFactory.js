@@ -1,35 +1,52 @@
 /**
 * for creating different type of questionnaire ui;
-**/
+*@author Awais
+*
+*/
 
 var DZHK = DZHK || {};
 
 /**
 *Generic Super Answer Class to inherit from 
 *more like an abstract class 
+*
+*@constructor
+*@param Fhir question object
+* 
 */
 DZHK.Answer=function(question){
-	var tempQ=question;
 	this.question=question;
 };
 
 DZHK.Answer.prototype.question={};
+
+/**
+* To generate html for the response.
+* @return string html for response interaction 
+*/
 DZHK.Answer.prototype.generateUI=function(){
 	return "<div>:)</div>";
 };
 
-//use it to save different type of answers
+/**
+*use it to save different type of answers
+*/
 DZHK.Answer.prototype.saveAnswer=function(){
 	alert("Implement a sub class");
 };
 
+/**
+*to render the ui, adding listeners and saving response collected
+*
+*/
 DZHK.Answer.prototype.render=function(selector){
 	$(selector).html("defaul Render:"+this.generateUI());
 };
 
 
-/** Sub classes for each specific type
-*	TextAnswer will generate TextArea
+/**
+* Sub classes for each specific type
+* TextAnswer will generate TextArea
 */
 
 DZHK.TextAnswer=function(){};
@@ -166,7 +183,7 @@ DZHK.StringAnswer=function(question){
 };
 DZHK.StringAnswer.prototype=new DZHK.IntegerAnswer;
 DZHK.StringAnswer.prototype.constructor=new DZHK.IntegerAnswer;
-//can use integerClass generate ui function, validation may differ later
+//can use integerClass generate ui function, validation may differ :later
 DZHK.IntegerAnswer.prototype.render=function(selector){
 	var self=this;
 	$(selector).html(this.generateUI());
@@ -178,6 +195,26 @@ DZHK.IntegerAnswer.prototype.render=function(selector){
 	});	
 };
 
+
+/**
+*	ChoiceAnswer Class inherited from integer
+*/
+DZHK.ChoiceAnswer=function(question){
+	this.question=question;
+};
+DZHK.ChoiceAnswer.prototype=new DZHK.Answer;
+DZHK.ChoiceAnswer.prototype.constructor=new DZHK.Answer;
+
+DZHK.ChoiceAnswer.prototype.generateUI=function(){
+
+}
+
+DZHK.ChoiceAnswer.prototype.render=function(selector){
+	// have to check options 
+	
+	//check extensions
+	
+};
 
 
 /**
@@ -202,6 +239,9 @@ DZHK.AnswerFactory.prototype.createAnswerClass=function(question){
 			break;
 		case "string":
 			this.answerClass=DZHK.StringAnswer;
+			break;
+		case "choice":
+			this.answerClass=DZHK.ChoiceAnswer;
 			break;
 		default:
 			console.error("unsupported answer type:"+question.type);

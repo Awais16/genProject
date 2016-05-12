@@ -1,3 +1,8 @@
+/**
+*Getting DZHK,quest scope, 
+*@author Awais
+*/
+
 var DZHK = DZHK || {};
 
 DZHK.quest={};
@@ -95,8 +100,7 @@ DZHK.quest.initControl=function(){
 	var self=this;
 
 	$("#bt-back").click(function(){
-		//save state? check if answer exists. complicated
-
+		//save state? check if answer exists.
 	});
 
 	$("#bt-next").click(function(){

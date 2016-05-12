@@ -3,8 +3,8 @@
 			<title>Questionnaires</title>
 			<meta name="layout" content="main-lte" />
 			<asset:stylesheet src="questionnaire.css"/>
-
-			<asset:javascript src="QuestionFactory.js"/>
+			<asset:javascript src="questionExtension.js"/>
+			<asset:javascript src="questionFactory.js"/>
 			<asset:javascript src="questionnaire.js"/>
 
 			</head>
