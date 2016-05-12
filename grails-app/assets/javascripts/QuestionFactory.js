@@ -4,17 +4,21 @@
 
 var DZHK = DZHK || {};
 
+/**
+*Generic Super Answer Class to inherit from 
+*more like an abstract class 
+*/
 DZHK.Answer=function(question){
 	var tempQ=question;
-	alert
 	this.question=question;
 };
 
 DZHK.Answer.prototype.question={};
 DZHK.Answer.prototype.generateUI=function(){
-	return "<div>This is default answer ui</div>";
+	return "<div>:)</div>";
 };
 
+//use it to save different type of answers
 DZHK.Answer.prototype.saveAnswer=function(){
 	alert("Implement a sub class");
 };
@@ -24,13 +28,35 @@ DZHK.Answer.prototype.render=function(selector){
 };
 
 
+/** Sub classes for each specific type
+*	TextAnswer will generate TextArea
+*/
+
 DZHK.TextAnswer=function(){};
 DZHK.TextAnswer=function(question){
 	this.question=question;
 };
 DZHK.TextAnswer.prototype=new DZHK.Answer;
 DZHK.TextAnswer.prototype.constructor=new DZHK.Answer;
-
+DZHK.TextAnswer.prototype.generateUI=function(){
+	var html=
+			"<div class='form-group'>"+
+                "<div id='answer-"+this.question.linkId+"'>"+
+                    "<textarea class='form-control' rows='3' placeholder='Enter ...'></textarea>"+
+                "</div>"+
+            "</div>";
+    return html;
+};
+DZHK.TextAnswer.prototype.render=function(selector){
+	var self=this;
+	$(selector).html(this.generateUI());
+	var input=$(selector+" #answer-"+this.question.linkId+" textarea");
+	$(input).change(function(){
+		self.question.answer={
+			"valueText":$(this).val()
+		}
+	});	
+};
 
 
 DZHK.DateAnswer=function(question){
@@ -115,8 +141,8 @@ DZHK.IntegerAnswer.prototype.constructor=new DZHK.Answer;
 DZHK.IntegerAnswer.prototype.generateUI=function(){
 	var html=
 			"<div class='form-group'>"+
-                "<div class='input-group date' id='answer-"+this.question.linkId+"'>"+
-                    "<input type='text' class='form-control' />"+
+                "<div id='answer-"+this.question.linkId+"'>"+
+                    "<input type='text' class='form-control'/>"+
                 "</div>"+
             "</div>";
     return html;
@@ -129,10 +155,28 @@ DZHK.IntegerAnswer.prototype.render=function(selector){
 		self.question.answer={
 			"valueInteger":$(this).val()
 		}
-	});
-	
+	});	
 };
 
+/**
+*	StringAnswer Class inherited from integer
+*/
+DZHK.StringAnswer=function(question){
+	this.question=question;
+};
+DZHK.StringAnswer.prototype=new DZHK.IntegerAnswer;
+DZHK.StringAnswer.prototype.constructor=new DZHK.IntegerAnswer;
+//can use integerClass generate ui function, validation may differ later
+DZHK.IntegerAnswer.prototype.render=function(selector){
+	var self=this;
+	$(selector).html(this.generateUI());
+	var input=$(selector+" #answer-"+this.question.linkId+" input");
+	$(input).change(function(){
+		self.question.answer={
+			"valueString":$(this).val()
+		}
+	});	
+};
 
 
 
@@ -141,7 +185,7 @@ DZHK.IntegerAnswer.prototype.render=function(selector){
 *factory pattern;
 */
 DZHK.AnswerFactory=function(){};
-DZHK.AnswerFactory.prototype.answerClass=DZHK.TextAnswer;
+DZHK.AnswerFactory.prototype.answerClass=DZHK.StringAnswer;
 DZHK.AnswerFactory.prototype.createAnswerClass=function(question){
 	switch(question.type){
 		case "date":
@@ -152,6 +196,12 @@ DZHK.AnswerFactory.prototype.createAnswerClass=function(question){
 			break;
 		case "integer":
 			this.answerClass=DZHK.IntegerAnswer;
+			break;
+		case "text":
+			this.answerClass=DZHK.TextAnswer;
+			break;
+		case "string":
+			this.answerClass=DZHK.StringAnswer;
 			break;
 		default:
 			console.error("unsupported answer type:"+question.type);
