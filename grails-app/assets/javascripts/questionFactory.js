@@ -44,6 +44,55 @@ DZHK.Answer.prototype.render=function(selector){
 };
 
 
+
+DZHK.Answer.prototype.parseExtension=function(){
+
+	var ext={
+		type:"",
+		code:"",
+		orientation:"vertical" //default Orientation;
+	};
+	
+	if(this.question.extension.length>0){
+		for (var i = this.question.extension.length - 1; i >= 0; i--) {
+			//this.question.extension[i]
+			var type=this.checkExtensionFromUrl(this.question.extension[i]);
+			if(type=="questionnaire-questionControl"){
+				ext.type=type;
+				ext.code=this.question.extension[i].valueCodeableConcept.coding[0].code;
+			}else if(type=="questionnaire-choiceOrientation"){
+				ext.orientation=this.question.extension[i].valueCode;
+			}
+		}
+	}
+	return ext;
+
+};
+DZHK.Answer.prototype.checkExtensionFromUrl=function(extension){
+	
+	if(typeof extension.url == "string"){
+		var type=extension.url.substr(extension.url.lastIndexOf("/")+1,extension.url.length);
+		//console.log(type);
+		return type
+	}else{
+		//undefined!
+		return "undefined"
+	}
+
+};
+
+DZHK.Answer.prototype.checkValueCodeableConcept=function(extension){
+	if(typeof extension.valueCodeableConcept == "object"){
+		return true;
+	}else{
+		return false;
+	}
+};
+
+
+
+
+
 /**
 * Sub classes for each specific type
 * TextAnswer will generate TextArea
@@ -183,7 +232,7 @@ DZHK.StringAnswer=function(question){
 };
 DZHK.StringAnswer.prototype=new DZHK.IntegerAnswer;
 DZHK.StringAnswer.prototype.constructor=new DZHK.IntegerAnswer;
-//can use integerClass generate ui function, validation may differ :later
+//can use integerClass generate ui function, validation may differ TODO: add validations later, if required
 DZHK.IntegerAnswer.prototype.render=function(selector){
 	var self=this;
 	$(selector).html(this.generateUI());
@@ -206,14 +255,82 @@ DZHK.ChoiceAnswer.prototype=new DZHK.Answer;
 DZHK.ChoiceAnswer.prototype.constructor=new DZHK.Answer;
 
 DZHK.ChoiceAnswer.prototype.generateUI=function(){
+	var ext=this.parseExtension();
+	
+	var html="";
+	if(ext.type=="questionnaire-questionControl"){
+		if(ext.code=="radio-button"){
+				html= "<div class='form-group' id='"+"answer-"+this.question.linkId+"'>";
+					for (var i = 0; i < this.question.option.length; i++) {
+						html+="<label ";
+						var br="";
+						if(ext.orientation=="horizontal"){
+							html+=" class='radio-inline' >";
+						}else{
+							html+=" >"
+							br="<br/>"
+						}
+						html+="<input type='radio' name='iCheck' value='"+this.question.option[i].code+"'/> "+
+						this.question.option[i].display+
+						"</label>"+br;
+					}
+				html+="</div>";
+		}else if(ext.code=="check-box"){
+			//more or less same.
+			html= "<div class='form-group' id='"+"answer-"+this.question.linkId+"'>";
+					for (var i = 0; i < this.question.option.length; i++) {
+						html+="<label ";
+						var br="";
+						if(ext.orientation=="horizontal"){
+							html+=" class='radio-inline' >";
+						}else{
+							html+=" >"
+							br="<br/>"
+						}
+						html+="<input type='checkbox' name='iCheck' value='"+this.question.option[i].code+"'/> "+
+						this.question.option[i].display+
+						"</label>"+br;
+					}
+				html+="</div>";
 
+		}
+	}
+	return html;
 }
 
 DZHK.ChoiceAnswer.prototype.render=function(selector){
-	// have to check options 
+	// have to check options
+	var self= this; 
 	
 	//check extensions
-	
+	//TODO: start from here 
+	$(selector).html(this.generateUI());
+
+	var checkBoxAnswer=[];
+
+	var ext=this.parseExtension();
+	if(ext.type=="questionnaire-questionControl" && ext.code=="radio-button"){
+		$(selector+" #answer-"+this.question.linkId+" input[type='radio']").iCheck({
+			radioClass: 'iradio_flat-blue'
+		}).on("ifClicked",function(event){
+			//TODO: start from here
+
+			//answer=this.value;
+			//store the answer;
+			var ans=this.value;
+			self.question.answer={
+				"valueChoice":ans
+			}
+		});
+	}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
+		$(selector+" #answer-"+this.question.linkId+" input[type='checkbox']").iCheck({
+			checkboxClass: 'icheckbox_flat-blue'
+		}).on("ifChecked",function(event){
+			//answer=this.value;
+			//alert("add to answer:"+this.value);
+		});
+	}
+
 };
 
 

@@ -20,6 +20,7 @@ DZHK.QUESTIONNAIRE_RESPONSE_DATA={
   "group" : {} // add from recieved questionnaire
 };
 
+DZHK.quest.extensions=[]; //just for reference
 
 DZHK.quest.currentGroup=0;
 DZHK.quest.currentQuestion=0;
@@ -29,13 +30,14 @@ DZHK.quest.init=function(){
 	
 	this.factory= new DZHK.AnswerFactory(); //to generate AnwerTypes check QuestionFactory.js
 
+
+
 	//initialized with first group;
 	var groupToCopy=$.extend(true,{},DZHK.QUESTIONNAIRE_DATA.group);
 	DZHK.QUESTIONNAIRE_RESPONSE_DATA.group=groupToCopy;
 	this.initGroup();
 
-	this.initControl();
-
+	this.initControl();	
 };
 
 //to set the progress title

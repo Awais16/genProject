@@ -16,6 +16,8 @@
     <asset:stylesheet src="plugins/jvectormap/jquery-jvectormap-1.2.2.css"/>
 
     <asset:stylesheet src="build/css/bootstrap-datetimepicker.min.css"/>
+
+    <asset:stylesheet src="plugins/iCheck/all.css"/>
     
     <!-- Theme style -->
     <asset:stylesheet src="dist/css/AdminLTE.min.css"/>
@@ -58,6 +60,8 @@
     <asset:javascript src="moment-with-locales.js"/>
 
     <asset:javascript src="build/js/bootstrap-datetimepicker.min.js"/>
+
+    <asset:javascript src="plugins/iCheck/icheck.min.js"/>
     
      <g:layoutHead />
   </head>
