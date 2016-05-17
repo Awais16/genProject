@@ -293,6 +293,8 @@ DZHK.ChoiceAnswer.prototype.generateUI=function(){
 					}
 				html+="</div>";
 
+		}else{
+			html="unsupported! questioncontrol extension type";
 		}
 	}
 	return html;
@@ -302,11 +304,10 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 	// have to check options
 	var self= this; 
 	
+	this.question.answer=[];
 	//check extensions
 	//TODO: start from here 
 	$(selector).html(this.generateUI());
-
-	var checkBoxAnswer=[];
 
 	var ext=this.parseExtension();
 	if(ext.type=="questionnaire-questionControl" && ext.code=="radio-button"){
@@ -319,20 +320,43 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 			//store the answer;
 			var ans=this.value;
 			self.question.answer={
-				"valueChoice":ans
-			}
+				"code":ans,
+				"display":$(this).parent().parent().text().trim()
+			};
+			console.log(self.question.answer);
 		});
 	}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
 		$(selector+" #answer-"+this.question.linkId+" input[type='checkbox']").iCheck({
 			checkboxClass: 'icheckbox_flat-blue'
 		}).on("ifChecked",function(event){
 			//answer=this.value;
-			//alert("add to answer:"+this.value);
+
+			var ans=this.value;
+			 var answer={
+			 	code:ans,
+			 	display:$(this).parent().parent().text().trim()
+			 };
+			self.question.answer.push(answer);
+			console.log(self.question.answer);
+		}).on("ifUnchecked",function(event){
+			 var answer={
+			 	code:this.value,
+			 	display:$(this).parent().parent().text().trim()
+			 };
+			self.removeCheckBoxAnswer(answer);
 		});
 	}
 
 };
 
+DZHK.ChoiceAnswer.prototype.removeCheckBoxAnswer=function(answer){
+	//improved
+	for (var i = this.question.answer.length - 1; i >= 0; i--) {
+		if (this.question.answer[i].code == answer.code) {
+           this.question.answer.splice(i,1);
+        }
+	}
+};
 
 /**
 * factory to generate answer type objects

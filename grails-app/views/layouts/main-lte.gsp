@@ -125,7 +125,6 @@
                 ${flash.message}
         </div>
         </g:if>
-
         <g:layoutBody />
     </div>
 </div>
