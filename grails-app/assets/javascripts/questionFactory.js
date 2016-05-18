@@ -46,24 +46,28 @@ DZHK.Answer.prototype.render=function(selector){
 
 
 DZHK.Answer.prototype.parseExtension=function(){
-
+	var self=this;
 	var ext={
 		type:"",
 		code:"",
 		orientation:"vertical" //default Orientation;
 	};
-	
-	if(this.question.extension.length>0){
-		for (var i = this.question.extension.length - 1; i >= 0; i--) {
-			//this.question.extension[i]
-			var type=this.checkExtensionFromUrl(this.question.extension[i]);
-			if(type=="questionnaire-questionControl"){
-				ext.type=type;
-				ext.code=this.question.extension[i].valueCodeableConcept.coding[0].code;
-			}else if(type=="questionnaire-choiceOrientation"){
-				ext.orientation=this.question.extension[i].valueCode;
+
+	try{
+		if(this.question.extension.length>0){
+			for (var i = this.question.extension.length - 1; i >= 0; i--) {
+				//this.question.extension[i]
+				var type=this.checkExtensionFromUrl(this.question.extension[i]);
+				if(type=="questionnaire-questionControl"){
+					ext.type=type;
+					ext.code=this.question.extension[i].valueCodeableConcept.coding[0].code;
+				}else if(type=="questionnaire-choiceOrientation"){
+					ext.orientation=this.question.extension[i].valueCode;
+				}
 			}
 		}
+	}catch(ex){
+		console.error("problem parsing extension for question "+self.question.linkId);
 	}
 	return ext;
 
@@ -71,9 +75,7 @@ DZHK.Answer.prototype.parseExtension=function(){
 DZHK.Answer.prototype.checkExtensionFromUrl=function(extension){
 	
 	if(typeof extension.url == "string"){
-		var type=extension.url.substr(extension.url.lastIndexOf("/")+1,extension.url.length);
-		//console.log(type);
-		return type
+		return extension.url.substr(extension.url.lastIndexOf("/")+1,extension.url.length);
 	}else{
 		//undefined!
 		return "undefined"
@@ -88,9 +90,6 @@ DZHK.Answer.prototype.checkValueCodeableConcept=function(extension){
 		return false;
 	}
 };
-
-
-
 
 
 /**
@@ -323,7 +322,6 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 				"code":ans,
 				"display":$(this).parent().parent().text().trim()
 			};
-			console.log(self.question.answer);
 		});
 	}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
 		$(selector+" #answer-"+this.question.linkId+" input[type='checkbox']").iCheck({
@@ -337,7 +335,6 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 			 	display:$(this).parent().parent().text().trim()
 			 };
 			self.question.answer.push(answer);
-			console.log(self.question.answer);
 		}).on("ifUnchecked",function(event){
 			 var answer={
 			 	code:this.value,

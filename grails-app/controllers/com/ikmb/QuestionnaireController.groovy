@@ -119,10 +119,16 @@ class QuestionnaireController {
     }
 
     def status(){
-        flash.message="questionnaire status goes here"
-        flash.type="alert-success"
-        flash.title="Questionnaire Status"
-
+        // flash.message="questionnaire status goes here"
+        // flash.type="alert-success"
+        // flash.title="Questionnaire Status"
+        if(!questionnaireService.haveAccessToQuestionnaire(params.id)){
+            flash.message="You don't have access to that questionnaire"
+            flash.type="alert-warning"
+            flash.title="No Access"
+         
+            redirect(controller:"questionnaire",action:"home")
+        }
         render(view: "status")
     }
 

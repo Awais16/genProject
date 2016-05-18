@@ -59,7 +59,10 @@ DZHK.quest.setGroupTitle=function(groupTitle){
 };
 
 DZHK.quest.setGroupText=function(groupText){
-	$(".group-text").text(groupText);
+	$(".group-title2").text(groupText);
+};
+DZHK.quest.setGroupDesc=function(desc){
+	$(".group-text").text(desc);
 };
 
 DZHK.quest.initGroup=function(){
@@ -71,6 +74,7 @@ DZHK.quest.initGroup=function(){
 DZHK.quest.setGroup=function(group){
 	this.setGroupTitle(group.linkId);
 	this.setGroupText(group.title);
+	this.setGroupDesc(group.text);
 };
 
 DZHK.quest.initQuestion=function(questions){
@@ -78,6 +82,7 @@ DZHK.quest.initQuestion=function(questions){
 	this.setProgressTitle("Group questions progress");
 	this.setProgressNumber(this.currentQuestion+1,questions.length);
 	this.renderQuestion(questions[this.currentQuestion]);
+	this.currentQuestion++;
 };
 
 DZHK.quest.setQuestionText=function(question){
@@ -92,7 +97,7 @@ DZHK.quest.renderQuestion=function(question){
 	//apply factory pattern for different type of questions to generate controls
 	var qAnswer=this.factory.createAnswerClass(question);
 	qAnswer.render(".question-answer");
-
+	
 };
 
 /**
@@ -106,17 +111,42 @@ DZHK.quest.initControl=function(){
 	});
 
 	$("#bt-next").click(function(){
-		var groupQuestionsLength=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length;
-
-		if(self.currentQuestion<groupQuestionsLength-1){
-			self.currentQuestion++;
-			self.initGroup();
-		}else if(self.currentQuestion==groupQuestionsLength-1){
-			//next group from start
-			self.currentGroup++;
-			self.currentQuestion=0;
-			self.initGroup();
+		if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length){
+			var groupQuestionsLength=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length;
+			if(self.currentQuestion<groupQuestionsLength){
+				//self.currentQuestion++;
+				self.initGroup();
+			}else if(self.currentQuestion==groupQuestionsLength){
+				//next group from start
+				self.groupFinished(DZHK.QUESTIONNAIRE_DATA.group.group[self.currentGroup]);
+				self.currentQuestion=0;	
+				self.currentGroup++;
+				if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length){
+					self.initGroup();
+				}else{
+					self.questionnaireFinished();
+				}
+			}
+		}else{
+			self.questionnaireFinished();
 		}
 	});
 
+};
+
+/**
+*called when group is finished!
+*/
+DZHK.quest.groupFinished=function(group){
+	alert("group finished event:"+ group.linkId);
+}
+
+/**
+*called when all groups are finished!
+*/
+DZHK.quest.questionnaireFinished=function(){
+	//change status and save!
+
+	alert("Questionnaire Finished !!!");
+	console.log(DZHK.QUESTIONNAIRE_RESPONSE_DATA);
 };

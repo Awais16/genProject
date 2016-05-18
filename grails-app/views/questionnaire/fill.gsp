@@ -25,6 +25,7 @@
 					    </div>
 					</div>
 					<div class="box-body">
+						<p><b class="group-title2">title</b></p>
 						<p class="group-text">Generate questionniare forms along with the group status.</p>
 					</div>
 					<!-- /.box-body -->

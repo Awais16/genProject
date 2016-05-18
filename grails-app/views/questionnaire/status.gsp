@@ -15,7 +15,6 @@
 					
 				<div class="box-body">
 					Status of the questionnaire if have access [user questionniares]
-					
 				</div>
 				<!-- /.box-body -->
 			</div>
