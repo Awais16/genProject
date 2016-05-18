@@ -30,8 +30,6 @@ DZHK.quest.init=function(){
 	
 	this.factory= new DZHK.AnswerFactory(); //to generate AnwerTypes check QuestionFactory.js
 
-
-
 	//initialized with first group;
 	var groupToCopy=$.extend(true,{},DZHK.QUESTIONNAIRE_DATA.group);
 	DZHK.QUESTIONNAIRE_RESPONSE_DATA.group=groupToCopy;
@@ -97,7 +95,7 @@ DZHK.quest.renderQuestion=function(question){
 	//apply factory pattern for different type of questions to generate controls
 	var qAnswer=this.factory.createAnswerClass(question);
 	qAnswer.render(".question-answer");
-	
+
 };
 
 /**
@@ -138,7 +136,7 @@ DZHK.quest.initControl=function(){
 *called when group is finished!
 */
 DZHK.quest.groupFinished=function(group){
-	alert("group finished event:"+ group.linkId);
+	console.log("group finished event:"+ group.linkId);
 }
 
 /**
@@ -146,7 +144,6 @@ DZHK.quest.groupFinished=function(group){
 */
 DZHK.quest.questionnaireFinished=function(){
 	//change status and save!
-
 	alert("Questionnaire Finished !!!");
 	console.log(DZHK.QUESTIONNAIRE_RESPONSE_DATA);
 };
