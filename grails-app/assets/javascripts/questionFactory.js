@@ -44,6 +44,20 @@ DZHK.Answer.prototype.render=function(selector){
 };
 
 
+DZHK.Answer.prototype.haveSubGroup=function(){
+	if(this.question.group){
+		return true;
+	}
+	return false;
+}
+
+DZHK.Answer.prototype.haveReferenceToValueSet=function(){
+	if(this.question.options){
+			return true;
+	}
+	return false;
+}
+
 
 DZHK.Answer.prototype.parseExtension=function(){
 	var self=this;
@@ -247,7 +261,7 @@ DZHK.IntegerAnswer.prototype.render=function(selector){
 
 
 /**
-*	ChoiceAnswer Class inherited from integer
+*	ChoiceAnswer Class inherited from Answer
 */
 DZHK.ChoiceAnswer=function(question){
 	this.question=question;
@@ -308,50 +322,44 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 
 	//check extensions
 	var ext=this.parseExtension();
-	if(this.question.group){
-		if(this.question.options){
-			this.containsOptionsReference();
-		}
-		this.containsGroup();
-	}else{
-		if(ext.type){
-			$(selector).html(this.generateUI(ext));
-			
-			if(ext.type=="questionnaire-questionControl" && ext.code=="radio-button"){
-				$(selector+" #answer-"+this.question.linkId+" input[type='radio']").iCheck({
-					radioClass: 'iradio_flat-blue'
-				}).on("ifClicked",function(event){
-					//answer=this.value;
-					//store the answer;
-					var ans=this.value;
-					self.question.answer={
-						"code":ans,
-						"display":$(this).parent().parent().text().trim()
-					};
-				});
-			}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
-				$(selector+" #answer-"+this.question.linkId+" input[type='checkbox']").iCheck({
-					checkboxClass: 'icheckbox_flat-blue'
-				}).on("ifChecked",function(event){
-					//answer=this.value;
+	
+	if(ext.type){
+		$(selector).html(this.generateUI(ext));
 
-					var ans=this.value;
-					 var answer={
-					 	code:ans,
-					 	display:$(this).parent().parent().text().trim()
-					 };
-					self.question.answer.push(answer);
-				}).on("ifUnchecked",function(event){
-					 var answer={
-					 	code:this.value,
-					 	display:$(this).parent().parent().text().trim()
-					 };
-					self.removeCheckBoxAnswer(answer);
-				});
-			}
-		}else{
-			//console.error("unsupported type!");
+		if(ext.type=="questionnaire-questionControl" && ext.code=="radio-button"){
+			$(selector+" #answer-"+this.question.linkId+" input[type='radio']").iCheck({
+				radioClass: 'iradio_flat-blue'
+			}).on("ifClicked",function(event){
+				//answer=this.value;
+				//store the answer;
+				var ans=this.value;
+				self.question.answer={
+					"code":ans,
+					"display":$(this).parent().parent().text().trim()
+				};
+			});
+		}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
+			$(selector+" #answer-"+this.question.linkId+" input[type='checkbox']").iCheck({
+				checkboxClass: 'icheckbox_flat-blue'
+			}).on("ifChecked",function(event){
+				//answer=this.value;
+
+				var ans=this.value;
+				 var answer={
+				 	code:ans,
+				 	display:$(this).parent().parent().text().trim()
+				 };
+				self.question.answer.push(answer);
+			}).on("ifUnchecked",function(event){
+				 var answer={
+				 	code:this.value,
+				 	display:$(this).parent().parent().text().trim()
+				 };
+				self.removeCheckBoxAnswer(answer);
+			});
 		}
+	}else{
+		//console.error("unsupported type!");
 	}
 
 };
@@ -377,16 +385,86 @@ DZHK.ChoiceAnswer.prototype.containsOptionsReference=function(){
 
 
 /**
-*	OpenChoiceAnswer Class inherited from integer
+*	OpenChoiceAnswer Class inherited from ChoiceAnswer
 */
 DZHK.OpenChoiceAnswer=function(question){
 	this.question=question;
 };
-DZHK.OpenChoiceAnswer.prototype=new DZHK.Answer;
-DZHK.OpenChoiceAnswer.prototype.constructor=new DZHK.Answer;
+DZHK.OpenChoiceAnswer.prototype=new DZHK.ChoiceAnswer;
+DZHK.OpenChoiceAnswer.prototype.constructor=new DZHK.ChoiceAnswer;
 DZHK.OpenChoiceAnswer.prototype.render=function(selector){
-	DZHK.Answer.prototype.render.call(this,selector);
-	console.error("implementation incomplete");
+	//DZHK.Answer.prototype.render.call(this,selector);
+
+	var self= this; 
+	
+	this.question.answer=[];
+
+	//check extensions
+	var ext=this.parseExtension();
+	if(this.question.group){
+		if(this.question.options){
+			this.containsOptionsReference();
+		}
+		this.containsGroup();
+	}else{
+		if(ext.type){
+			$(selector).html(this.generateUI(ext));
+
+			var otherHtml="<div class='form-group'><input type='text' id='input-other' class='form-control' placeholder='other' disabled></div>";
+			
+			$(selector+" #answer-"+this.question.linkId).append(otherHtml);
+
+			$(selector+" #answer-"+self.question.linkId+" #input-other").change(function(){
+				self.question.answer[1]={
+					"valueString":$(this).val()
+				};
+			});
+
+			if(ext.type=="questionnaire-questionControl" && ext.code=="radio-button"){
+				$(selector+" #answer-"+this.question.linkId+" input[type='radio']").iCheck({
+					radioClass: 'iradio_flat-blue'
+				}).on("ifClicked",function(event){
+					//store the answer;
+					var ans=this.value;
+					if(ans=="other"){
+						$(selector+" #answer-"+self.question.linkId+" #input-other").prop('disabled', false);
+
+					}else{
+						$(selector+" #answer-"+self.question.linkId+" #input-other").prop('disabled', true);
+					}
+					
+					self.question.answer=[{
+							"code":ans,
+							"display":$(this).parent().parent().text().trim()
+					}];
+				});
+			}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
+				console.error("Not Implemented! openchoice with checkboxes?");
+				//TODO: openchoice can be with checkbox?
+
+				/*$(selector+" #answer-"+this.question.linkId+" input[type='checkbox']").iCheck({
+					checkboxClass: 'icheckbox_flat-blue'
+				}).on("ifChecked",function(event){
+					//answer=this.value;
+					var ans=this.value;
+					 var answer={
+					 	code:ans,
+					 	display:$(this).parent().parent().text().trim()
+					 };
+					self.question.answer.push(answer);
+				}).on("ifUnchecked",function(event){
+					 var answer={
+					 	code:this.value,
+					 	display:$(this).parent().parent().text().trim()
+					 };
+					self.removeCheckBoxAnswer(answer);
+				});*/
+			}
+		}else{
+			//console.error("unsupported type!");
+		}
+	}
+
 };
 
 
