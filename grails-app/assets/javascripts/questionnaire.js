@@ -91,10 +91,16 @@ DZHK.quest.renderQuestion=function(question){
 	
 	//render questionniare ui
 	this.setQuestionText(question.text);
-	
+
 	//apply factory pattern for different type of questions to generate controls
 	var qAnswer=this.factory.createAnswerClass(question);
+
+	if(qAnswer.haveSubGroup()){
+		console.warn("have sub group!");
+	}
+
 	qAnswer.render(".question-answer");
+
 
 };
 
