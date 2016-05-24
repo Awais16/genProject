@@ -376,14 +376,60 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 };
 
 DZHK.ChoiceAnswer.prototype.renderWithRef=function(selector){
+	var self=this;
+	var valueSetRefId=this.question.options.reference.substr(this.question.options.reference.indexOf("#")+1);
+	var valueset=this.getValueSet(valueSetRefId);
+	if(valueset){
+		var generatedHtml="";
+		if(valueset.codeSystem && valueset.codeSystem.concept){
+			generatedHtml=this.generateUIWithValueSet(valueset.codeSystem.concept);
+		}else if(valueset.expansion && valueset.expansion.contains){
+			generatedHtml=this.generateUIWithValueSet(valueset.expansion.contains);
+		}
+		$(selector).html(generatedHtml);
 
+		$(selector+" #"+this.getAnswerSelector()+" input[type='radio']").iCheck({
+		radioClass: 'iradio_flat-blue'
+		}).on("ifClicked",function(event){
+			//answer=this.value;
+			//store the answer;
+			var ans=this.value;
+			self.question.answer={
+				"code":ans,
+				"display":$(this).parent().parent().text().trim() //todo: mayeb add later the uri/system as well
+			};
+		});
+
+	}else{
+		console.warn("Warning: can't find valueset: "+valuesetRefId);
+	}
+
+};
+
+DZHK.ChoiceAnswer.prototype.getValueSet=function(valueSetRefId){
 	if(DZHK.QUESTIONNAIRE_DATA.contained && DZHK.QUESTIONNAIRE_DATA.contained.length>0 ){
 		for (var i = DZHK.QUESTIONNAIRE_DATA.contained.length - 1; i >= 0; i--) {
-			console.log(DZHK.QUESTIONNAIRE_DATA.contained[i].id);
+			if(valueSetRefId==DZHK.QUESTIONNAIRE_DATA.contained[i].id){
+				return DZHK.QUESTIONNAIRE_DATA.contained[i];
+			}
 		}
 	}
-	
-}
+	return false;
+};
+
+DZHK.ChoiceAnswer.prototype.generateUIWithValueSet=function(codingArray){
+	var htmlString="";
+	if(codingArray.length>0){
+		htmlString="<div id='"+this.getAnswerSelector()+"'>";
+	}
+	for (var i = 0; i < codingArray.length; i++) {
+		htmlString+="<div class='form-group'><label><input type='radio' name='iCheck' value='"+codingArray[i].code+"'/> "+codingArray[i].display+"</label></div>";
+	}
+	if(codingArray.length>0){
+		htmlString+="</div>";
+	}
+	return htmlString;
+};
 
 DZHK.ChoiceAnswer.prototype.containsGroup=function(){
 	console.error("not implemented yet: contains-Group");
