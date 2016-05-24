@@ -109,9 +109,18 @@ DZHK.Answer.prototype.checkValueCodeableConcept=function(extension){
 	}
 };
 
-//TODO: improve, save at property.
+//TODO: improve, save as property.
 DZHK.Answer.prototype.getAnswerSelector=function(){
 	return "answer-"+((this.question.linkId).replace(/\./g,'-'));
+};
+
+
+DZHK.Answer.prototype.onChangeCallBack=function(type,answer){
+	
+};
+
+DZHK.Answer.prototype.afterChangeCallBack=function(groupSelector,conditionQuestion,conditionAnswer,type,answer){
+	//conditional enabledwhen called from quesitonnaire.js groupEnableExtension()
 };
 
 
@@ -347,6 +356,8 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 						"code":ans,
 						"display":$(this).parent().parent().text().trim()
 					};
+
+					self.onChangeCallBack(ext.code,self.question.answer); //to handle enable when out in group
 				});
 			}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
 				$(selector+" #"+this.getAnswerSelector()+" input[type='checkbox']").iCheck({
@@ -360,12 +371,14 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 					 	display:$(this).parent().parent().text().trim()
 					 };
 					self.question.answer.push(answer);
+					self.onChangeCallBack(ext.code,self.question.answer); //to handle enable when out in group
 				}).on("ifUnchecked",function(event){
 					 var answer={
 					 	code:this.value,
 					 	display:$(this).parent().parent().text().trim()
 					 };
 					self.removeCheckBoxAnswer(answer);
+					self.onChangeCallBack(ext.code,self.question.answer); //to handle enable when out in group
 				});
 			}
 		}else{
@@ -398,8 +411,9 @@ DZHK.ChoiceAnswer.prototype.renderWithRef=function(selector){
 				"code":ans,
 				"display":$(this).parent().parent().text().trim() //todo: mayeb add later the uri/system as well
 			};
+			self.onChangeCallBack("radio-button",new Array(self.question.answer));
 		});
-
+		
 	}else{
 		console.warn("Warning: can't find valueset: "+valuesetRefId);
 	}
@@ -450,6 +464,15 @@ DZHK.ChoiceAnswer.prototype.containsOptionsReference=function(){
 };
 
 
+DZHK.ChoiceAnswer.prototype.afterChangeCallBack=function(groupSelector,conditionQuestion,conditionAnswer,type,answer){
+	if(type=="radio-button"){
+		if(conditionAnswer.valueCoding.code==answer[0].code){
+			$(groupSelector).slideDown();
+		}else{
+			$(groupSelector).slideUp();
+		}
+	}	
+};
 
 
 /**
@@ -504,6 +527,9 @@ DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 							"code":ans,
 							"display":$(this).parent().parent().text().trim()
 					}];
+
+					self.onChangeCallBack(ext.code,self.question.answer);
+
 				});
 			}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
 
@@ -535,12 +561,14 @@ DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 					 	display:$(this).parent().parent().text().trim()
 					 };
 					self.question.answer.push(answer);
+					self.onChangeCallBack(ext.code,self.question.answer);
 				}).on("ifUnchecked",function(event){
 					 var answer={
 					 	code:this.value,
 					 	display:$(this).parent().parent().text().trim()
 					 };
 					self.removeCheckBoxAnswer(answer);
+					self.onChangeCallBack(ext.code,self.question.answer);
 				});
 			}
 		}else{
@@ -585,11 +613,6 @@ DZHK.OpenChoiceAnswer.prototype.haveOtherStringAnswer=function(){
 	}
 	return false;
 };
-
-
-
-
-
 
 
 

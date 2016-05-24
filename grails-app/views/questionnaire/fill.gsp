@@ -45,7 +45,7 @@
 				  <div class="box-header with-border">
 				    <h2 class="question-text">Question TExt</h2>
 				  </div><!-- /.box-header -->
-				  <div class="box-body">
+				  <div class="box-body main-box">
 				    	<div class="row">
 				    		<div class="col-md-5 question-answer"></div>
 				    	</div>

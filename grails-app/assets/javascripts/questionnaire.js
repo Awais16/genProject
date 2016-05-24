@@ -64,6 +64,7 @@ DZHK.quest.setGroupDesc=function(desc){
 };
 
 DZHK.quest.initGroup=function(){
+	$(".subgroups").remove();
 	var groups=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group;
 	this.setGroup(groups[this.currentGroup]);
 	this.initQuestion(groups[this.currentGroup].question);
@@ -95,14 +96,106 @@ DZHK.quest.renderQuestion=function(question){
 	//apply factory pattern for different type of questions to generate controls
 	var qAnswer=this.factory.createAnswerClass(question);
 
+	qAnswer.render(".question-answer");
 	if(qAnswer.haveSubGroup()){
-		console.warn("have sub group!");
+		this.processGroups(qAnswer,qAnswer.question.group);
+	}else{
+		//console.log
+	}
+};
+
+DZHK.quest.processGroups=function(qAnswer,groupArray){
+	for (var i = 0; i < groupArray.length; i++) {
+		this.processSubGroup(qAnswer,groupArray[i]);
+	}
+};
+
+//TODO: start from here, fix group hierarchies! recursion
+//question can have groups
+//groups can have groups or questions
+
+DZHK.quest.processSubGroup=function(qAnswer,group){
+	if(group.extension && group.extension.length>0){
+		for (var i = group.extension.length - 1; i >= 0; i--) {
+			var extension=group.extension[i].url.substr(group.extension[i].url.lastIndexOf("/")+1);
+			if(extension=="questionnaire-enableWhen"){
+				this.groupEnableExtension(qAnswer,group,group.extension[i]);
+			}else{
+				console.warn("unsupported: subgroup extension");
+			}
+		}
+	}else{
+		if(group.question){
+			this.generateSubGroupHtml(group);
+			this.renderSubGroupQuestions(group);
+		}else{
+			this.processGroups(qAnswer,group);
+		}
+	}
+};
+
+DZHK.quest.groupEnableExtension=function(qAnswer,group,ext){
+	//check with response saved answer
+	var self=this;
+	var conditionQuestion={};
+	var conditionAnswer={};
+
+	//TODO: for single conditional answer! for timebeing
+	for (var i = 0; i < ext.extension.length; i++) {
+		if(ext.extension[i].url=="question"){
+			conditionQuestion=ext.extension[i];
+		}else if(ext.extension[i].url=="answer"){
+			conditionAnswer=ext.extension[i];
+		}
 	}
 
-	qAnswer.render(".question-answer");
+	//if direct parent question
+	if(true){
+		//takecare of direct child first
+		this.generateSubGroupHtml(group);
+		qAnswer.onChangeCallBack=function(type,answer){
+			qAnswer.afterChangeCallBack("#"+self.getDashedGroupId(group.linkId),conditionQuestion,conditionAnswer,type,answer);
+		};
 
-
+		if(group.question){
+			this.renderSubGroupQuestions(group);
+		}else if(group.group && group.group.length>0){
+			console.log("subgroup got group! handle case!");
+			this.processGroups(qAnswer,group.group);
+		}
+	}else{
+		//TODO: search already answered question!
+		console.warn("condition in other block");
+	}
 };
+
+DZHK.quest.generateSubGroupHtml=function(group){
+	$(".main-box").append("<div class='row subgroups' id='"+this.getDashedGroupId(group.linkId)+"' ><div class='box-group col-md-8'><div class='box'>"+
+			"<div class='box-header with-border'><h3 class='box-title'> Block# "+group.linkId+"</h3></div>"+
+			"<div class='box-body'><div class='col-md-offset-1 question-area'></div></div></div></div></div>");
+};
+
+
+DZHK.quest.getDashedGroupId=function(groupId){
+	return "group-"+((groupId).replace(/\./g,'-'));
+};
+
+DZHK.quest.renderSubGroupQuestions=function(group){
+	var selector="#"+this.getDashedGroupId(group.linkId)+" .question-area";
+
+	for (var i = 0; i < group.question.length; i++) {
+		var question=group.question[i];
+		var qAnswer=this.factory.createAnswerClass(question);
+
+		var qHtml="<div class='row'><div row='col-md-8'><h4>"+question.text+"</h4></div>";
+		qHtml+="<div class='col-md-5' id='"+qAnswer.getAnswerSelector()+"'></div></div>";
+
+		$(selector).append(qHtml);
+		qAnswer.render("#"+qAnswer.getAnswerSelector());
+
+	}
+};
+
 
 /**
 *set back, next, save controls etc; hook events
@@ -143,7 +236,7 @@ DZHK.quest.initControl=function(){
 */
 DZHK.quest.groupFinished=function(group){
 	console.log("group finished event:"+ group.linkId);
-}
+};
 
 /**
 *called when all groups are finished!
