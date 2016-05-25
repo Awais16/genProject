@@ -340,7 +340,6 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 		
 		if(ext.type){
 			$(selector).html(this.generateUI(ext));
-
 			if(ext.type=="questionnaire-questionControl" && ext.code=="radio-button"){
 				$(selector+" #"+this.getAnswerSelector()+" input[type='radio']").iCheck({
 					radioClass: 'iradio_flat-blue'
@@ -348,11 +347,10 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 					//answer=this.value;
 					//store the answer;
 					var ans=this.value;
-					self.question.answer={
+					self.question.answer.push({
 						"code":ans,
 						"display":$(this).parent().parent().text().trim()
-					};
-
+					});
 					self.onChangeCallBack(ext.code,self.question.answer); //to handle enable when out in group
 				});
 			}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
@@ -487,7 +485,7 @@ DZHK.OpenChoiceAnswer.prototype=new DZHK.ChoiceAnswer;
 DZHK.OpenChoiceAnswer.prototype.constructor=new DZHK.ChoiceAnswer;
 DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 	//DZHK.Answer.prototype.render.call(this,selector);
-	
+
 	var self= this; 
 	this.question.answer=[];
 	if(this.haveReferenceToValueSet()){
