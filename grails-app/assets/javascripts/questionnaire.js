@@ -64,7 +64,7 @@ DZHK.quest.setGroupDesc=function(desc){
 };
 
 DZHK.quest.initGroup=function(){
-	$(".subgroups").remove();
+	$(".subgroup").remove();
 	var groups=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group;
 	this.setGroup(groups[this.currentGroup]);
 	this.initQuestion(groups[this.currentGroup].question);
@@ -98,15 +98,15 @@ DZHK.quest.renderQuestion=function(question){
 
 	qAnswer.render(".question-answer");
 	if(qAnswer.haveSubGroup()){
-		this.processGroups(qAnswer,qAnswer.question.group);
+		this.processGroups(".main-box",qAnswer,qAnswer.question.group);
 	}else{
 		//console.log
 	}
 };
 
-DZHK.quest.processGroups=function(qAnswer,groupArray){
+DZHK.quest.processGroups=function(selector,qAnswer,groupArray){
 	for (var i = 0; i < groupArray.length; i++) {
-		this.processSubGroup(qAnswer,groupArray[i]);
+		this.processSubGroup(selector,qAnswer,groupArray[i]);
 	}
 };
 
@@ -114,27 +114,39 @@ DZHK.quest.processGroups=function(qAnswer,groupArray){
 //question can have groups
 //groups can have groups or questions
 
-DZHK.quest.processSubGroup=function(qAnswer,group){
+DZHK.quest.processSubGroup=function(selector,qAnswer,group){
+
+	//generate SubGroup Html
+	var newSelector=this.generateSubGroupHtml(selector,group);
+	if(group.text){
+		$("#"+this.getDashedGroupId(group.linkId)+"-head").text("Block# "+group.linkId+" : "+group.text);
+	}
+
 	if(group.extension && group.extension.length>0){
 		for (var i = group.extension.length - 1; i >= 0; i--) {
 			var extension=group.extension[i].url.substr(group.extension[i].url.lastIndexOf("/")+1);
 			if(extension=="questionnaire-enableWhen"){
-				this.groupEnableExtension(qAnswer,group,group.extension[i]);
+				this.groupEnableExtension(newSelector,qAnswer,group,group.extension[i]);
 			}else{
-				console.warn("unsupported: subgroup extension");
+				console.warn("unsupported: subgroup handle other type of extension");
+				this.groupOrQuestionFlow(newSelector,group,qAnswer);
 			}
 		}
 	}else{
-		if(group.question){
-			this.generateSubGroupHtml(group);
-			this.renderSubGroupQuestions(group);
-		}else{
-			this.processGroups(qAnswer,group);
-		}
+		this.groupOrQuestionFlow(newSelector,group,qAnswer);
+	}
+
+};
+
+DZHK.quest.groupOrQuestionFlow=function(selector,group,qAnswer){
+	if(group.question){
+		this.renderSubGroupQuestions(selector,group);
+	}else if(group.group){
+		this.processGroups(selector,qAnswer,group.group);
 	}
 };
 
-DZHK.quest.groupEnableExtension=function(qAnswer,group,ext){
+DZHK.quest.groupEnableExtension=function(selector,qAnswer,group,ext){
 	//check with response saved answer
 	var self=this;
 	var conditionQuestion={};
@@ -150,29 +162,25 @@ DZHK.quest.groupEnableExtension=function(qAnswer,group,ext){
 	}
 
 	//if direct parent question
-	if(true){
-		//takecare of direct child first
-		this.generateSubGroupHtml(group);
+	if(conditionQuestion.valueString==qAnswer.question.linkId){
+		//TODO: bug here for index 3,9
+		$("#"+self.getDashedGroupId(group.linkId)).hide();
 		qAnswer.onChangeCallBack=function(type,answer){
 			qAnswer.afterChangeCallBack("#"+self.getDashedGroupId(group.linkId),conditionQuestion,conditionAnswer,type,answer);
 		};
-
-		if(group.question){
-			this.renderSubGroupQuestions(group);
-		}else if(group.group && group.group.length>0){
-			console.log("subgroup got group! handle case!");
-			this.processGroups(qAnswer,group.group);
-		}
+		this.groupOrQuestionFlow(selector,group,qAnswer);
 	}else{
 		//TODO: search already answered question!
-		console.warn("condition in other block");
+		console.warn("not implemented:enable when condition is in other group");
 	}
 };
 
-DZHK.quest.generateSubGroupHtml=function(group){
-	$(".main-box").append("<div class='row subgroups' id='"+this.getDashedGroupId(group.linkId)+"' ><div class='box-group col-md-8'><div class='box'>"+
-			"<div class='box-header with-border'><h3 class='box-title'> Block# "+group.linkId+"</h3></div>"+
-			"<div class='box-body'><div class='col-md-offset-1 question-area'></div></div></div></div></div>");
+DZHK.quest.generateSubGroupHtml=function(selector,group){
+	$(selector).append("<div class='box subgroup' id='"+this.getDashedGroupId(group.linkId)+"'>"+
+			"<div class='box-header with-border'><h3 class='box-title' id='"+this.getDashedGroupId(group.linkId)+"-head'> Block# "+group.linkId+"</h3></div>"+
+			"<div class='box-body'><div class='col-md-offset-1' id='"+this.getDashedGroupId(group.linkId)+"-main'></div></div>"+
+			"</div>");
+	return "#"+this.getDashedGroupId(group.linkId)+"-main";
 };
 
 
@@ -180,18 +188,17 @@ DZHK.quest.getDashedGroupId=function(groupId){
 	return "group-"+((groupId).replace(/\./g,'-'));
 };
 
-DZHK.quest.renderSubGroupQuestions=function(group){
-	var selector="#"+this.getDashedGroupId(group.linkId)+" .question-area";
-
+DZHK.quest.renderSubGroupQuestions=function(selector,group){
+	//var selector="#"+this.getDashedGroupId(group.linkId)+" .question-area";
 	for (var i = 0; i < group.question.length; i++) {
 		var question=group.question[i];
 		var qAnswer=this.factory.createAnswerClass(question);
 
-		var qHtml="<div class='row'><div row='col-md-8'><h4>"+question.text+"</h4></div>";
+		var qHtml="<div class='row'><div row='col-md-5'><h4>"+question.text+"</h4></div>";
 		qHtml+="<div class='col-md-5' id='"+qAnswer.getAnswerSelector()+"'></div></div>";
 
 		$(selector).append(qHtml);
-		qAnswer.render("#"+qAnswer.getAnswerSelector());
+		qAnswer.render(selector+" #"+qAnswer.getAnswerSelector());
 
 	}
 };

@@ -264,7 +264,7 @@ DZHK.StringAnswer=function(question){
 DZHK.StringAnswer.prototype=new DZHK.IntegerAnswer;
 DZHK.StringAnswer.prototype.constructor=new DZHK.IntegerAnswer;
 //can use integerClass generate ui function, validation may differ TODO: add validations later, if required
-DZHK.IntegerAnswer.prototype.render=function(selector){
+DZHK.StringAnswer.prototype.render=function(selector){
 	var self=this;
 	$(selector).html(this.generateUI());
 	var input=$(selector+" #"+this.getAnswerSelector()+" input");
@@ -413,7 +413,7 @@ DZHK.ChoiceAnswer.prototype.renderWithRef=function(selector){
 			};
 			self.onChangeCallBack("radio-button",new Array(self.question.answer));
 		});
-		
+
 	}else{
 		console.warn("Warning: can't find valueset: "+valuesetRefId);
 	}

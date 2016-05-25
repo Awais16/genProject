@@ -41,7 +41,7 @@
 					</div>
 				</div>
 
-				<div class="box box-solid box-primary">
+				<div class="box box-solid box-primary first-box">
 				  <div class="box-header with-border">
 				    <h2 class="question-text">Question TExt</h2>
 				  </div><!-- /.box-header -->
