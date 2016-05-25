@@ -116,11 +116,7 @@ DZHK.Answer.prototype.getAnswerSelector=function(){
 
 
 DZHK.Answer.prototype.onChangeCallBack=function(type,answer){
-	
-};
 
-DZHK.Answer.prototype.afterChangeCallBack=function(groupSelector,conditionQuestion,conditionAnswer,type,answer){
-	//conditional enabledwhen called from quesitonnaire.js groupEnableExtension()
 };
 
 
@@ -450,7 +446,6 @@ DZHK.ChoiceAnswer.prototype.containsGroup=function(){
 };
 
 DZHK.ChoiceAnswer.prototype.removeCheckBoxAnswer=function(answer){
-	//improved
 	for (var i = this.question.answer.length - 1; i >= 0; i--) {
 		if (this.question.answer[i].code == answer.code) {
            this.question.answer.splice(i,1);
@@ -463,15 +458,22 @@ DZHK.ChoiceAnswer.prototype.containsOptionsReference=function(){
 	console.error("not implemented yet: contains reference to valueset");
 };
 
-
-DZHK.ChoiceAnswer.prototype.afterChangeCallBack=function(groupSelector,conditionQuestion,conditionAnswer,type,answer){
-	if(type=="radio-button"){
-		if(conditionAnswer.valueCoding.code==answer[0].code){
-			$(groupSelector).slideDown();
-		}else{
-			$(groupSelector).slideUp();
+DZHK.ChoiceAnswer.prototype.conditionalEvents=[];
+DZHK.ChoiceAnswer.prototype.onChangeCallBack=function(type,answer){
+	for (var i = this.conditionalEvents.length - 1; i >= 0; i--) {
+		var c=this.conditionalEvents[i];
+		if(type=="radio-button"){
+			if(c.conditionAnswer.valueCoding.code==answer[0].code){
+				$(c.groupSelector).slideDown();
+			}else{
+				$(c.groupSelector).slideUp();
+			}
 		}
-	}	
+	}
+};
+
+DZHK.ChoiceAnswer.prototype.addListener=function(conditions){
+	conditionalEvents.push(conditions);
 };
 
 
@@ -485,11 +487,9 @@ DZHK.OpenChoiceAnswer.prototype=new DZHK.ChoiceAnswer;
 DZHK.OpenChoiceAnswer.prototype.constructor=new DZHK.ChoiceAnswer;
 DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 	//DZHK.Answer.prototype.render.call(this,selector);
-
+	
 	var self= this; 
-	
 	this.question.answer=[];
-	
 	if(this.haveReferenceToValueSet()){
 		//rederWithReferred value
 		this.renderWithRef(selector);

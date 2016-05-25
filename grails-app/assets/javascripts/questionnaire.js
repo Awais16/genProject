@@ -110,7 +110,7 @@ DZHK.quest.processGroups=function(selector,qAnswer,groupArray){
 	}
 };
 
-//TODO: start from here, fix group hierarchies! recursion
+
 //question can have groups
 //groups can have groups or questions
 
@@ -128,14 +128,13 @@ DZHK.quest.processSubGroup=function(selector,qAnswer,group){
 			if(extension=="questionnaire-enableWhen"){
 				this.groupEnableExtension(newSelector,qAnswer,group,group.extension[i]);
 			}else{
-				console.warn("unsupported: subgroup handle other type of extension");
-				this.groupOrQuestionFlow(newSelector,group,qAnswer);
+				console.warn("unhandled other group extensions");
 			}
 		}
 	}else{
-		this.groupOrQuestionFlow(newSelector,group,qAnswer);
+		console.log("no extension found for this group");
 	}
-
+	this.groupOrQuestionFlow(newSelector,group,qAnswer);
 };
 
 DZHK.quest.groupOrQuestionFlow=function(selector,group,qAnswer){
@@ -163,12 +162,14 @@ DZHK.quest.groupEnableExtension=function(selector,qAnswer,group,ext){
 
 	//if direct parent question
 	if(conditionQuestion.valueString==qAnswer.question.linkId){
-		//TODO: bug here for index 3,9
+		
 		$("#"+self.getDashedGroupId(group.linkId)).hide();
-		qAnswer.onChangeCallBack=function(type,answer){
-			qAnswer.afterChangeCallBack("#"+self.getDashedGroupId(group.linkId),conditionQuestion,conditionAnswer,type,answer);
-		};
-		this.groupOrQuestionFlow(selector,group,qAnswer);
+		//handling multiple listener for same question with different answer
+		qAnswer.conditionalEvents.push({
+			groupSelector:"#"+self.getDashedGroupId(group.linkId),
+			conditionQuestion:conditionQuestion,
+			conditionAnswer:conditionAnswer
+		});
 	}else{
 		//TODO: search already answered question!
 		console.warn("not implemented:enable when condition is in other group");
