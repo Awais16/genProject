@@ -80,7 +80,6 @@ DZHK.quest.setGroup=function(group){
 	this.setGroupDesc(group.text);
 };
 
-
 //TODO: resume from here for direct condition on main question ie. group b/3
 DZHK.quest.initQuestion=function(questions){
 	//set progress
@@ -207,6 +206,7 @@ DZHK.quest.renderSubGroupQuestions=function(selector,group){
 		$(selector).append(qHtml);
 		qAnswer.render(selector+" #"+qAnswer.getAnswerSelector());
 	}
+
 };
 
 DZHK.quest.saveQuestionnaireResposne=function(){
@@ -273,8 +273,8 @@ DZHK.quest.initSaveModal=function(){
 *set back, next, save controls etc; hook events
 */
 DZHK.quest.initControl=function(){
+	
 	var self=this;
-
 	$("#bt-back").click(function(){
 		//save state? check if answer exists.
 	});

@@ -172,10 +172,20 @@ DZHK.DateAnswer.prototype.generateUI=function(){
 DZHK.DateAnswer.prototype.render=function(selector){
 	var that=this;
 	$(selector).html(this.generateUI());
-	//initiate datetimepicker
+	var dateFormat='L'
+	//check extensions for only year input
+	if(this.question.extension){
+		for (var i = this.question.extension.length - 1; i >= 0; i--) {
+			var type=this.checkExtensionFromUrl(this.question.extension[i]);
+			if(type=="entryFormat"){
+				dateFormat=this.question.extension[i].valueString;
+			}
+		}
+	}
+
 	var answerDatePicker=$(selector+" #"+that.getAnswerSelector()).datetimepicker({
 		locale: 'de',
-		format: 'L'
+		format: dateFormat
 	});
 
 	//save answer
