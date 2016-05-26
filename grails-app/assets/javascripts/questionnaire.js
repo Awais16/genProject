@@ -8,6 +8,8 @@ var DZHK = DZHK || {};
 DZHK.quest={};
 DZHK.QUESTIONNAIRE_DATA=":D";
 DZHK.QUESTIONNAIRE_SAVE_URL=":D";
+DZHK.USER_QUESTIONNAIRE_ID=":D";
+DZHK.QUESTIONNAIRE_RESPONSE_ID="";
 //for producing quiestionnaire response json
 DZHK.QUESTIONNAIRE_RESPONSE_DATA={
   "resourceType" : "QuestionnaireResponse",
@@ -37,6 +39,7 @@ DZHK.quest.init=function(){
 	this.initGroup();
 
 	this.initControl();	
+	this.initSaveModal();
 };
 
 //to set the progress title
@@ -207,14 +210,63 @@ DZHK.quest.renderSubGroupQuestions=function(selector,group){
 };
 
 DZHK.quest.saveQuestionnaireResposne=function(){
+	$("#modal-save-msg").text("It is recommended to save questionnaire after completion of every group");
+	$('#modal-save').modal('show');
+};
+
+DZHK.quest.makeAjaxRequestion=function(){
+	var self=this;
 	$.ajax({
 		method:"POST",
-		url:"http://localhost:8080/questionnaireResponse/saveQR/",
-		data:{id:"",data:"testData","userQuestionnaire.id":"3",status:"1"}
+		url:DZHK.QUESTIONNAIRE_SAVE_URL,
+		data:{id:DZHK.QUESTIONNAIRE_RESPONSE_ID,data:JSON.stringify(DZHK.QUESTIONNAIRE_RESPONSE_DATA),"userQuestionnaire.id":DZHK.USER_QUESTIONNAIRE_ID,status:"0"}
 	})
-	.done(function(html){
-		console.log(html);
+	.done(function(data){
+		$("#bt-modal-save i").removeClass("fa-spin");
+		if(data.saved){
+			self.onSuccessfullSave(data);
+		}
+		else{
+			self.onSaveFailed(data);
+		}
+	}).error(function(jqXHT,textStatus,errorThrown){
+		$("#bt-modal-save i").removeClass("fa-spin");
+		self.onSaveFailed({error:"Unable save please try again later."});
 	});
+
+};
+
+DZHK.quest.onSuccessfullSave=function(data){
+	DZHK.QUESTIONNAIRE_RESPONSE_ID=data.questionnaireResponse.id;
+	$("#modal-save-msg").text("Questionnaire saved successfully...");
+	$("#modal-save").addClass("modal-success");
+	setTimeout(function(){
+		$("#modal-save").removeClass("modal-success");
+		$('#modal-save').modal('hide');
+	},1500);
+};
+
+DZHK.quest.onSaveFailed=function(data){
+	$("#modal-save-msg").text(data.error);
+	$("#modal-save").addClass("modal-warning");
+};
+
+DZHK.quest.initSaveModal=function(){
+	var self=this;
+	$('#modal-save').modal({show:false}).on('hide.bs.modal',function(){
+		$("#bt-modal-save i").removeClass("fa-spin");
+		$("#modal-save").removeClass("modal-success");
+		$("#modal-save").removeClass("modal-warning");
+	});
+
+	//add click save listner
+	$("#bt-modal-save").click(function(){
+		//add spinner class ;)
+		$("#bt-modal-save i").addClass("fa-spin");
+		//change text;
+		self.makeAjaxRequestion(); //for the time being save it as
+	});
+
 };
 
 /**
@@ -256,6 +308,7 @@ DZHK.quest.initControl=function(){
 */
 DZHK.quest.groupFinished=function(group){
 	console.log("group finished event:"+ group.linkId);
+	this.saveQuestionnaireResposne();
 };
 
 /**

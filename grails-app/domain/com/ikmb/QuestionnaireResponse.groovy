@@ -5,7 +5,7 @@ class QuestionnaireResponse {
 	UserQuestionnaire userQuestionnaire
 
 	int status
-
+    
     String data
 	Date lastUpdated
   	Date dateCreated

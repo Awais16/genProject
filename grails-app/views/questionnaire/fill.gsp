@@ -53,31 +53,34 @@
 				  <div class="box-footer question-controls">
 				    	<button type="button" class="btn btn-primary btn-lg" id="bt-back">Previous</button>
 				    	<button type="button" class="btn btn-primary btn-lg" id="bt-next">Next</button>
-
-				    	<button class="btn btn-warning btn-lg" id="bt-test">test save!</button>
 				  </div><!-- box-footer -->
 				</div><!-- /.box -->
 
 
 				%{-- to put hiddent data like dialogs etc --}%
 				<div>
-					<!-- Help modal -->
-					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<h4 class="modal-title" id="myModalLabel">Help <i class="fa fa-question"></i></h4>
-								</div>
-								<div class="modal-body">
-									Help information goes here
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								</div>
-							</div>
-						</div>
-					</div>
+					
+				%{-- html for save modal --}%
+					<div class="modal fade" tabindex="-1" role="dialog" id="modal-save">
+					  <div class="modal-dialog modal-sm">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title">Save Questionnaire</h4>
+					      </div>
+					      <div class="modal-body">
+					        <p id="modal-save-msg">Its recommended to save once you complete a group!</p>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					        <button type="button" class="btn btn-primary" id="bt-modal-save">
+							<i class="fa fa-cog fa-lg"></i>
+					        Save</button>
+					      </div>
+					    </div><!-- /.modal-content -->
+					  </div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+
 				</div>
 				<script type="text/javascript" charset="utf-8">
 

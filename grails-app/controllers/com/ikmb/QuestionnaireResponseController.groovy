@@ -111,12 +111,11 @@ class QuestionnaireResponseController {
 
     def test(){
         def qR=questionnaireService.getUserQuestionnaireResponse("1");
+        render qR
     }
 
     def saveQR(QuestionnaireResponse questionnaireResponse){
         def resp=questionnaireService.saveQuestionnaireResponse(questionnaireResponse);
-        log.debug resp as JSON
         render resp as JSON
     }
-
 }
