@@ -14,9 +14,19 @@
 					<div class="float_clear"></div>
 					
 				<div class="box-body">
-					Status of the questionnaire if have access [user questionniares]
+					S tatus of the questionnaire if have access [user questionniares]
+					<br>
+					
+					T<br>
+					A<br>
+					T<br>
+					U<br>
+					S<br>
 				</div>
 				<!-- /.box-body -->
+				<div class="box-footer">
+					<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">FIll</a>
+				</div>
 			</div>
 
 			<!-- Help modal -->

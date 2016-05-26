@@ -3,8 +3,12 @@ package com.ikmb
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+import grails.converters.*
+
 @Transactional(readOnly = true)
 class QuestionnaireResponseController {
+
+    def questionnaireService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -104,4 +108,15 @@ class QuestionnaireResponseController {
             '*'{ render status: NOT_FOUND }
         }
     }
+
+    def test(){
+        def qR=questionnaireService.getUserQuestionnaireResponse("1");
+    }
+
+    def saveQR(QuestionnaireResponse questionnaireResponse){
+        def resp=questionnaireService.saveQuestionnaireResponse(questionnaireResponse);
+        log.debug resp as JSON
+        render resp as JSON
+    }
+
 }

@@ -53,6 +53,8 @@
 				  <div class="box-footer question-controls">
 				    	<button type="button" class="btn btn-primary btn-lg" id="bt-back">Previous</button>
 				    	<button type="button" class="btn btn-primary btn-lg" id="bt-next">Next</button>
+
+				    	<button class="btn btn-warning btn-lg" id="bt-test">test save!</button>
 				  </div><!-- box-footer -->
 				</div><!-- /.box -->
 
@@ -78,7 +80,7 @@
 					</div>
 				</div>
 				<script type="text/javascript" charset="utf-8">
-				
+
 					//on ready
 					$(function() {
 
@@ -89,7 +91,8 @@
 					  //adding repsonse data
 					  DZHK.QUESTIONNAIRE_RESPONSE_DATA.questionnaire=DZHK.QUESTIONNAIRE_DATA.id;
 					  DZHK.QUESTIONNAIRE_RESPONSE_DATA.group=DZHK.QUESTIONNAIRE_DATA.group;
-
+					  DZHK.QUESTIONNAIRE_SAVE_URL="<g:createLink controller='questionnaireResponse' action='saveQR' absolute='true'></g:createLink>";
+					  DZHK.USER_QUESTIONNAIRE_ID="${userQuestId}";
 					  DZHK.quest.init();
 
 					});

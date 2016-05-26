@@ -7,6 +7,7 @@ var DZHK = DZHK || {};
 
 DZHK.quest={};
 DZHK.QUESTIONNAIRE_DATA=":D";
+DZHK.QUESTIONNAIRE_SAVE_URL=":D";
 //for producing quiestionnaire response json
 DZHK.QUESTIONNAIRE_RESPONSE_DATA={
   "resourceType" : "QuestionnaireResponse",
@@ -76,6 +77,8 @@ DZHK.quest.setGroup=function(group){
 	this.setGroupDesc(group.text);
 };
 
+
+//TODO: resume from here for direct condition on main question ie. group b/3
 DZHK.quest.initQuestion=function(questions){
 	//set progress
 	this.setProgressTitle("Group questions progress");
@@ -200,10 +203,19 @@ DZHK.quest.renderSubGroupQuestions=function(selector,group){
 
 		$(selector).append(qHtml);
 		qAnswer.render(selector+" #"+qAnswer.getAnswerSelector());
-
 	}
 };
 
+DZHK.quest.saveQuestionnaireResposne=function(){
+	$.ajax({
+		method:"POST",
+		url:"http://localhost:8080/questionnaireResponse/saveQR/",
+		data:{id:"",data:"testData","userQuestionnaire.id":"3",status:"1"}
+	})
+	.done(function(html){
+		console.log(html);
+	});
+};
 
 /**
 *set back, next, save controls etc; hook events

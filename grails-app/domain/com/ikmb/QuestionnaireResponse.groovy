@@ -2,11 +2,11 @@ package com.ikmb
 
 class QuestionnaireResponse {
 
-	Questionnaire questionnaire
-	
+	UserQuestionnaire userQuestionnaire
+
 	int status
 
-	String data
+    String data
 	Date lastUpdated
   	Date dateCreated
 

@@ -129,21 +129,23 @@ class QuestionnaireController {
          
             redirect(controller:"questionnaire",action:"home")
         }
-        render(view: "status")
+        render(view: "status",model:[qid:params.id]);
     }
 
 
     def fill(){
-        if(!questionnaireService.haveAccessToQuestionnaire(params.id)){
+        def uq=questionnaireService.getUserQuestionnaireById(params.id)
+        if(!uq){
             flash.message="You don't have access to that questionnaire"
             flash.type="alert-warning"
             flash.title="No Access"
          
             redirect(controller:"questionnaire",action:"home")
         }
-        def questionnaire= Questionnaire.findById(params.id)
+        //println uqr.questionnaire as JSON
+
         //println questionnaire.data
-        render(view: "fill", model:[qJson:questionnaire.data, qName:questionnaire.name]) 
+        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id]) 
     }
 
 }
