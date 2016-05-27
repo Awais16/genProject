@@ -370,10 +370,10 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 					//answer=this.value;
 
 					var ans=this.value;
-					 var answer={
+					var answer={
 					 	code:ans,
 					 	display:$(this).parent().parent().text().trim()
-					 };
+					};
 					self.question.answer.push(answer);
 					self.onChangeCallBack(ext.code,self.question.answer); //to handle enable when out in group
 				}).on("ifUnchecked",function(event){

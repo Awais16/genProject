@@ -71,7 +71,13 @@ DZHK.quest.initGroup=function(){
 	$(".subgroup").remove();
 	var groups=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group;
 	this.setGroup(groups[this.currentGroup]);
-	this.initQuestion(groups[this.currentGroup].question);
+	if(groups[this.currentGroup].question){
+		this.initQuestion(groups[this.currentGroup].question);
+	}else{
+		//handle empty group
+		//TODO: Fix! group can have group or questions. question can have group
+	}
+	
 };
 
 DZHK.quest.setGroup=function(group){
@@ -86,7 +92,6 @@ DZHK.quest.initQuestion=function(questions){
 	this.setProgressTitle("Group questions progress");
 	this.setProgressNumber(this.currentQuestion+1,questions.length);
 	this.renderQuestion(questions[this.currentQuestion]);
-	this.currentQuestion++;
 };
 
 DZHK.quest.setQuestionText=function(question){
@@ -273,32 +278,57 @@ DZHK.quest.initSaveModal=function(){
 *set back, next, save controls etc; hook events
 */
 DZHK.quest.initControl=function(){
-	
+
 	var self=this;
 	$("#bt-back").click(function(){
-		//save state? check if answer exists.
+		//console.log("back g:"+self.currentGroup+" "+"q:"+self.currentQuestion);
+		if(self.currentQuestion>0){
+			self.currentQuestion--;
+		}else{
+			//first question
+			//check group
+			if(self.currentGroup>0){
+				//set previous group + last question of that group;
+				self.currentGroup--;
+				self.currentQuestion=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length-1;
+			}else{
+				console.log("first group,first question, can't go back anymore");
+				$("#bt-back").prop("disabled",true);
+			}
+		}
+		self.initGroup();
+		if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length || self.currentQuestion<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length){
+			$("#bt-next").prop("disabled",false);
+		}
+
 	});
 
 	$("#bt-next").click(function(){
-		if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length){
-			var groupQuestionsLength=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length;
-			if(self.currentQuestion<groupQuestionsLength){
-				//self.currentQuestion++;
-				self.initGroup();
-			}else if(self.currentQuestion==groupQuestionsLength){
-				//next group from start
-				self.groupFinished(DZHK.QUESTIONNAIRE_DATA.group.group[self.currentGroup]);
-				self.currentQuestion=0;	
-				self.currentGroup++;
-				if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length){
-					self.initGroup();
-				}else{
-					self.questionnaireFinished();
-				}
-			}
+		// console.log("next g:"+self.currentGroup+" "+"q:"+self.currentQuestion);
+		if(self.currentQuestion<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length-1){
+			self.currentQuestion++;
 		}else{
-			self.questionnaireFinished();
+			//last question rendered already
+			//check group
+			if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length-1){
+				//load next group questions
+				self.groupFinished(DZHK.QUESTIONNAIRE_DATA.group.group[self.currentGroup]);
+				self.currentQuestion=0;
+				self.currentGroup++;
+				//event: group finished
+			}else{
+				//last group already done
+				self.questionnaireFinished();
+				$("#bt-next").prop("disabled",true);
+			}
 		}
+
+		self.initGroup();
+		//re-enable back button
+		if(self.currentGroup>0 || self.currentQuestion>0){
+			$("#bt-back").prop("disabled",false);
+		}
+
 	});
 
 };

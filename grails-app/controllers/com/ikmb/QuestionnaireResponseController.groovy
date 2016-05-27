@@ -110,8 +110,7 @@ class QuestionnaireResponseController {
     }
 
     def test(){
-        def qR=questionnaireService.getUserQuestionnaireResponse("1");
-        render qR
+        render "just a test dude!"
     }
 
     def saveQR(QuestionnaireResponse questionnaireResponse){
