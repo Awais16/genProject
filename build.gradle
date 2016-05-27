@@ -5,6 +5,7 @@ buildscript {
     repositories {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
+
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -62,6 +63,7 @@ dependencies {
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
     compile 'org.grails.plugins:spring-security-core:3.0.4'
+    compile 'org.grails.plugins:csv:1.0'
     
 }
 
