@@ -54,9 +54,11 @@ grails.plugin.springsecurity.interceptUrlMap = [
     [pattern: '/questionnaireresponse/**',  access: ['ROLE_ADMIN']],
     [pattern: '/secuser/**',  access: ['ROLE_ADMIN']],
     [pattern: '/dbconsole/**', access: ['ROLE_ADMIN']],
+    
     [pattern: '/questionnaire/home/**', access: ['ROLE_PARTICIPANTS']],
     [pattern: '/questionnaire/status/**', access: ['ROLE_PARTICIPANTS']],
-    [pattern: '/questionnaire/fill/**', access: ['ROLE_PARTICIPANTS']]
+    [pattern: '/questionnaire/fill/**', access: ['ROLE_PARTICIPANTS']],
+    [pattern: '/questionnaireResponse/saveQR/**', access: ['ROLE_PARTICIPANTS']]
     /*'/person/*':         ['IS_AUTHENTICATED_REMEMBERED'],
     '/post/followAjax':  ['ROLE_USER'],
     '/post/addPostAjax': ['ROLE_USER', 'IS_AUTHENTICATED_FULLY'],
