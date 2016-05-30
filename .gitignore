@@ -2,3 +2,5 @@
 .asscache
 .gradle/
 
+grails-app/conf/resources/
+
