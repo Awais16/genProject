@@ -231,6 +231,7 @@ DZHK.quest.makeAjaxRequestion=function(){
 		data:{id:DZHK.QUESTIONNAIRE_RESPONSE_ID,data:JSON.stringify(DZHK.QUESTIONNAIRE_RESPONSE_DATA),"userQuestionnaire.id":DZHK.USER_QUESTIONNAIRE_ID,status:"0"}
 	})
 	.done(function(data){
+		console.log(data);
 		$("#bt-modal-save i").removeClass("fa-spin");
 		if(data.saved){
 			self.onSuccessfullSave(data);

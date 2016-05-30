@@ -27,7 +27,7 @@ class BootStrap {
     	//if request map is enabled in application.groovy
     	//initalizing security requestmap rules
   	
-  	//   	for (String url in [
+  	 //   	for (String url in [
 	 //      '/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown',
 	 //      '/assets/**', '/**/js/**', '/**/css/**', '/**/images/**',
 	 //      '/login', '/login.*', '/login/*',
@@ -41,7 +41,7 @@ class BootStrap {
         def filePath = "resources/genome_questionnaire.json"
         def qJson = grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream().getText()
     	
-        def q=new Questionnaire(name:"DZHK v4",type: 0, data:qJson,identifier: "DZHK-OMICS-Studie-Fragebogen");
+        def q=new Questionnaire(name:"DZHK v4",type: 0, data: ,identifier: "DZHK-OMICS-Studie-Fragebogen");
         q.save()
 
         def userQuestionnaire= new UserQuestionnaire(user:adminUser,questionnaire:q);
@@ -60,7 +60,6 @@ class BootStrap {
             //assign them above questionnaire
             userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q);
             userQuestionnaire.save()
-
         }
 
         //flushing all ?
@@ -68,7 +67,6 @@ class BootStrap {
             it.flush()
             it.clear()
         }
-
 
     }
 

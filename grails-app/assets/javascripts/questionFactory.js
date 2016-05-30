@@ -173,6 +173,7 @@ DZHK.TextAnswer.prototype.fillAnswer=function(selector){
 	$(selector+" #"+this.getAnswerSelector()+" textarea").text(this.question.answer.valueText);
 };
 
+
 DZHK.DateAnswer=function(question){
 	this.question=question;
 };
@@ -262,6 +263,42 @@ DZHK.DateTimeAnswer.prototype.render=function(selector){
 DZHK.DateTimeAnswer.prototype.fillAnswer=function(selector){
 	$(selector+" #"+this.getAnswerSelector()+" input").val(this.question.answer.valueDateTime);
 };
+
+
+/**
+*time class from dateTime
+*/
+
+DZHK.TimeAnswer=function(question){
+	this.question=question;
+};
+DZHK.TimeAnswer.prototype=new DZHK.DateTimeAnswer;
+DZHK.TimeAnswer.prototype.constructor=new DZHK.DateTimeAnswer;
+
+DZHK.TimeAnswer.prototype.render=function(selector){
+	var that=this;
+	$(selector).html(this.generateUI());
+	this.refill(selector);
+	//initiate datetimepicker
+	var answerDatePicker=$(selector+" #"+this.getAnswerSelector()).datetimepicker({
+		sideBySide:true,
+		locale: 'de',
+		format:"HH:mm"
+	});
+
+	//save answer
+	$(answerDatePicker).on("dp.change",function(e){
+		that.question.answer={
+			"valueTime":e.date.format("HH:mm") //(ISO 8601)
+		}
+	});
+};
+
+DZHK.TimeAnswer.prototype.fillAnswer=function(selector){
+	$(selector+" #"+this.getAnswerSelector()+" input").val(this.question.answer.valueTime);
+};
+
+
 
 /**
 *	IntegerAnswer Class
@@ -716,12 +753,7 @@ DZHK.OpenChoiceAnswer.prototype.fillAnswer=function(selector){
 			}
 		}
 	}
-
 };
-
-
-
-
 
 
 /**
@@ -752,6 +784,9 @@ DZHK.AnswerFactory.prototype.createAnswerClass=function(question){
 			break;
 		case "open-choice":
 			this.answerClass=DZHK.OpenChoiceAnswer;
+			break;
+		case "time":
+			this.answerClass=DZHK.TimeAnswer;
 			break;
 		default:
 			console.error("unsupported answer type:"+question.type);
