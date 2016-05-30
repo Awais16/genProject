@@ -458,13 +458,12 @@ DZHK.ChoiceAnswer.prototype.renderWithRef=function(selector){
 			//answer=this.value;
 			//store the answer;
 			var ans=this.value;
-			self.question.answer={
+			self.question.answer=[{
 				"code":ans,
 				"display":$(this).parent().parent().text().trim() //todo: mayeb add later the uri/system as well
-			};
-			self.onChangeCallBack("radio-button",new Array(self.question.answer));
+			}];
+			self.onChangeCallBack("radio-button",self.question.answer);
 		});
-
 	}else{
 		console.warn("Warning: can't find valueset: "+valuesetRefId);
 	}
@@ -517,7 +516,7 @@ DZHK.ChoiceAnswer.prototype.conditionalEvents=[];
 DZHK.ChoiceAnswer.prototype.onChangeCallBack=function(type,answer){
 	for (var i = this.conditionalEvents.length - 1; i >= 0; i--) {
 		var c=this.conditionalEvents[i];
-		if(type=="radio-button"){
+		if(true|| type=="radio-button"){ //for now its true
 			if(c.conditionAnswer.valueCoding.code==answer[0].code){
 				$(c.groupSelector).slideDown();
 			}else{
@@ -535,12 +534,10 @@ DZHK.ChoiceAnswer.prototype.fillAnswer=function(selector){
 	var elements=$(selector+" #"+this.getAnswerSelector()+" input");
 	//TODO: resume from here
 	for (var i = this.question.answer.length - 1; i >= 0; i--) {
-
 		for (var j = elements.length - 1; j >= 0; j--) {
-			if(this.question.answer[i].code===$(elements[j]).val()){
+			if(this.question.answer[i].code==$(elements[j]).val()){
 				$(elements[j]).prop("checked",true);
-			}else{
-				$(elements[j]).prop("checked",false);
+				//this.onChangeCallBack("radio-button",this.question.answer);
 			}
 		}
 	}
@@ -558,8 +555,12 @@ DZHK.OpenChoiceAnswer.prototype.constructor=new DZHK.ChoiceAnswer;
 DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 	//DZHK.Answer.prototype.render.call(this,selector);
 
-	var self= this; 
-	this.question.answer=[];
+	var self= this;
+
+	if(!(this.question.answer instanceof Array)){
+		this.question.answer=[];
+	}
+
 	if(this.haveReferenceToValueSet()){
 		//rederWithReferred value
 		this.renderWithRef(selector);
@@ -569,12 +570,12 @@ DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 
 		if(ext.type){
 			$(selector).html(this.generateUI(ext));
-
 			var otherHtml="<div class='form-group'><input type='text' id='input-other' class='form-control' placeholder='other' disabled></div>";
 			$(selector+" #"+this.getAnswerSelector()).append(otherHtml);
-
+			
+			this.refill(selector);
+			
 			if(ext.type=="questionnaire-questionControl" && ext.code=="radio-button"){
-
 				$(selector+" #"+this.getAnswerSelector()+" #input-other").change(function(){
 					self.question.answer[1]={
 						"valueString":$(this).val()
@@ -588,18 +589,26 @@ DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 					var ans=this.value;
 					if(ans=="other"){
 						$(selector+" #"+self.getAnswerSelector()+" #input-other").prop('disabled', false);
-						$(selector+" #"+self.getAnswerSelector()+" #input-other").val("");
-					}else{
-						$(selector+" #"+self.getAnswerSelector()+" #input-other").prop('disabled', true);
-					}
-					
-					self.question.answer=[{
+						if(self.question.answer && self.question.answer.length>1){
+							$(selector+" #"+self.getAnswerSelector()+" #input-other").val(self.question.answer[1].valueString);
+						}else{
+							$(selector+" #"+self.getAnswerSelector()+" #input-other").val("");
+						}
+						otherAnswerString=self.getOtherStringAnswer();
+						self.question.answer=[{
 							"code":ans,
 							"display":$(this).parent().parent().text().trim()
-					}];
-
+						}];
+						self.question.answer[1]=otherAnswerString;
+					}else{
+						$(selector+" #"+self.getAnswerSelector()+" #input-other").val("");
+						$(selector+" #"+self.getAnswerSelector()+" #input-other").prop('disabled', true);
+						self.question.answer=[{
+							"code":ans,
+							"display":$(this).parent().parent().text().trim()
+						}];
+					}
 					self.onChangeCallBack(ext.code,self.question.answer);
-
 				});
 			}else if(ext.type=="questionnaire-questionControl" && ext.code=="check-box"){
 
@@ -607,6 +616,8 @@ DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 				$(selector+" #"+self.getAnswerSelector()+" #input-other").change(function(){
 					otherAnswerString.valueString=$(this).val();
 				});
+
+				this.refill(selector);
 				
 				$(selector+" #"+self.getAnswerSelector()+" input[type='checkbox']").iCheck({
 					checkboxClass: 'icheckbox_flat-blue'
@@ -617,9 +628,16 @@ DZHK.OpenChoiceAnswer.prototype.render=function(selector){
 						code:"other",
 						display:""
 					}
+
+					//TODO: checbox with other option is valid?
+
 					if(self.ifThisAnswerChecked(otherAnswer)){
 						$(selector+" #"+self.getAnswerSelector()+" #input-other").prop('disabled', false);
-						$(selector+" #"+self.getAnswerSelector()+" #input-other").val("");
+						if(self.question.answer && self.question.answer.length>1){
+							$(selector+" #"+self.getAnswerSelector()+" #input-other").val(self.question.answer[1].valueString);
+						}else{
+							$(selector+" #"+self.getAnswerSelector()+" #input-other").val("");
+						}
 						otherAnswerString=self.getOtherStringAnswer();
 					}else{
 						$(selector+" #"+self.getAnswerSelector()+" #input-other").prop('disabled', true);
@@ -682,6 +700,23 @@ DZHK.OpenChoiceAnswer.prototype.haveOtherStringAnswer=function(){
         }
 	}
 	return false;
+};
+
+DZHK.OpenChoiceAnswer.prototype.fillAnswer=function(selector){
+	var elements=$(selector+" #"+this.getAnswerSelector()+" input");
+	
+	//TODO: resume from here
+	for (var i = this.question.answer.length - 1; i >= 0; i--) {
+		for (var j = elements.length - 1; j >= 0; j--) {
+			if(this.question.answer[i].code==$(elements[j]).val()){
+				$(elements[j]).prop("checked",true);
+			}
+			if(this.question.answer[i].code=="other"){
+				$(selector+" #input-other").val(this.question.answer[1].valueString);
+			}
+		}
+	}
+
 };
 
 

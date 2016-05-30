@@ -161,7 +161,7 @@ DZHK.quest.groupEnableExtension=function(selector,qAnswer,group,ext){
 	var conditionQuestion={};
 	var conditionAnswer={};
 
-	//TODO: for single conditional answer! for timebeing
+	//TODO: for single conditional answer! for now
 	for (var i = 0; i < ext.extension.length; i++) {
 		if(ext.extension[i].url=="question"){
 			conditionQuestion=ext.extension[i];
@@ -172,7 +172,6 @@ DZHK.quest.groupEnableExtension=function(selector,qAnswer,group,ext){
 
 	//if direct parent question
 	if(conditionQuestion.valueString==qAnswer.question.linkId){
-		
 		$("#"+self.getDashedGroupId(group.linkId)).hide();
 		//handling multiple listener for same question with different answer
 		qAnswer.conditionalEvents.push({
@@ -180,6 +179,11 @@ DZHK.quest.groupEnableExtension=function(selector,qAnswer,group,ext){
 			conditionQuestion:conditionQuestion,
 			conditionAnswer:conditionAnswer
 		});
+		//if its refilled?
+		if(qAnswer.question.answer && qAnswer.question.answer.length>0){
+			qAnswer.onChangeCallBack("",qAnswer.question.answer);
+		}
+		
 	}else{
 		//TODO: search already answered question!
 		console.warn("not implemented:enable when condition is in other group");
