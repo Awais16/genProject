@@ -342,7 +342,9 @@ DZHK.quest.initControl=function(){
 */
 DZHK.quest.groupFinished=function(group){
 	console.log("group finished event:"+ group.linkId);
-	this.saveQuestionnaireResposne();
+	if(group.question.length>1){
+		this.saveQuestionnaireResposne();
+	}
 };
 
 /**
