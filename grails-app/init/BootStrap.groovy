@@ -41,7 +41,7 @@ class BootStrap {
         def filePath = "resources/genome_questionnaire.json"
         def qJson = grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream().getText()
     	
-        def q=new Questionnaire(name:"DZHK v4",type: 0, data: ,identifier: "DZHK-OMICS-Studie-Fragebogen");
+        def q=new Questionnaire(name:"DZHK v4",type: 0, data:qJson ,identifier: "DZHK-OMICS-Studie-Fragebogen");
         q.save()
 
         def userQuestionnaire= new UserQuestionnaire(user:adminUser,questionnaire:q);

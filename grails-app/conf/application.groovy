@@ -10,6 +10,9 @@ grails.plugin.springsecurity.auth.loginFormUrl = '/'
 grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/dashboard/'
 grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/?error=Unable to login, please try again'
 
+grails.plugin.springsecurity.rejectIfNoRule = true
+grails.plugin.springsecurity.fii.rejectPublicInvocations = false
+
 // grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 // 	[pattern: '/',               access: ['permitAll']],
 // 	[pattern: '/error',          access: ['permitAll']],
@@ -49,16 +52,18 @@ grails.plugin.springsecurity.interceptUrlMap = [
    [pattern: '/logout/**',      access: ['permitAll']],
 
 	  [pattern: '/dashboard/**', access: ['IS_AUTHENTICATED_REMEMBERED']],
+
+    [pattern: '/questionnaire/home/**', access:['ROLE_PARTICIPANTS']],
+    [pattern: '/questionnaire/status/**', access:['ROLE_PARTICIPANTS']],
+    [pattern: '/questionnaire/fill/**', access:['ROLE_PARTICIPANTS']],
+    [pattern: '/questionnaireResponse/saveQR/**', access:['ROLE_PARTICIPANTS']],
+
     [pattern: '/questionnaire/**',  access: ['ROLE_ADMIN']],
     [pattern: '/userquestionnaire/**',  access: ['ROLE_ADMIN']],
     [pattern: '/questionnaireresponse/**',  access: ['ROLE_ADMIN']],
     [pattern: '/secuser/**',  access: ['ROLE_ADMIN']],
-    [pattern: '/dbconsole/**', access: ['ROLE_ADMIN']],
-
-    [pattern: '/questionnaire/home/**', access: ['ROLE_PARTICIPANTS']],
-    [pattern: '/questionnaire/status/**', access: ['ROLE_PARTICIPANTS']],
-    [pattern: '/questionnaire/fill/**', access: ['ROLE_PARTICIPANTS']],
-    [pattern: '/questionnaireResponse/saveQR/**', access: ['ROLE_PARTICIPANTS']]
+    [pattern: '/dbconsole/**', access: ['ROLE_ADMIN']]
+    
     /*'/person/*':         ['IS_AUTHENTICATED_REMEMBERED'],
     '/post/followAjax':  ['ROLE_USER'],
     '/post/addPostAjax': ['ROLE_USER', 'IS_AUTHENTICATED_FULLY'],
