@@ -120,6 +120,23 @@ DZHK.Answer.prototype.onChangeCallBack=function(type,answer){
 };
 
 
+DZHK.Answer.prototype.refill=function(selector){
+	if(this.question.answer){
+		if(this.question.answer instanceof Array ){
+			if(this.question.answer.length>0){
+				this.fillAnswer(selector);
+			}
+		}else{
+			this.fillAnswer(selector);
+		}
+	}
+};
+
+DZHK.Answer.prototype.fillAnswer=function(selector){
+	//subclass implementations!
+};
+
+
 /**
 * Sub classes for each specific type
 * TextAnswer will generate TextArea
@@ -143,6 +160,7 @@ DZHK.TextAnswer.prototype.generateUI=function(){
 DZHK.TextAnswer.prototype.render=function(selector){
 	var self=this;
 	$(selector).html(this.generateUI());
+	this.refill(selector);
 	var input=$(selector+" #"+getAnswerSelector()+" textarea");
 	$(input).change(function(){
 		self.question.answer={
@@ -151,6 +169,9 @@ DZHK.TextAnswer.prototype.render=function(selector){
 	});	
 };
 
+DZHK.TextAnswer.prototype.fillAnswer=function(selector){
+	$(selector+" #"+this.getAnswerSelector()+" textarea").text(this.question.answer.valueText);
+};
 
 DZHK.DateAnswer=function(question){
 	this.question=question;
@@ -172,6 +193,7 @@ DZHK.DateAnswer.prototype.generateUI=function(){
 DZHK.DateAnswer.prototype.render=function(selector){
 	var that=this;
 	$(selector).html(this.generateUI());
+	this.refill(selector);
 	var dateFormat='L'
 	//check extensions for only year input
 	if(this.question.extension){
@@ -196,6 +218,9 @@ DZHK.DateAnswer.prototype.render=function(selector){
 	});
 };
 
+DZHK.DateAnswer.prototype.fillAnswer=function(selector){
+	$(selector+" #"+this.getAnswerSelector()+" input").val(this.question.answer.valueDate);
+};
 
 
 DZHK.DateTimeAnswer=function(question){
@@ -218,20 +243,25 @@ DZHK.DateTimeAnswer.prototype.generateUI=function(){
 DZHK.DateTimeAnswer.prototype.render=function(selector){
 	var that=this;
 	$(selector).html(this.generateUI());
+	this.refill(selector);
 	//initiate datetimepicker
 	var answerDatePicker=$(selector+" #"+this.getAnswerSelector()).datetimepicker({
 		sideBySide:true,
-		locale: 'de' 
+		locale: 'de',
+		format:"MM.DD.YYYY HH:mm"
 	});
 
 	//save answer
 	$(answerDatePicker).on("dp.change",function(e){
 		that.question.answer={
-			"valueDateTime":e.date.format() //(ISO 8601)
+			"valueDateTime":e.date.format("MM.DD.YYYY HH:mm") //(ISO 8601)
 		}
 	});
 };
 
+DZHK.DateTimeAnswer.prototype.fillAnswer=function(selector){
+	$(selector+" #"+this.getAnswerSelector()+" input").val(this.question.answer.valueDateTime);
+};
 
 /**
 *	IntegerAnswer Class
@@ -253,12 +283,17 @@ DZHK.IntegerAnswer.prototype.generateUI=function(){
 DZHK.IntegerAnswer.prototype.render=function(selector){
 	var self=this;
 	$(selector).html(this.generateUI());
+	this.refill(selector);
 	var input=$(selector+" #"+this.getAnswerSelector()+" input");
 	$(input).change(function(){
 		self.question.answer={
 			"valueInteger":$(this).val()
 		}
 	});	
+};
+
+DZHK.IntegerAnswer.prototype.fillAnswer=function(selector){
+	$(selector+" #"+this.getAnswerSelector()+" input").val(this.question.answer.valueInteger);
 };
 
 /**
@@ -273,12 +308,18 @@ DZHK.StringAnswer.prototype.constructor=new DZHK.IntegerAnswer;
 DZHK.StringAnswer.prototype.render=function(selector){
 	var self=this;
 	$(selector).html(this.generateUI());
+	this.refill(selector);
 	var input=$(selector+" #"+this.getAnswerSelector()+" input");
 	$(input).change(function(){
 		self.question.answer={
 			"valueString":$(this).val()
 		}
 	});	
+};
+
+
+DZHK.StringAnswer.prototype.fillAnswer=function(selector){
+	$(selector+" #"+this.getAnswerSelector()+" input").val(this.question.answer.valueString);
 };
 
 
@@ -339,7 +380,9 @@ DZHK.ChoiceAnswer.prototype.generateUI=function(ext){
 DZHK.ChoiceAnswer.prototype.render=function(selector){
 	// have to check options
 	var self= this; 
-	this.question.answer=[];
+	if(!(this.question.answer instanceof Array)){
+		this.question.answer=[];
+	}
 
 	if(this.haveReferenceToValueSet()){
 		//rederWithReferred value
@@ -350,6 +393,7 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 		
 		if(ext.type){
 			$(selector).html(this.generateUI(ext));
+			this.refill(selector);
 			if(ext.type=="questionnaire-questionControl" && ext.code=="radio-button"){
 				$(selector+" #"+this.getAnswerSelector()+" input[type='radio']").iCheck({
 					radioClass: 'iradio_flat-blue'
@@ -357,6 +401,8 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 					//answer=this.value;
 					//store the answer;
 					var ans=this.value;
+
+					self.question.answer=[]; //one radiobutton at a time;
 					self.question.answer.push({
 						"code":ans,
 						"display":$(this).parent().parent().text().trim()
@@ -404,6 +450,7 @@ DZHK.ChoiceAnswer.prototype.renderWithRef=function(selector){
 			generatedHtml=this.generateUIWithValueSet(valueset.expansion.contains);
 		}
 		$(selector).html(generatedHtml);
+		this.refill(selector);
 
 		$(selector+" #"+this.getAnswerSelector()+" input[type='radio']").iCheck({
 		radioClass: 'iradio_flat-blue'
@@ -482,6 +529,21 @@ DZHK.ChoiceAnswer.prototype.onChangeCallBack=function(type,answer){
 
 DZHK.ChoiceAnswer.prototype.addListener=function(conditions){
 	conditionalEvents.push(conditions);
+};
+
+DZHK.ChoiceAnswer.prototype.fillAnswer=function(selector){
+	var elements=$(selector+" #"+this.getAnswerSelector()+" input");
+	//TODO: resume from here
+	for (var i = this.question.answer.length - 1; i >= 0; i--) {
+
+		for (var j = elements.length - 1; j >= 0; j--) {
+			if(this.question.answer[i].code===$(elements[j]).val()){
+				$(elements[j]).prop("checked",true);
+			}else{
+				$(elements[j]).prop("checked",false);
+			}
+		}
+	}
 };
 
 
