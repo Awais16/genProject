@@ -37,7 +37,7 @@ class BootStrap {
 		// new Requestmap(url: '/dashboard/**',    configAttribute: 'IS_AUTHENTICATED_REMEMBERED').save()
 
 
-        def filePath = "resources/genome_questionnaire.json"
+        def filePath = "resources/genome_questionnaire.min.json"
         def qJson = grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream().getText()
     	
         def q=new Questionnaire(name:"DZHK v4",type: 0, data:qJson ,identifier: "DZHK-OMICS-Studie-Fragebogen");

@@ -161,7 +161,7 @@ DZHK.TextAnswer.prototype.render=function(selector){
 	var self=this;
 	$(selector).html(this.generateUI());
 	this.refill(selector);
-	var input=$(selector+" #"+getAnswerSelector()+" textarea");
+	var input=$(selector+" #"+this.getAnswerSelector()+" textarea");
 	$(input).change(function(){
 		self.question.answer={
 			"valueText":$(this).val()
@@ -374,36 +374,32 @@ DZHK.ChoiceAnswer.prototype.generateUI=function(ext){
 	var html="";
 	if(ext.type=="questionnaire-questionControl"){
 		if(ext.code=="radio-button"){
-				html= "<div class='form-group' id='"+this.getAnswerSelector()+"'>";
+				html= "<div id='"+this.getAnswerSelector()+"'>";
 					for (var i = 0; i < this.question.option.length; i++) {
-						html+="<label ";
-						var br="";
+						html+="<div class='form-group'><label ";
 						if(ext.orientation=="horizontal"){
 							html+=" class='radio-inline' >";
 						}else{
-							html+=" >"
-							br="<br/>"
+							html+=" >";
 						}
 						html+="<input type='radio' name='iCheck' value='"+this.question.option[i].code+"'/> "+
 						this.question.option[i].display+
-						"</label>"+br;
+						"</label></div>";
 					}
 				html+="</div>";
 		}else if(ext.code=="check-box"){
 			//more or less same.
-			html= "<div class='form-group' id='"+this.getAnswerSelector()+"'>";
+			html= "<div id='"+this.getAnswerSelector()+"'>";
 					for (var i = 0; i < this.question.option.length; i++) {
-						html+="<label ";
-						var br="";
+						html+="<div class='form-group'><label ";
 						if(ext.orientation=="horizontal"){
 							html+=" class='radio-inline' >";
 						}else{
-							html+=" >"
-							br="<br/>"
+							html+=" >";
 						}
 						html+="<input type='checkbox' name='iCheck' value='"+this.question.option[i].code+"'/> "+
 						this.question.option[i].display+
-						"</label>"+br;
+						"</label></div>";
 					}
 				html+="</div>";
 
