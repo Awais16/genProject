@@ -10,8 +10,8 @@ grails.plugin.springsecurity.auth.loginFormUrl = '/'
 grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/dashboard/'
 grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/?error=Unable to login, please try again'
 
-grails.plugin.springsecurity.rejectIfNoRule = true
-grails.plugin.springsecurity.fii.rejectPublicInvocations = false
+// grails.plugin.springsecurity.rejectIfNoRule = true
+// grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 
 // grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 // 	[pattern: '/',               access: ['permitAll']],

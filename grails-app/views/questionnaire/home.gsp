@@ -1,3 +1,7 @@
+<%@ page import="com.ikmb.QuestionnaireService" %>
+<%
+    def questionnaireService = grailsApplication.classLoader.loadClass('com.ikmb.QuestionnaireService').newInstance()
+%>
 <html>
 	<head>
 		<title>Questionnaires</title>
@@ -27,7 +31,7 @@
 							<g:each in="${questionnaires}" var="q">
 								<tr>
 									<td>${q.questionnaire.name}</td>
-									<td> -- </td>
+									<td> %{-- ${questionnaireService.getUserQuestionnaireResponse(q.questionnaire.id)}  --}%</td>
 									<td><a class="label label-success" href="<g:createLink action='status' id='${q.questionnaire.id}'></g:createLink>">details</a></td>
 									<td>${q.dateCreated}</td>
 								</tr>

@@ -51,19 +51,11 @@
 	    		def userQuestionnaire=UserQuestionnaire.findById(userQuestionnaireId)
 	    		//println userQuestionnaire as JSON
 	    		def ret= QuestionnaireResponse.findByUserQuestionnaire(userQuestionnaire)
-	    		if (!ret) {
-					    ret.errors.each {
-					        println it
-						}
-				return "Error"
-				}else{
-					return ret
-				}
+	    		return ret;
 	    	}
 		}
 
-		def saveQuestionnaireResponse(QuestionnaireResponse qr){
-			
+		def saveQuestionnaireResponse(QuestionnaireResponse qr){			
 			def user = springSecurityService.isLoggedIn() ?
 	            springSecurityService.loadCurrentUser() :
 	            null

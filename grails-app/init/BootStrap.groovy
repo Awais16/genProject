@@ -34,7 +34,6 @@ class BootStrap {
 	 //      '/logout', '/logout.*', '/logout/*']) {
 	 //   		new Requestmap(url: url, configAttribute: 'permitAll').save()
 		// }
-
 		// new Requestmap(url: '/dashboard/**',    configAttribute: 'IS_AUTHENTICATED_REMEMBERED').save()
 
 
