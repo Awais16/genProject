@@ -69,5 +69,16 @@
 					</div>
 				</div>
 			</div>
+			<script type="text/javascript" charset="utf-8">
+
+					//on ready
+					$(function() {
+						//making it more discriptive
+						$(".moment-since").each(function(index,element){
+							$(this).text(moment($(this).text()).fromNow());
+						});
+					});
+				</script>
+
 		</body>
 	</html>
