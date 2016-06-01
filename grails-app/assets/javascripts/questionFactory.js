@@ -382,7 +382,7 @@ DZHK.ChoiceAnswer.prototype.generateUI=function(ext){
 						}else{
 							html+=" >";
 						}
-						html+="<input type='radio' name='iCheck' value='"+this.question.option[i].code+"'/> "+
+						html+="<input type='radio' name='"+this.getAnswerSelector()+"-radio' value='"+this.question.option[i].code+"'/> "+
 						this.question.option[i].display+
 						"</label></div>";
 					}
@@ -520,7 +520,7 @@ DZHK.ChoiceAnswer.prototype.generateUIWithValueSet=function(codingArray){
 		htmlString="<div id='"+this.getAnswerSelector()+"'>";
 	}
 	for (var i = 0; i < codingArray.length; i++) {
-		htmlString+="<div class='form-group'><label><input type='radio' name='iCheck' value='"+codingArray[i].code+"'/> "+codingArray[i].display+"</label></div>";
+		htmlString+="<div class='form-group'><label><input type='radio' name='"+this.getAnswerSelector()+"-radio' value='"+codingArray[i].code+"'/> "+codingArray[i].display+"</label></div>";
 	}
 	if(codingArray.length>0){
 		htmlString+="</div>";
@@ -549,11 +549,13 @@ DZHK.ChoiceAnswer.prototype.conditionalEvents=[];
 DZHK.ChoiceAnswer.prototype.onChangeCallBack=function(type,answer){
 	for (var i = this.conditionalEvents.length - 1; i >= 0; i--) {
 		var c=this.conditionalEvents[i];
-		if(true|| type=="radio-button"){ //for now its true
-			if(c.conditionAnswer.valueCoding.code==answer[0].code){
-				$(c.groupSelector).slideDown();
-			}else{
-				$(c.groupSelector).slideUp();
+		if(this.question.linkId==c.conditionQuestion.valueString){
+			if(true|| type=="radio-button"){ //for now its true
+				if(c.conditionAnswer.valueCoding.code==answer[0].code){
+					$(c.groupSelector).slideDown();
+				}else{
+					$(c.groupSelector).slideUp();
+				}
 			}
 		}
 	}

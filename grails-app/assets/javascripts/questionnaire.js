@@ -253,7 +253,7 @@ DZHK.quest.onSuccessfullSave=function(data){
 	setTimeout(function(){
 		$("#modal-save").removeClass("modal-success");
 		$('#modal-save').modal('hide');
-	},1500);
+	},1000);
 };
 
 DZHK.quest.onSaveFailed=function(data){

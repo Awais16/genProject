@@ -36,7 +36,7 @@ class BootStrap {
 		// }
 		// new Requestmap(url: '/dashboard/**',    configAttribute: 'IS_AUTHENTICATED_REMEMBERED').save()
 
-/*        def q1FilePath= "resources/genome_motivation_questionnaire.min.json"
+        def q1FilePath= "resources/genome_motivation_questionnaire.min.json"
         def q2FilePath = "resources/genome_questionnaire.min.json"
         
         def q1Json = grailsApplication.getParentContext().getResource("classpath:$q1FilePath").getInputStream().getText()
@@ -53,7 +53,7 @@ class BootStrap {
         userQuestionnaire.save()
         userQuestionnaire= new UserQuestionnaire(user:adminUser,questionnaire:q2);
         userQuestionnaire.save()
-*/
+
         //load users
         def filePath= "resources/DIfE-Zugangscodes.csv"
         def userData=grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream()
@@ -65,10 +65,10 @@ class BootStrap {
             SecUserSecRole.create pUser, participantRole
 
             //assign them above questionnaire
-            /*userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q1);
+            userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q1);
             userQuestionnaire.save()
             userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q2);
-            userQuestionnaire.save()*/
+            userQuestionnaire.save()
 
         }
 
