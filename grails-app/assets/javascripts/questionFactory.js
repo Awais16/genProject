@@ -208,7 +208,8 @@ DZHK.DateAnswer.prototype.render=function(selector){
 
 	var answerDatePicker=$(selector+" #"+that.getAnswerSelector()).datetimepicker({
 		locale: 'de',
-		format: dateFormat
+		format: dateFormat,
+		viewMode:'years'
 	});
 
 	//save answer
@@ -465,7 +466,8 @@ DZHK.ChoiceAnswer.prototype.render=function(selector){
 				});
 			}
 		}else{
-			//console.error("unsupported type!");
+			console.error("unsupported extension type!");
+			$(selector).html("");
 		}
 	}
 
@@ -781,7 +783,7 @@ DZHK.AnswerFactory.prototype.createAnswerClass=function(question){
 			this.answerClass=DZHK.ChoiceAnswer;
 			break;
 		case "open-choice":
-			this.answerClass=DZHK.OpenChoiceAnswer;
+			this.answerClass=DZHK.ChoiceAnswer;
 			break;
 		case "time":
 			this.answerClass=DZHK.TimeAnswer;

@@ -214,6 +214,11 @@ DZHK.quest.renderSubGroupQuestions=function(selector,group){
 
 		$(selector).append(qHtml);
 		qAnswer.render(selector+" #"+qAnswer.getAnswerSelector());
+
+		 if(qAnswer.haveSubGroup()){
+		 	this.processGroups("#"+qAnswer.getAnswerSelector(),qAnswer,qAnswer.question.group);
+		 }
+
 	}
 
 };
