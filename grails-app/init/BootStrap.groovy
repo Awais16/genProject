@@ -27,27 +27,35 @@ class BootStrap {
     	//if request map is enabled in application.groovy
     	//initalizing security requestmap rules
   	
-  	 //   	for (String url in [
-	 //      '/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown',
-	 //      '/assets/**', '/**/js/**', '/**/css/**', '/**/images/**',
-	 //      '/login', '/login.*', '/login/*',
-	 //      '/logout', '/logout.*', '/logout/*']) {
-	 //   		new Requestmap(url: url, configAttribute: 'permitAll').save()
+      	//   	for (String url in [
+    	//      '/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown',
+    	//      '/assets/**', '/**/js/**', '/**/css/**', '/**/images/**',
+    	//      '/login', '/login.*', '/login/*',
+    	//      '/logout', '/logout.*', '/logout/*']) {
+    	//   		new Requestmap(url: url, configAttribute: 'permitAll').save()
 		// }
 		// new Requestmap(url: '/dashboard/**',    configAttribute: 'IS_AUTHENTICATED_REMEMBERED').save()
 
+        def q1FilePath= "resources/genome_motivation_questionnaire.min.json"
+        def q2FilePath = "resources/genome_questionnaire.min.json"
+        
+        def q1Json = grailsApplication.getParentContext().getResource("classpath:$q1FilePath").getInputStream().getText()
+        def q2Json = grailsApplication.getParentContext().getResource("classpath:$q2FilePath").getInputStream().getText()
 
-        def filePath = "resources/genome_questionnaire.min.json"
-        def qJson = grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream().getText()
+        def q1=new Questionnaire(name:"Motiviation Questionnaire",type: 0, data:q1Json ,identifier: "Motiviation questionnaire")
+        q1.save()
     	
-        def q=new Questionnaire(name:"DZHK v4",type: 0, data:qJson ,identifier: "DZHK-OMICS-Studie-Fragebogen");
-        q.save()
+        def q2=new Questionnaire(name:"DZHK-OMICS-Studie-Fragebogen",type: 0, data:q2Json ,identifier: "DZHK-OMICS-Studie-Fragebogen")
+        q2.save()
 
-        def userQuestionnaire= new UserQuestionnaire(user:adminUser,questionnaire:q);
+        //add it for admin
+        def userQuestionnaire= new UserQuestionnaire(user:adminUser,questionnaire:q1);
+        userQuestionnaire.save()
+        userQuestionnaire= new UserQuestionnaire(user:adminUser,questionnaire:q2);
         userQuestionnaire.save()
 
         //load users
-        filePath= "resources/DIfE-Zugangscodes.csv"
+        def filePath= "resources/DIfE-Zugangscodes.csv"
         def userData=grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream()
         userData.eachCsvLine { tokens -> 
         
@@ -57,8 +65,11 @@ class BootStrap {
             SecUserSecRole.create pUser, participantRole
 
             //assign them above questionnaire
-            userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q);
+            userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q1);
             userQuestionnaire.save()
+            userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q2);
+            userQuestionnaire.save()
+
         }
 
         //flushing all ?
