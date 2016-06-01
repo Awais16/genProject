@@ -18,28 +18,36 @@
 					<div class="float_clear"></div>
 					
 				<div class="box-body">
-					Overview of questionniare goes here
 
+					<g:if test="${questionnaires.size()>0}">
+
+					<br/>
 					<table class="table table-striped table-hover">
 						<tbody>
 							<tr>
 								<th> Name </th>
-								<th> Status</th>
-								<th></th>
-								<th> Created </th>
+								<th> Available Since </th>
+								<th> </th>
 							</tr>
 							<g:each in="${questionnaires}" var="q">
 								<tr>
 									<td>${q.questionnaire.name}</td>
-									<td> %{-- ${questionnaireService.getUserQuestionnaireResponse(q.questionnaire.id)}  --}%</td>
-									<td><a class="label label-success" href="<g:createLink action='status' id='${q.questionnaire.id}'></g:createLink>">details</a></td>
-									<td>${q.dateCreated}</td>
+									<td class='moment-since'>${q.dateCreated}</td>
+									<td>
+										<a class="btn btn-primary" href="<g:createLink action='status' id='${q.questionnaire.id}'></g:createLink>">details</a>
+									</td>
 								</tr>
 							</g:each>
 
 						</tbody>
 					</table>
-					
+					</g:if>
+					<g:else>
+						<p>
+						In den nächsten Tagen werden hier die Fragebögen für Sie erscheinen. Den Link zum Ernährungsfragebogen finden Sie oben in der Navigationsleiste.
+						</p>
+
+					</g:else>					
 				</div>
 				<!-- /.box-body -->
 			</div>
@@ -53,7 +61,7 @@
 							<h4 class="modal-title" id="myModalLabel">Help <i class="fa fa-question"></i></h4>
 						</div>
 						<div class="modal-body">
-							Help information goes here
+							List of questionnaires that you can fill will be available here.
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

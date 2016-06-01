@@ -15,16 +15,16 @@ class BootStrap {
     	def participantRole = new SecRole('ROLE_PARTICIPANTS').save()
     	def staffRole = new SecRole('ROLE_STAFF').save()
 
-		def adminUser = new SecUser('admin', 'admin').save()
-		def staffUser = new SecUser('staff', 'staff').save()
-		def participantUser = new SecUser('user', 'user').save()
+		def adminUser = new SecUser('admin', 'admin-ikmb786').save()
+		//def staffUser = new SecUser('staff', 'staff').save()
+		def participantUser = new SecUser('user', 'user-ikmb453').save()
 
 		SecUserSecRole.create adminUser, adminRole
-		SecUserSecRole.create staffUser, staffRole
+		//SecUserSecRole.create staffUser, staffRole
 		SecUserSecRole.create participantUser, participantRole
 		
-
-    	//if request map is enabled in application.groovy
+    	
+        //if request map is enabled in application.groovy
     	//initalizing security requestmap rules
   	
       	//   	for (String url in [
@@ -36,7 +36,7 @@ class BootStrap {
 		// }
 		// new Requestmap(url: '/dashboard/**',    configAttribute: 'IS_AUTHENTICATED_REMEMBERED').save()
 
-        def q1FilePath= "resources/genome_motivation_questionnaire.min.json"
+/*        def q1FilePath= "resources/genome_motivation_questionnaire.min.json"
         def q2FilePath = "resources/genome_questionnaire.min.json"
         
         def q1Json = grailsApplication.getParentContext().getResource("classpath:$q1FilePath").getInputStream().getText()
@@ -53,7 +53,7 @@ class BootStrap {
         userQuestionnaire.save()
         userQuestionnaire= new UserQuestionnaire(user:adminUser,questionnaire:q2);
         userQuestionnaire.save()
-
+*/
         //load users
         def filePath= "resources/DIfE-Zugangscodes.csv"
         def userData=grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream()
@@ -65,10 +65,10 @@ class BootStrap {
             SecUserSecRole.create pUser, participantRole
 
             //assign them above questionnaire
-            userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q1);
+            /*userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q1);
             userQuestionnaire.save()
             userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q2);
-            userQuestionnaire.save()
+            userQuestionnaire.save()*/
 
         }
 

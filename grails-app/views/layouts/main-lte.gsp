@@ -73,7 +73,7 @@
       <div class="container">
 
         <div class="navbar-header">
-          <a href="#" class="navbar-brand"><b>IKMB</b> GNOME PROJECT</a>
+          <a href="${createLink(uri:'/dashboard')}" class="navbar-brand"><b>IKMB</b> GNOME PROJECT</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
@@ -84,13 +84,18 @@
 
         <ul class="nav navbar-nav">
             <li>
-                <a href="${createLink(uri:'/questionnaire/home')}">
+                <a href="${createLink(uri:'/questionnaire/home')}" >
                     <i class="fa fa-file-text-o margin-r-5"></i> Questionnaire
                 </a>
             </li>
             <li>
-                <a  href="${createLink(uri:'/appointments/')}">
+                <a  href="https://recruitment.ikmb.uni-kiel.de/appointment/" target="_blank">
                     <i class="fa fa-plus margin-r-5"></i> Appointments
+                </a>
+            </li>
+            <li>
+                <a  href="https://sms.dife.de/" target="_blank">
+                    <i class="fa fa-cutlery margin-r-5"></i> Ernährungsfragebogen DIfE
                 </a>
             </li>
         </ul>
