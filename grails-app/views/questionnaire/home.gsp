@@ -20,33 +20,31 @@
 				<div class="box-body">
 
 					<g:if test="${questionnaires.size()>0}">
-
-					<br/>
-					<table class="table table-striped table-hover">
-						<tbody>
-							<tr>
-								<th> Name </th>
-								<th> Available Since </th>
-								<th> </th>
-							</tr>
-							<g:each in="${questionnaires}" var="q">
+						<br/>
+						<table class="table table-striped table-hover">
+							<tbody>
 								<tr>
-									<td>${q.questionnaire.name}</td>
-									<td class='moment-since'>${q.dateCreated}</td>
-									<td>
-										<a class="btn btn-primary" href="<g:createLink action='status' id='${q.questionnaire.id}'></g:createLink>">details</a>
-									</td>
+									<th> Name </th>
+									<th> Available Since </th>
+									<th> </th>
 								</tr>
-							</g:each>
+								<g:each in="${questionnaires}" var="q">
+									<tr>
+										<td>${q.questionnaire.name}</td>
+										<td class='moment-since'>${q.dateCreated}</td>
+										<td>
+											<a class="btn btn-primary" href="<g:createLink action='status' id='${q.questionnaire.id}'></g:createLink>">details</a>
+										</td>
+									</tr>
+								</g:each>
 
-						</tbody>
-					</table>
+							</tbody>
+						</table>
 					</g:if>
 					<g:else>
 						<p>
 						In den nächsten Tagen werden hier die Fragebögen für Sie erscheinen. Den Link zum Ernährungsfragebogen finden Sie oben in der Navigationsleiste.
 						</p>
-
 					</g:else>					
 				</div>
 				<!-- /.box-body -->

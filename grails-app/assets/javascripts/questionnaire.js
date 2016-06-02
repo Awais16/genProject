@@ -233,7 +233,7 @@ DZHK.quest.makeAjaxRequestion=function(){
 	$.ajax({
 		method:"POST",
 		url:DZHK.QUESTIONNAIRE_SAVE_URL,
-		data:{id:DZHK.QUESTIONNAIRE_RESPONSE_ID,data:JSON.stringify(DZHK.QUESTIONNAIRE_RESPONSE_DATA),"userQuestionnaire.id":DZHK.USER_QUESTIONNAIRE_ID,status:"0"}
+		data:{id:DZHK.QUESTIONNAIRE_RESPONSE_ID,data:JSON.stringify(DZHK.QUESTIONNAIRE_RESPONSE_DATA),"userQuestionnaire.id":DZHK.USER_QUESTIONNAIRE_ID,status:"1",resumeFromGroup:self.currentGroup}
 	})
 	.done(function(data){
 		console.log(data);

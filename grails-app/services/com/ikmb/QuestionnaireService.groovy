@@ -55,6 +55,15 @@
 	    	}
 		}
 
+		def getUserQuestionnaireStatus(String userQuestionnaireId){
+			def uqResponse=getUserQuestionnaireResponse(userQuestionnaireId);
+			if(uqResponse){
+				return [status: true, UQResponse:uqResponse]
+			}else{
+				return [status: false, error:"response not found"]
+			}
+		}
+
 		def saveQuestionnaireResponse(QuestionnaireResponse qr){			
 			def user = springSecurityService.isLoggedIn() ?
 	            springSecurityService.loadCurrentUser() :

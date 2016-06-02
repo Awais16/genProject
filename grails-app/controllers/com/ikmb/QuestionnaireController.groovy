@@ -122,30 +122,41 @@ class QuestionnaireController {
         // flash.message="questionnaire status goes here"
         // flash.type="alert-success"
         // flash.title="Questionnaire Status"
-        if(!questionnaireService.haveAccessToQuestionnaire(params.id)){
+        if(!params.id || !questionnaireService.haveAccessToQuestionnaire(params.id)){
             flash.message="You don't have access to that questionnaire"
             flash.type="alert-warning"
             flash.title="No Access"
-         
             redirect(controller:"questionnaire",action:"home")
+            return
         }
-        render(view: "status",model:[qid:params.id]);
+        //render(view: "status",model:[qid:params.id]);
+        def userQuestionnaire=questionnaireService.getUserQuestionnaireById(params.id)
+        def uqStatus=questionnaireService.getUserQuestionnaireStatus(params.id)
+        def q=[uqResponse:uqStatus,userQuestionnaire:userQuestionnaire]
+        //render q as JSON
+        render(view:"status",model:[qid:params.id,uqResponse:uqStatus,userQuestionnaire:userQuestionnaire])
     }
     
 
     def fill(){
-        def uq=questionnaireService.getUserQuestionnaireById(params.id)
-        if(!uq){
-            flash.message="You don't have access to that questionnaire"
+
+        if(!params.id){
+            flash.message="Unable to get the specified questionnaire"
             flash.type="alert-warning"
             flash.title="No Access"
-         
             redirect(controller:"questionnaire",action:"home")
+        }else{
+            def uq=questionnaireService.getUserQuestionnaireById(params.id)
+            if(!uq){
+                flash.message="You don't have access to that questionnaire"
+                flash.type="alert-warning"
+                flash.title="No Access"
+                redirect(controller:"questionnaire",action:"home")
+            }
+            println uq as JSON
+            //println questionnaire.data
+            render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])     
         }
-        //println uqr.questionnaire as JSON
-
-        //println questionnaire.data
-        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id]) 
     }
 
 }

@@ -7,21 +7,54 @@
 		<body>
 			<div class="box box-default" style="margin-top: 10px">
 				<div class="box-header with-border">
-					<h3 class="box-title">Questionnaire Status</h3>
+					<h3 class="box-title"><b>${userQuestionnaire.questionnaire.name}</b></h3>
 					<a class="questionnaire_help" data-toggle="modal" data-target="#myModal" href="#">
 						<i class="fa fa-question"> help</i>
 					</a>
 					<div class="float_clear"></div>
-					
 				<div class="box-body">
-					S tatus of the questionnaire if have access [user questionniares]
-					<br>
-					
-					T<br>
-					A<br>
-					T<br>
-					U<br>
-					S<br>
+					<div class="row">
+						<div class="col-md-10">
+							<table class="table table-hover">
+								<tr>
+									<th>Name</th>
+									<td>${userQuestionnaire.questionnaire.name}</td>
+								</tr>
+								<tr>
+									<th>identifier</th>
+									<td>${userQuestionnaire.questionnaire.identifier}</td>
+								</tr>
+								<tr>
+									<th>Available since</th>
+									<td class='moment-since'>${userQuestionnaire.dateCreated}</td>
+								</tr>
+								<tr>
+									<th>Status</th>
+									
+									<g:if test="${uqResponse.status==true}">
+										<g:if test="${uqResponse.UQResponse.status==0}">
+											<td>Not started yet</td>
+										</g:if>
+										<g:elseif test="${uqResponse.UQResponse.status==1}">
+											<td class='bg-gray'>in progress</td><td>last updated: <span class='moment-since '>${uqResponse.UQResponse.lastUpdated}</span></td>
+										</g:elseif>
+										<g:elseif test="${uqResponse.UQResponse.status==2}">
+											<td class='bg-aqua'>completed, not submitted</td><td>completed : <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
+										</g:elseif>
+										<g:elseif test="${uqResponse.UQResponse.status==3}">
+											<td class='bg-success'>submitted</td><td>submitted: <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
+										</g:elseif>
+									</g:if>
+									<g:else>
+										<td class='bg-warning'>Not started yet</td>
+									</g:else>
+								</tr>
+								<tr>
+									<td colspan="3">questonnaire group details here</td>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
