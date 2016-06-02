@@ -220,7 +220,6 @@ DZHK.quest.renderSubGroupQuestions=function(selector,group){
 		 }
 
 	}
-
 };
 
 DZHK.quest.saveQuestionnaireResposne=function(){

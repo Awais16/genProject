@@ -58,7 +58,26 @@
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
-					<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">FIll</a>
+					<g:if test="${uqResponse.status==true}">
+						<g:if test="${uqResponse.UQResponse.status==0}">
+							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Start Filling</a>
+						</g:if>
+						<g:elseif test="${uqResponse.UQResponse.status==1}">
+							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Resume</a>
+						</g:elseif>
+						<g:elseif test="${uqResponse.UQResponse.status==2}">
+							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Edit</a>
+							<a class="btn btn-success" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Submit</a>
+						</g:elseif>
+						<g:elseif test="${uqResponse.UQResponse.status==3}">
+							
+						</g:elseif>
+					</g:if>
+					<g:else>
+						<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Start Filling</a>
+					</g:else>
+
+					
 				</div>
 			</div>
 
