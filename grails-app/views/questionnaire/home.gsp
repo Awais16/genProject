@@ -33,7 +33,7 @@
 										<td>${q.questionnaire.name}</td>
 										<td class='moment-since'>${q.dateCreated}</td>
 										<td>
-											<a class="btn btn-primary" href="<g:createLink action='status' id='${q.questionnaire.id}'></g:createLink>">details</a>
+											<a class="btn btn-primary" href="<g:createLink action='status' id='${q.id}'></g:createLink>">details</a>
 										</td>
 									</tr>
 								</g:each>

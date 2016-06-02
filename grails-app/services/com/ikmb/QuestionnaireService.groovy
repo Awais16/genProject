@@ -18,24 +18,24 @@
 	        }
 		}
 
-		def getUserQuestionnaireById(String questionnaireId){
+		def getUserQuestionnaireById(String userQuestionnaireId){
 			def user = springSecurityService.isLoggedIn() ?
 	            springSecurityService.loadCurrentUser() :
 	            null
 	    	if (user) {
-	    		Questionnaire questionnaire= Questionnaire.findById(questionnaireId)
-	         	def userQuestionnaire= UserQuestionnaire.findByUserAndQuestionnaire(user,questionnaire)
+	    		//Questionnaire questionnaire= Questionnaire.findById(questionnaireId)
+	         	def userQuestionnaire= UserQuestionnaire.findByIdAndUser(userQuestionnaireId,user)
 	         	return userQuestionnaire
 	        }
 		}
 
-		def haveAccessToQuestionnaire(String questionnaireId){
+		def haveAccessToQuestionnaire(String userQuestionnaireId){
 			def user = springSecurityService.isLoggedIn() ?
 	            springSecurityService.loadCurrentUser() :
 	            null
 	    	if (user) {
-	    		Questionnaire questionnaire= Questionnaire.findById(questionnaireId)
-	         	def questionnaires= UserQuestionnaire.findAllByUserAndQuestionnaire(user,questionnaire)
+	    		//Questionnaire questionnaire= Questionnaire.findById(questionnaireId)
+	         	def questionnaires= UserQuestionnaire.findAllByIdAndUser(userQuestionnaireId,user)
 	         	if(questionnaires.size()>0){
 	         		return true
 	         	}
@@ -49,14 +49,13 @@
 	            null
 	    	if (user) {
 	    		def userQuestionnaire=UserQuestionnaire.findById(userQuestionnaireId)
-	    		//println userQuestionnaire as JSON
 	    		def ret= QuestionnaireResponse.findByUserQuestionnaire(userQuestionnaire)
 	    		return ret;
 	    	}
 		}
 
 		def getUserQuestionnaireStatus(String userQuestionnaireId){
-			def uqResponse=getUserQuestionnaireResponse(userQuestionnaireId);
+			def uqResponse=getUserQuestionnaireResponse(userQuestionnaireId)
 			if(uqResponse){
 				return [status: true, UQResponse:uqResponse]
 			}else{
@@ -70,8 +69,8 @@
 	            null
 	    	if (user && qr) {
 	    		//if have access to that userQuestionnaire. Valid for one copy of same quesionnaire for timebeing
-	    		def userQuestionnaire=UserQuestionnaire.findByIdAndUser(qr.userQuestionnaire.id,user);
-	    		def existingResponse= QuestionnaireResponse.findByUserQuestionnaire(userQuestionnaire);
+	    		def userQuestionnaire=UserQuestionnaire.findByIdAndUser(qr.userQuestionnaire.id,user)
+	    		def existingResponse= QuestionnaireResponse.findByUserQuestionnaire(userQuestionnaire)
 	    		
 	    		//check if already exists a response
 	    		if(existingResponse){

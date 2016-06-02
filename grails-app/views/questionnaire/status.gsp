@@ -67,10 +67,10 @@
 						</g:elseif>
 						<g:elseif test="${uqResponse.UQResponse.status==2}">
 							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Edit</a>
-							<a class="btn btn-success" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Submit</a>
+							<a class="btn btn-success" href="<g:createLink action='submit' id='${qid}'></g:createLink>">Submit</a>
 						</g:elseif>
 						<g:elseif test="${uqResponse.UQResponse.status==3}">
-							
+							%{-- this questionnaire is already submitted --}%
 						</g:elseif>
 					</g:if>
 					<g:else>

@@ -95,7 +95,7 @@ DZHK.quest.initQuestion=function(questions){
 };
 
 DZHK.quest.setQuestionText=function(question){
-	$(".question-text").text(question);
+	$(".question-text").html(question);
 };
 
 DZHK.quest.renderQuestion=function(question){
@@ -227,12 +227,12 @@ DZHK.quest.saveQuestionnaireResposne=function(){
 	$('#modal-save').modal('show');
 };
 
-DZHK.quest.makeAjaxRequestion=function(){
+DZHK.quest.makeAjaxRequest=function(status){
 	var self=this;
 	$.ajax({
 		method:"POST",
 		url:DZHK.QUESTIONNAIRE_SAVE_URL,
-		data:{id:DZHK.QUESTIONNAIRE_RESPONSE_ID,data:JSON.stringify(DZHK.QUESTIONNAIRE_RESPONSE_DATA),"userQuestionnaire.id":DZHK.USER_QUESTIONNAIRE_ID,status:"1",resumeFromGroup:self.currentGroup}
+		data:{id:DZHK.QUESTIONNAIRE_RESPONSE_ID,data:JSON.stringify(DZHK.QUESTIONNAIRE_RESPONSE_DATA),"userQuestionnaire.id":DZHK.USER_QUESTIONNAIRE_ID,status:status,resumeFromGroup:self.currentGroup}
 	})
 	.done(function(data){
 		console.log(data);
@@ -278,9 +278,8 @@ DZHK.quest.initSaveModal=function(){
 		//add spinner class ;)
 		$("#bt-modal-save i").addClass("fa-spin");
 		//change text;
-		self.makeAjaxRequestion(); //for the time being save it as
+		self.makeAjaxRequest("1"); //for the time being save it as
 	});
-
 };
 
 /**
@@ -357,6 +356,15 @@ DZHK.quest.groupFinished=function(group){
 */
 DZHK.quest.questionnaireFinished=function(){
 	//change status and save!
-	alert("Questionnaire Finished !!!");
+	alert("Questionnaire Finished !!! not submitted yet");
 	console.log(DZHK.QUESTIONNAIRE_RESPONSE_DATA);
+	this.makeAjaxRequest("2");
+};
+
+/**
+*when questionnaire is submitted right after
+*/
+
+DZHK.quest.submitQuestionnaireResponse=function(){
+	//change status in response and make ajax request to submit the questionnareResponse
 };

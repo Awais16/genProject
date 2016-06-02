@@ -42,7 +42,7 @@ class BootStrap {
         def q1Json = grailsApplication.getParentContext().getResource("classpath:$q1FilePath").getInputStream().getText()
         def q2Json = grailsApplication.getParentContext().getResource("classpath:$q2FilePath").getInputStream().getText()
 
-        def q1=new Questionnaire(name:"Motiviation Questionnaire",type: 0, data:q1Json ,identifier: "Motiviation questionnaire")
+        def q1=new Questionnaire(name:"Motivation Questionnaire",type: 0, data:q1Json ,identifier: "Motivation-questionnaire")
         q1.save()
     	
         def q2=new Questionnaire(name:"DZHK-OMICS-Studie-Fragebogen",type: 0, data:q2Json ,identifier: "DZHK-OMICS-Studie-Fragebogen")
