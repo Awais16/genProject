@@ -81,6 +81,26 @@
 					  </div><!-- /.modal-dialog -->
 					</div><!-- /.modal -->
 
+					<div class="modal fade" tabindex="-1" role="dialog" id="modal-submit">
+					  <div class="modal-dialog modal-sm">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title">Submit Questionnaire</h4>
+					      </div>
+					      <div class="modal-body">
+					        <p id="modal-submit-msg">Questionnaire is complete, you can submit now.(After submission you won't be able to edit it anymore)</p>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" id="bt-modal-submit-cancel">Submit Later</button>
+					        <button type="button" class="btn btn-primary" id="bt-modal-submit">
+							<i class="fa fa-cog fa-lg"></i>
+					        Submit</button>
+					      </div>
+					    </div><!-- /.modal-content -->
+					  </div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+
 				</div>
 				<script type="text/javascript" charset="utf-8">
 

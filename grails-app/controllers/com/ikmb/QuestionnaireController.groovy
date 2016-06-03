@@ -164,32 +164,38 @@ class QuestionnaireController {
             def uqStatus=questionnaireService.getUserQuestionnaireStatus(params.id)
 
             //check response status
+            println uqStatus.status
             if(uqStatus.status){
                 switch(uqStatus.UQResponse.status){
                     case 0:
                         //starting
-                        break;
+                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])
+                        break
                     case 1:
                         //resume from the group
-                        break;
+                        break
                     case 2:
                         //editing
-                        break;
+                        break
                     case 3:
                         //already submitted
-                        break;
+                        flash.message="You have already submitted that questionnaire."
+                        flash.type="alert-warning"
+                        flash.title="Already submitted"
+                        redirect(controller:"questionnaire",action:"home")
+                        break
                     default:
-
-                        break;
+                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])
+                        break
                 }
             }else{
                 //no response, starting from scratch
-
+                render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])
             }
 
             // println uq as JSON
             //println questionnaire.data
-            render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])     
+            //render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])     
         }
     }
 

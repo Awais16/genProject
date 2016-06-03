@@ -72,6 +72,12 @@
 	    		def userQuestionnaire=UserQuestionnaire.findByIdAndUser(qr.userQuestionnaire.id,user)
 	    		def existingResponse= QuestionnaireResponse.findByUserQuestionnaire(userQuestionnaire)
 	    		
+	    		
+	    		//already submitted can't edit anymore
+	    		if(existingResponse.status==3){ 
+	    			return [saved:false,error:" You have already submitted this questionnaire"]
+	    		}
+
 	    		//check if already exists a response
 	    		if(existingResponse){
 	    			//response for this userquestionnaire already exists

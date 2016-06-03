@@ -40,6 +40,7 @@ DZHK.quest.init=function(){
 
 	this.initControl();	
 	this.initSaveModal();
+	this.initSubmitModal();
 };
 
 //to set the progress title
@@ -227,7 +228,7 @@ DZHK.quest.saveQuestionnaireResposne=function(){
 	$('#modal-save').modal('show');
 };
 
-DZHK.quest.makeAjaxRequest=function(status){
+DZHK.quest.makeAjaxRequest=function(status,btSelector,selector){
 	var self=this;
 	$.ajax({
 		method:"POST",
@@ -236,33 +237,36 @@ DZHK.quest.makeAjaxRequest=function(status){
 	})
 	.done(function(data){
 		console.log(data);
-		$("#bt-modal-save i").removeClass("fa-spin");
+		$(btSelector+" i").removeClass("fa-spin"); //#bt-modal-save
 		if(data.saved){
-			self.onSuccessfullSave(data);
+			self.onSuccessfullSave(data,selector);
 		}
 		else{
-			self.onSaveFailed(data);
+			self.onSaveFailed(data,selector);
 		}
 	}).error(function(jqXHT,textStatus,errorThrown){
-		$("#bt-modal-save i").removeClass("fa-spin");
+		$(btSelector+" i").removeClass("fa-spin");
 		self.onSaveFailed({error:"Unable save please try again later."});
 	});
 
 };
 
-DZHK.quest.onSuccessfullSave=function(data){
+DZHK.quest.onSuccessfullSave=function(data,selector){
 	DZHK.QUESTIONNAIRE_RESPONSE_ID=data.questionnaireResponse.id;
-	$("#modal-save-msg").text("Questionnaire saved successfully...");
-	$("#modal-save").addClass("modal-success");
+	$(selector+"-msg").text("Questionnaire saved successfully...");
+	$(selector).addClass("modal-success");
 	setTimeout(function(){
-		$("#modal-save").removeClass("modal-success");
-		$('#modal-save').modal('hide');
+		$(selector).removeClass("modal-success");
+		$(selector).modal('hide');
+		if(data.questionnaireResponse.status==3){
+			window.location="/questionnaire/home"
+		}
 	},1000);
 };
 
-DZHK.quest.onSaveFailed=function(data){
-	$("#modal-save-msg").text(data.error);
-	$("#modal-save").addClass("modal-warning");
+DZHK.quest.onSaveFailed=function(data,selector){
+	$(selector+"-msg").text(data.error);
+	$(selector).addClass("modal-warning");
 };
 
 DZHK.quest.initSaveModal=function(){
@@ -278,7 +282,7 @@ DZHK.quest.initSaveModal=function(){
 		//add spinner class ;)
 		$("#bt-modal-save i").addClass("fa-spin");
 		//change text;
-		self.makeAjaxRequest("1"); //for the time being save it as
+		self.makeAjaxRequest("1","#bt-modal-save","#modal-save");
 	});
 };
 
@@ -356,9 +360,35 @@ DZHK.quest.groupFinished=function(group){
 */
 DZHK.quest.questionnaireFinished=function(){
 	//change status and save!
-	alert("Questionnaire Finished !!! not submitted yet");
-	console.log(DZHK.QUESTIONNAIRE_RESPONSE_DATA);
-	this.makeAjaxRequest("2");
+	//alert("Questionnaire Finished !!! not submitted yet");
+	//console.log(DZHK.QUESTIONNAIRE_RESPONSE_DATA);
+	//this.makeAjaxRequest("2");
+	$('#modal-submit').modal('show');
+};
+
+DZHK.quest.initSubmitModal=function(){
+	var self=this;
+	$('#modal-submit').modal({show:false}).on('hide.bs.modal',function(){
+		$("#bt-modal-submit i").removeClass("fa-spin");
+		$("#modal-submit").removeClass("modal-success");
+		$("#modal-submit").removeClass("modal-warning");
+	});
+
+	//add click save listner
+	$("#bt-modal-submit").click(function(){
+		//add spinner class ;)
+		$("#bt-modal-submit i").addClass("fa-spin");
+		//change text;
+		self.makeAjaxRequest("3","#bt-modal-submit","#modal-submit"); //for the time being save it as
+	});
+
+	$("#bt-modal-submit-cancel").click(function(){
+		//add spinner class ;)
+		$("#bt-modal-submit-cancel i").addClass("fa-spin");
+		//change text;
+		self.makeAjaxRequest("2","#bt-modal-submit","#modal-submit"); //for the time being save it as
+	});
+
 };
 
 /**
