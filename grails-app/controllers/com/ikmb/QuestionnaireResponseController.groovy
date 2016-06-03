@@ -113,8 +113,10 @@ class QuestionnaireResponseController {
         render "just a test dude!"
     }
 
-    def saveQR(QuestionnaireResponse questionnaireResponse){
-        def resp=questionnaireService.saveQuestionnaireResponse(questionnaireResponse);
+    def saveQR(){
+        //creating new unbinded object
+        QuestionnaireResponse qr= new QuestionnaireResponse(params);
+        def resp=questionnaireService.saveQuestionnaireResponse(qr);
         render resp as JSON
     }
 }

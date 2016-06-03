@@ -112,13 +112,30 @@
 					  DZHK.QUESTIONNAIRE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_DATA);
 					  
 					  //adding repsonse data
-					  DZHK.QUESTIONNAIRE_RESPONSE_DATA.questionnaire=DZHK.QUESTIONNAIRE_DATA.id;
-					  DZHK.QUESTIONNAIRE_RESPONSE_DATA.group=DZHK.QUESTIONNAIRE_DATA.group;
+					  DZHK.QUESTIONNAIRE_RESPONSE_DATA.questionnaire=DZHK.QUESTIONNAIRE_DATA.id; //identifier in json
 					  DZHK.QUESTIONNAIRE_SAVE_URL="<g:createLink controller='questionnaireResponse' action='saveQR' absolute='true'></g:createLink>";
 					  DZHK.USER_QUESTIONNAIRE_ID="${userQuestId}";
+
+					 	<g:if test="${resp}">
+					  		<g:if test="${resp.status==1}">
+					  			DZHK.QUESTIONNAIRE_RESPONSE_DATA="${resp.data}";
+					  			DZHK.QUESTIONNAIRE_RESPONSE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_RESPONSE_DATA.replace(/&quot;/g,'"'));
+					 			DZHK.quest.currentGroup=${resp.resumeFromGroup};
+					  		</g:if>
+					  		<g:if test="${resp.status==2}">
+					  			DZHK.QUESTIONNAIRE_RESPONSE_DATA="${resp.data}";
+					  			DZHK.QUESTIONNAIRE_RESPONSE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_RESPONSE_DATA.replace(/&quot;/g,'"'));
+					  		</g:if>
+						</g:if>
+						<g:else>
+							DZHK.quest.initResponseFromQuestionnaire();
+						</g:else>
+
+
 					  DZHK.quest.init();
 
 					});
 				</script>
+				
 			</body>
 		</html>

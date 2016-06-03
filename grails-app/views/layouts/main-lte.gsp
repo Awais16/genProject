@@ -33,10 +33,9 @@
     <![endif]-->
 
     <title>
-        <g:layoutTitle default="Gnome Project"/>
+        <g:layoutTitle default="Genome Project"/>
     </title>
 
-    
 <!-- jQuery 2.1.4 -->
     <asset:javascript src="plugins/jQuery/jQuery-2.1.4.min.js"/>
     <!-- Bootstrap 3.3.5 -->
@@ -72,7 +71,7 @@
       <div class="container">
 
         <div class="navbar-header">
-          <a href="${createLink(uri:'/dashboard')}" class="navbar-brand"><b>IKMB</b> GNOME PROJECT</a>
+          <a href="${createLink(uri:'/dashboard')}" class="navbar-brand"><b>IKMB</b> GENOME PROJECT</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>

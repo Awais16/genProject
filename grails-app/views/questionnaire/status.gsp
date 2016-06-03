@@ -30,7 +30,7 @@
 								</tr>
 								<tr>
 									<th>Status</th>
-									
+									%{-- change With switch --}%
 									<g:if test="${uqResponse.status==true}">
 										<g:if test="${uqResponse.UQResponse.status==0}">
 											<td>Not started yet</td>
@@ -58,6 +58,7 @@
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
+					%{-- change With switch --}%
 					<g:if test="${uqResponse.status==true}">
 						<g:if test="${uqResponse.UQResponse.status==0}">
 							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Start Filling</a>

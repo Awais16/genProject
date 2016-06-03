@@ -29,15 +29,18 @@ DZHK.quest.currentGroup=0;
 DZHK.quest.currentQuestion=0;
 DZHK.quest.factory={};
 
+
+DZHK.quest.initResponseFromQuestionnaire=function(){
+	var groupToCopy=$.extend(true,{},DZHK.QUESTIONNAIRE_DATA.group);
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.group=groupToCopy;
+};
+
 DZHK.quest.init=function(){
 	
 	this.factory= new DZHK.AnswerFactory(); //to generate AnwerTypes check QuestionFactory.js
 
 	//initialized with first group;
-	var groupToCopy=$.extend(true,{},DZHK.QUESTIONNAIRE_DATA.group);
-	DZHK.QUESTIONNAIRE_RESPONSE_DATA.group=groupToCopy;
 	this.initGroup();
-
 	this.initControl();	
 	this.initSaveModal();
 	this.initSubmitModal();
