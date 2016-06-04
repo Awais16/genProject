@@ -36,6 +36,7 @@ class BootStrap {
 		// }
 		// new Requestmap(url: '/dashboard/**',    configAttribute: 'IS_AUTHENTICATED_REMEMBERED').save()
 
+
         def q1FilePath= "resources/genome_motivation_questionnaire.min.json"
         def q2FilePath = "resources/genome_questionnaire.min.json"
         
@@ -65,6 +66,7 @@ class BootStrap {
             SecUserSecRole.create pUser, participantRole
 
             //assign them above questionnaire
+
             userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q1);
             userQuestionnaire.save()
             userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q2);

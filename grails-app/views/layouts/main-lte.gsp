@@ -23,7 +23,7 @@
     <asset:stylesheet src="dist/css/AdminLTE.min.css"/>
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <asset:stylesheet src="dist/css/skins/_all-skins.min.css"/>
+    <asset:stylesheet src="dist/css/skins/all-skins.min.css"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
