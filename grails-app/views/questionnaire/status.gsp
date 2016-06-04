@@ -72,7 +72,7 @@
 						</g:elseif>
 						<g:elseif test="${uqResponse.UQResponse.status==2}">
 							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>"><g:message code="ikmb.status.bt.edit"/></a>
-							<a class="btn btn-success" href="<g:createLink action='submit' id='${qid}'></g:createLink>"><g:message code="ikmb.status.bt.submit"/></a>
+							<a class="btn btn-success" href="#" id="bt-status-submit"><g:message code="ikmb.status.bt.submit"/></a>
 						</g:elseif>
 						<g:elseif test="${uqResponse.UQResponse.status==3}">
 							%{-- this questionnaire is already submitted --}%
@@ -118,6 +118,7 @@
 				  		DZHK.QUESTIONNAIRE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_DATA.replace(/&quot;/g,'"'));
 						DZHK.status.currentGroup=0;
 						<g:if test="${uqResponse.status}">
+							DZHK.status.resumeStatus=${uqResponse.UQResponse.status};
 				  			DZHK.QUESTIONNAIRE_RESPONSE_DATA="${uqResponse.UQResponse.data}";
 				  			DZHK.QUESTIONNAIRE_RESPONSE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_RESPONSE_DATA.replace(/&quot;/g,'"'));
 				 			DZHK.status.resumeFromGroup=${uqResponse.UQResponse.resumeFromGroup};

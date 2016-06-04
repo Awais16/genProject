@@ -123,7 +123,7 @@ class QuestionnaireController {
         // flash.type="alert-success"
         // flash.title="Questionnaire Status"
         if(!params.id){
-            flash.message=message(code:"ikmb.controller.questionnaireController.no-access-msg")
+            flash.message=message(code:"ikmb.controller.questionnaire.no-access-msg")
             flash.type="alert-warning"
             flash.title="No Access"
             redirect(controller:"questionnaire",action:"home")
@@ -136,7 +136,7 @@ class QuestionnaireController {
                 //render q as JSON
                 render(view:"status",model:[qid:params.id,uqResponse:uqStatus,userQuestionnaire:userQuestionnaire])
             }else{
-                flash.message=message(code:"ikmb.controller.questionnaireController.no-access-msg")
+                flash.message=message(code:"ikmb.controller.questionnaire.no-access-msg")
                 flash.type="alert-warning"
                 flash.title="No Access"
                 redirect(controller:"questionnaire",action:"home")
@@ -148,14 +148,14 @@ class QuestionnaireController {
 
     def fill(){
         if(!params.id){
-            flash.message=message(code:"ikmb.controller.questionnaireController.not-found-msg")
+            flash.message=message(code:"ikmb.controller.questionnaire.not-found-msg")
             flash.type="alert-warning"
             flash.title="No Access"
             redirect(controller:"questionnaire",action:"home")
         }else{
             def uq=questionnaireService.getUserQuestionnaireById(params.id)
             if(!uq){
-                flash.message=message(code:"ikmb.controller.questionnaireController.no-access-msg")
+                flash.message=message(code:"ikmb.controller.questionnaire.no-access-msg")
                 flash.type="alert-warning"
                 flash.title="No Access"
                 redirect(controller:"questionnaire",action:"home")
