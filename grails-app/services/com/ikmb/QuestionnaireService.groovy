@@ -77,7 +77,7 @@
 	    			
 	    			//already submitted can't edit anymore
 		    		if(existingResponse.status==3){ 
-		    			return [saved:false,error:" You have already submitted this questionnaire"]
+		    			return [saved:false,error:message(code:"ikmb.service.questionnaire.alread-submitted")]
 		    		}
 	    			//response for this userquestionnaire already exists
 	    			existingResponse.status=qr.status
@@ -94,15 +94,15 @@
 					    ret.errors.each {
 					        println it
 					    }
-					    return [saved:false,error:" Unable to save the response"]
+					    return [saved:false,error:message(code:"ikmb.service.questionnaire.response-not-saved")]
 					}else{
 						return [saved:true,questionnaireResponse:ret]
 					}
 	    		}else{
-	    			return [saved:false,error:" Unable to get this user questionnaire."]
+	    			return [saved:false,error:message(code:"ikmb.service.questionnaire.not-found")]
 	    		}
 	    	}else{
-	    		return [saved:false,error:" Unable to get this user questionnaire."]
+	    		return [saved:false,error:message(code:"ikmb.service.questionnaire.not-found")]
 	    	}
 		}
 

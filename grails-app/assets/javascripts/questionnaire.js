@@ -79,7 +79,7 @@ DZHK.quest.initGroup=function(){
 		this.initQuestion(groups[this.currentGroup].question);
 	}else{
 		//handle empty group
-		//TODO: Fix! group can have group or questions. question can have group
+		//TODO: Fix it later! group can have group or questions. question can have group
 	}
 	
 };
@@ -92,8 +92,8 @@ DZHK.quest.setGroup=function(group){
 
 //TODO: resume from here for direct condition on main question ie. group b/3
 DZHK.quest.initQuestion=function(questions){
-	//set progress
-	this.setProgressTitle("Group questions progress");
+	//disabling progress text
+	//this.setProgressTitle("Group questions progress");
 	this.setProgressNumber(this.currentQuestion+1,questions.length);
 	this.renderQuestion(questions[this.currentQuestion]);
 };

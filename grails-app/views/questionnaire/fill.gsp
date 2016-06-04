@@ -51,8 +51,8 @@
 				    	</div>
 				  </div><!-- /.box-body -->
 				  <div class="box-footer question-controls">
-				    	<button type="button" class="btn btn-primary btn-lg" id="bt-back">Previous</button>
-				    	<button type="button" class="btn btn-primary btn-lg" id="bt-next">Next</button>
+				    	<button type="button" class="btn btn-primary btn-lg" id="bt-back"><i class="fa fa-chevron-left" aria-hidden="true"></i>  <g:message code='ikmb.fill.bt.previous'/></button>
+				    	<button type="button" class="btn btn-primary btn-lg" id="bt-next"><g:message code='ikmb.fill.bt.next'/>  <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
 				  </div><!-- box-footer -->
 				</div><!-- /.box -->
 
@@ -132,7 +132,7 @@
 						</g:else>
 
 					  DZHK.quest.init();
-
+					  
 					});
 				</script>
 				

@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <asset:link rel="shortcut icon" href="favicon-ikmb.ico" type="image/x-icon"/>
   <title>Genomic Projects</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -50,12 +52,12 @@
     </g:if>
 
       <div class="form-group has-feedback">
-        <g:textField name="username" class="form-control" placeholder="username"/>
+        <g:textField name="username" class="form-control" placeholder="${message(code:'ikmb.login.username')}"/>
         %{-- <input type="email" class="form-control" placeholder="Email"> --}%
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <g:passwordField  name="password" class="form-control" placeholder="Password"/>
+        <g:passwordField  name="password" class="form-control" placeholder="${message(code:'ikmb.login.password')}"/>
         %{-- <input type="password" class="form-control" placeholder="Password"> --}%
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
