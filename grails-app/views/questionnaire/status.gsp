@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Questionnaires</title>
+		<title><g:message code="ikmb.main.Questionnaires"/></title>
 		<meta name="layout" content="main-lte" />
 		<asset:stylesheet src="questionnaire.css"/>
 		</head>
@@ -33,20 +33,20 @@
 									%{-- change With switch --}%
 									<g:if test="${uqResponse.status==true}">
 										<g:if test="${uqResponse.UQResponse.status==0}">
-											<td>Not started yet</td>
+											<td><g:message code="ikmb.status.not-yet-started"/></td>
 										</g:if>
 										<g:elseif test="${uqResponse.UQResponse.status==1}">
-											<td class='bg-gray'>in progress</td><td>last updated: <span class='moment-since '>${uqResponse.UQResponse.lastUpdated}</span></td>
+											<td class='bg-gray'><g:message code="ikmb.status.in-progress"/></td><td>last updated: <span class='moment-since '>${uqResponse.UQResponse.lastUpdated}</span></td>
 										</g:elseif>
 										<g:elseif test="${uqResponse.UQResponse.status==2}">
-											<td class='bg-aqua'>completed, not submitted</td><td>completed : <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
+											<td class='bg-aqua'><g:message code="ikmb.status.completed-not-submitted"/></td><td>completed : <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
 										</g:elseif>
 										<g:elseif test="${uqResponse.UQResponse.status==3}">
-											<td class='bg-success'>submitted</td><td>submitted: <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
+											<td class='bg-success'><g:message code="ikmb.status.submitted"/></td><td>submitted: <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
 										</g:elseif>
 									</g:if>
 									<g:else>
-										<td class='bg-warning'>Not started yet</td>
+										<td class='bg-warning'><g:message code="ikmb.status.not-yet-started"/></td>
 									</g:else>
 								</tr>
 								<tr>
@@ -61,24 +61,23 @@
 					%{-- change With switch --}%
 					<g:if test="${uqResponse.status==true}">
 						<g:if test="${uqResponse.UQResponse.status==0}">
-							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Start Filling</a>
+							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>"><g:message code="ikmb.status.bt.start-filling"/></a>
 						</g:if>
 						<g:elseif test="${uqResponse.UQResponse.status==1}">
-							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Resume</a>
+							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>"><g:message code="ikmb.status.bt.resume"/></a>
 						</g:elseif>
 						<g:elseif test="${uqResponse.UQResponse.status==2}">
-							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Edit</a>
-							<a class="btn btn-success" href="<g:createLink action='submit' id='${qid}'></g:createLink>">Submit</a>
+							<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>"><g:message code="ikmb.status.bt.edit"/></a>
+							<a class="btn btn-success" href="<g:createLink action='submit' id='${qid}'></g:createLink>"><g:message code="ikmb.status.bt.submit"/></a>
 						</g:elseif>
 						<g:elseif test="${uqResponse.UQResponse.status==3}">
 							%{-- this questionnaire is already submitted --}%
 						</g:elseif>
 					</g:if>
 					<g:else>
-						<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>">Start Filling</a>
+						<a class="btn btn-primary" href="<g:createLink action='fill' id='${qid}'></g:createLink>"><g:message code="ikmb.status.bt.start-filling"/></a>
 					</g:else>
 
-					
 				</div>
 			</div>
 
@@ -99,5 +98,16 @@
 					</div>
 				</div>
 			</div>
+
+			<script type="text/javascript" charset="utf-8">
+					//on ready
+					$(function() {
+						//making it more discriptive
+						$(".moment-since").each(function(index,element){
+							$(this).text(moment($(this).text()).fromNow());
+						});
+					});
+			</script>
+
 		</body>
 	</html>

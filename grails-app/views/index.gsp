@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +37,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg"><g:message code="ikmb.login.box.message"/></p>
    
    <form action='${request.contextPath }/login/authenticate' method="POST">
    
@@ -49,7 +48,6 @@
     <g:if test='${flash}'>
       <div class="alert alert-error login_message">${flash.message}</div>
     </g:if>
-
 
       <div class="form-group has-feedback">
         <g:textField name="username" class="form-control" placeholder="username"/>
@@ -65,7 +63,7 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox" name="remember-me" /> Remember Me
+              <input type="checkbox" name="remember-me" /> <g:message code="ikmb.login.remember-me"/>
             </label>
           </div>
         </div>

@@ -1,10 +1,6 @@
-<%@ page import="com.ikmb.QuestionnaireService" %>
-<%
-    def questionnaireService = grailsApplication.classLoader.loadClass('com.ikmb.QuestionnaireService').newInstance()
-%>
 <html>
 	<head>
-		<title>Questionnaires</title>
+		<title><g:message code="ikmb.main.Questionnaires"/></title>
 		<meta name="layout" content="main-lte" />
 		<asset:stylesheet src="questionnaire.css"/>
 		</head>
@@ -76,7 +72,7 @@
 							$(this).text(moment($(this).text()).fromNow());
 						});
 					});
-				</script>
+			</script>
 
 		</body>
 	</html>

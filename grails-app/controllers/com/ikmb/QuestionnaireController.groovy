@@ -172,12 +172,10 @@ class QuestionnaireController {
                         break
                     case 1:
                         //resume from the group
-                        println "resume from group"
                         render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,resp:uqStatus.UQResponse])
                         break
                     case 2:
                         //editing
-                        println "yes editing"
                         render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,resp:uqStatus.UQResponse])
                         break
                     case 3:
@@ -192,14 +190,10 @@ class QuestionnaireController {
                         break
                 }
             }else{
-                println "no response starting first time"
                 //no response, starting from scratch
                 render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])
             }
-
-            // println uq as JSON
-            //println questionnaire.data
-            //render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])     
+            
         }
     }
 

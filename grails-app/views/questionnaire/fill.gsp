@@ -131,7 +131,6 @@
 							DZHK.quest.initResponseFromQuestionnaire();
 						</g:else>
 
-
 					  DZHK.quest.init();
 
 					});

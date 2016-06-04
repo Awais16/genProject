@@ -83,17 +83,17 @@
         <ul class="nav navbar-nav">
             <li>
                 <a href="${createLink(uri:'/questionnaire/home')}" >
-                    <i class="fa fa-file-text-o margin-r-5"></i> Questionnaire
+                    <i class="fa fa-file-text-o margin-r-5"></i><g:message code="ikmb.navigation.questionnaire" />
                 </a>
             </li>
             <li>
                 <a  href="https://recruitment.ikmb.uni-kiel.de/appointment/" target="_blank">
-                    <i class="fa fa-plus margin-r-5"></i> Appointments
+                    <i class="fa fa-plus margin-r-5"></i><g:message code="ikmb.navigation.appointments" />
                 </a>
             </li>
             <li>
                 <a  href="https://sms.dife.de/" target="_blank">
-                    <i class="fa fa-cutlery margin-r-5"></i> Ernährungsfragebogen DIfE
+                    <i class="fa fa-cutlery margin-r-5"></i><g:message code="ikmb.navigation.nutrition-questionnaire-dife" />
                 </a>
             </li>
         </ul>
