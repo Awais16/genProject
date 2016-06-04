@@ -52,12 +52,12 @@
     </g:if>
 
       <div class="form-group has-feedback">
-        <g:textField name="username" class="form-control" placeholder="username"/>
+        <g:textField name="username" class="form-control" placeholder="${message(code:'ikmb.login.username')}"/>
         %{-- <input type="email" class="form-control" placeholder="Email"> --}%
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <g:passwordField  name="password" class="form-control" placeholder="Password"/>
+        <g:passwordField  name="password" class="form-control" placeholder="${message(code:'ikmb.login.password')}"/>
         %{-- <input type="password" class="form-control" placeholder="Password"> --}%
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>

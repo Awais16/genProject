@@ -3,6 +3,7 @@
 		<title><g:message code="ikmb.main.Questionnaires"/></title>
 		<meta name="layout" content="main-lte" />
 		<asset:stylesheet src="questionnaire.css"/>
+		<asset:javascript src="questionnaire-status.js"/>
 		</head>
 		<body>
 			<div class="box box-default" style="margin-top: 10px">
@@ -15,7 +16,7 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-10">
-							<table class="table table-hover">
+							<table class="table table-hover table-bordered">
 								<tr>
 									<th>Name</th>
 									<td>${userQuestionnaire.questionnaire.name}</td>
@@ -50,7 +51,10 @@
 									</g:else>
 								</tr>
 								<tr>
-									<td colspan="3">questonnaire group details here</td>
+									<td colspan="3"><h4 class='text-center'><b>Group Details</b></h4></td>
+								</tr>
+								<tr>
+									<td colspan="3" id="questionnaire-details"></td>
 								</tr>
 							</table>
 						</div>
@@ -90,7 +94,7 @@
 							<h4 class="modal-title" id="myModalLabel">Help <i class="fa fa-question"></i></h4>
 						</div>
 						<div class="modal-body">
-							Help information goes here
+							Page to show the status of the questionnaire
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -106,6 +110,21 @@
 						$(".moment-since").each(function(index,element){
 							$(this).text(moment($(this).text()).fromNow());
 						});
+
+						//get response and update the data in questionnaire resposne
+						//loop all the groups and name the text.
+
+						DZHK.QUESTIONNAIRE_DATA="${userQuestionnaire.questionnaire.data}";
+				  		DZHK.QUESTIONNAIRE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_DATA.replace(/&quot;/g,'"'));
+						DZHK.status.currentGroup=0;
+						<g:if test="${uqResponse.status}">
+				  			DZHK.QUESTIONNAIRE_RESPONSE_DATA="${uqResponse.UQResponse.data}";
+				  			DZHK.QUESTIONNAIRE_RESPONSE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_RESPONSE_DATA.replace(/&quot;/g,'"'));
+				 			DZHK.status.resumeFromGroup=${uqResponse.UQResponse.resumeFromGroup};
+						</g:if>
+
+						DZHK.status.init();
+
 					});
 			</script>
 

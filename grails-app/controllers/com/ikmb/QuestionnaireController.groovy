@@ -123,20 +123,20 @@ class QuestionnaireController {
         // flash.type="alert-success"
         // flash.title="Questionnaire Status"
         if(!params.id){
-            flash.message="You don't have access to that questionnaire"
+            flash.message=message(code:"ikmb.controller.questionnaireController.no-access-msg")
             flash.type="alert-warning"
             flash.title="No Access"
             redirect(controller:"questionnaire",action:"home")
             return
         }else{
             def userQuestionnaire=questionnaireService.getUserQuestionnaireById(params.id)
-            if(questionnaireService.haveAccessToQuestionnaire(params.id)){
+            if(userQuestionnaire){
                 def uqStatus=questionnaireService.getUserQuestionnaireStatus(params.id)
                 //def q=[uqResponse:uqStatus,userQuestionnaire:userQuestionnaire]
                 //render q as JSON
                 render(view:"status",model:[qid:params.id,uqResponse:uqStatus,userQuestionnaire:userQuestionnaire])
             }else{
-                flash.message="You don't have access to that questionnaire"
+                flash.message=message(code:"ikmb.controller.questionnaireController.no-access-msg")
                 flash.type="alert-warning"
                 flash.title="No Access"
                 redirect(controller:"questionnaire",action:"home")
@@ -148,14 +148,14 @@ class QuestionnaireController {
 
     def fill(){
         if(!params.id){
-            flash.message="Unable to get the specified questionnaire"
+            flash.message=message(code:"ikmb.controller.questionnaireController.not-found-msg")
             flash.type="alert-warning"
             flash.title="No Access"
             redirect(controller:"questionnaire",action:"home")
         }else{
             def uq=questionnaireService.getUserQuestionnaireById(params.id)
             if(!uq){
-                flash.message="You don't have access to that questionnaire"
+                flash.message=message(code:"ikmb.controller.questionnaireController.no-access-msg")
                 flash.type="alert-warning"
                 flash.title="No Access"
                 redirect(controller:"questionnaire",action:"home")
@@ -180,7 +180,7 @@ class QuestionnaireController {
                         break
                     case 3:
                         //already submitted
-                        flash.message="You have already submitted that questionnaire."
+                        flash.message=message(code:"ikmb.service.questionnaire.already-submitted")
                         flash.type="alert-warning"
                         flash.title="Already submitted"
                         redirect(controller:"questionnaire",action:"home")
