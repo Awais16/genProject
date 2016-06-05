@@ -13,9 +13,9 @@ DZHK.status.resumeFromGroup=0;
 DZHK.status.init=function(){
 
 	var self=this;
-	/*$("#bt-status-submit").click(function(){
+	$("#bt-status-submit").click(function(){
 		self.onSubmit();
-	});*/
+	});
 
 	//#questionnaire-details
 	if(DZHK.QUESTIONNAIRE_DATA.group && DZHK.QUESTIONNAIRE_DATA.group.group){
@@ -79,14 +79,18 @@ DZHK.status.onSubmit=function(){
 		console.log(data);
 		//$(btSelector+" i").removeClass("fa-spin"); //#bt-modal-save
 		if(data.saved){
-			self.onSuccessfullSave(data,selector);
+			DZHK.QUESTIONNAIRE_RESPONSE_ID=data.questionnaireResponse.id;
+			window.location="/questionnaire/status/"+DZHK.USER_QUESTIONNAIRE_ID;
 		}
 		else{
-			self.onSaveFailed(data,selector);
+			//display error and then hide it.
+			$("#alert-fail-msg").text(data.error);
+			$("#alert-fail").show();
 		}
 	}).error(function(jqXHT,textStatus,errorThrown){
-		//$(btSelector+" i").removeClass("fa-spin");
-		//self.onSaveFailed({error:"Unable save please try again later."});
+		//display error
+		$("#alert-fail-msg").text(errorThrown);
+		$("#alert-fail").show();
 	});
 
 };
