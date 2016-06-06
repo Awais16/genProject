@@ -16,7 +16,26 @@
 			        <small>Version 1.0</small>
 			      </h1>
 			    </section>
-				
+
+			    %{-- completed but not submitted yet i.e status==2 --}%
+			    <g:if test="${resp && resp.status==2}">
+
+				    <div id="popup-submit" class="alert alert-info alert-dismissible">
+				    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+	                	<h4>
+	                		<i class="icon fa fa-info"></i>
+	                		<g:message code="ikmb.fill.completed-not-submitted-dialog-header"/>
+	                	</h4>
+	                	<p id="popup-submit-msg"><g:message code="ikmb.fill.completed-not-submitted-dialog-msg"/></p>
+
+	                	<div>
+	                		<button class="btn btn-success" id="popup-bt-submit"><g:message code="ikmb.fill.completed-not-submitted-dialog-bt"/></button>
+	                	</div>
+	              	</div>
+
+	            </g:if>
+
 				<div class="box box-info" style="margin-top: 10px">
 					<div class="box-header with-border">
 						<h3 class="box-title group-title">Group#</h3>
@@ -40,6 +59,7 @@
 			            </div>
 					</div>
 				</div>
+
 
 				<div class="box box-solid box-primary first-box">
 				  <div class="box-header with-border">

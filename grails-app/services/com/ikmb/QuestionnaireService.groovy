@@ -1,5 +1,5 @@
 	package com.ikmb
-
+	import org.springframework.context.i18n.LocaleContextHolder as localeContextHolder
 	import grails.transaction.Transactional
 	import grails.converters.*
 
@@ -8,6 +8,7 @@
 	@Transactional
 	class QuestionnaireService {
 		def springSecurityService
+		def messageSource
 		
 		def getUserQuestionnaires(){
 			def user = springSecurityService.isLoggedIn() ?
@@ -77,7 +78,7 @@
 	    			
 	    			//already submitted can't edit anymore
 		    		if(existingResponse.status==3){ 
-		    			return [saved:false,error:message(code:"ikmb.service.questionnaire.alread-submitted")]
+		    			return [saved:false, error: messageSource.getMessage("ikmb.service.questionnaire.already-submitted",null,localeContextHolder.getLocale())]
 		    		}
 	    			//response for this userquestionnaire already exists
 	    			existingResponse.status=qr.status
@@ -94,15 +95,18 @@
 					    ret.errors.each {
 					        println it
 					    }
-					    return [saved:false,error:message(code:"ikmb.service.questionnaire.response-not-saved")]
+					    def err=messageSource.getMessage('ikmb.service.questionnaire.response-not-saved',null,localeContextHolder.getLocale())
+					    return [saved:false,error:err]
 					}else{
 						return [saved:true,questionnaireResponse:ret]
 					}
 	    		}else{
-	    			return [saved:false,error:message(code:"ikmb.service.questionnaire.not-found")]
+	    			def err=messageSource.getMessage('ikmb.service.questionnaire.response-not-saved',null,localeContextHolder.getLocale())
+	    			return [saved:false,error:err]
 	    		}
 	    	}else{
-	    		return [saved:false,error:message(code:"ikmb.service.questionnaire.not-found")]
+	    		def err=messageSource.getMessage('ikmb.service.questionnaire.response-not-saved',null,localeContextHolder.getLocale())
+	    		return [saved:false,error:err]
 	    	}
 		}
 

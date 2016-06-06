@@ -6,6 +6,15 @@
 		<asset:javascript src="questionnaire-status.js"/>
 		</head>
 		<body>
+			<br/>
+			<div>
+			<div class="alert alert-danger alert-dismissible" style="display:none;" id="alert-fail">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                <span id='alert-fail-msg'>Failed :(</span>
+              </div>
+
+             </div>
 			<div class="box box-default" style="margin-top: 10px">
 				<div class="box-header with-border">
 					<h3 class="box-title"><b>${userQuestionnaire.questionnaire.name}</b></h3>
@@ -123,6 +132,9 @@
 				  			DZHK.QUESTIONNAIRE_RESPONSE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_RESPONSE_DATA.replace(/&quot;/g,'"'));
 				 			DZHK.status.resumeFromGroup=${uqResponse.UQResponse.resumeFromGroup};
 						</g:if>
+
+						DZHK.QUESTIONNAIRE_SAVE_URL="<g:createLink controller='questionnaireResponse' action='saveQR' absolute='true'></g:createLink>";
+					  	DZHK.USER_QUESTIONNAIRE_ID="${userQuestionnaire.id}";
 
 						DZHK.status.init();
 

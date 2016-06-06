@@ -44,6 +44,7 @@ DZHK.quest.init=function(){
 	this.initControl();	
 	this.initSaveModal();
 	this.initSubmitModal();
+	this.initPopUpSubmitButton();
 };
 
 //to set the progress title
@@ -214,10 +215,10 @@ DZHK.quest.renderSubGroupQuestions=function(selector,group){
 		var qAnswer=this.factory.createAnswerClass(question);
 
 		var qHtml="<div class='row'><div row='col-md-5'><h4>"+question.text+"</h4></div>";
-		qHtml+="<div class='col-md-5' id='"+qAnswer.getAnswerSelector()+"'></div></div>";
+		qHtml+="<div class='col-md-5' id='"+qAnswer.getAnswerSelector()+"-sub'></div></div>";
 
 		$(selector).append(qHtml);
-		qAnswer.render(selector+" #"+qAnswer.getAnswerSelector());
+		qAnswer.render(selector+" #"+qAnswer.getAnswerSelector()+"-sub");
 
 		 if(qAnswer.haveSubGroup()){
 		 	this.processGroups("#"+qAnswer.getAnswerSelector(),qAnswer,qAnswer.question.group);
@@ -239,7 +240,7 @@ DZHK.quest.makeAjaxRequest=function(status,btSelector,selector){
 		data:{id:DZHK.QUESTIONNAIRE_RESPONSE_ID,data:JSON.stringify(DZHK.QUESTIONNAIRE_RESPONSE_DATA),"userQuestionnaire.id":DZHK.USER_QUESTIONNAIRE_ID,status:status,resumeFromGroup:self.currentGroup}
 	})
 	.done(function(data){
-		console.log(data);
+		//console.log(data);
 		$(btSelector+" i").removeClass("fa-spin"); //#bt-modal-save
 		if(data.saved){
 			self.onSuccessfullSave(data,selector);
@@ -391,8 +392,17 @@ DZHK.quest.initSubmitModal=function(){
 		//change text;
 		self.makeAjaxRequest("2","#bt-modal-submit","#modal-submit"); //for the time being save it as
 	});
-
 };
+
+// dialog-bt-submit
+DZHK.quest.initPopUpSubmitButton=function(){
+	var self=this;
+	$("#popup-bt-submit").click(function(){
+		self.makeAjaxRequest("3","#popup-bt-submit","#popup-submit");
+	});
+};
+
+
 
 /**
 *when questionnaire is submitted right after
