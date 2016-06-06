@@ -26,7 +26,7 @@
 								</tr>
 								<g:each in="${questionnaires}" var="q">
 									<tr>
-										<td>${q.questionnaire.name}</td>
+										<td><a href="<g:createLink action='status' id='${q.id}'></g:createLink>">${q.questionnaire.name}</a></td>
 										<td class='moment-since'>${q.dateCreated}</td>
 										<td>
 											<a class="btn btn-primary" href="<g:createLink action='status' id='${q.id}'></g:createLink>">details</a>

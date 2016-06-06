@@ -62,6 +62,8 @@
     <asset:javascript src="build/js/bootstrap-datetimepicker.min.js"/>
 
     <asset:javascript src="plugins/iCheck/icheck.min.js"/>
+
+    <asset:javascript src="main-ikmb.js"/>
     
      <g:layoutHead />
   </head>
@@ -94,7 +96,7 @@
                 </a>
             </li>
             <li>
-                <a  href="https://sms.dife.de/" target="_blank">
+                <a  href="#" data-toggle="modal" data-target="#modal-disclaimer">
                     <i class="fa fa-cutlery margin-r-5"></i><g:message code="ikmb.navigation.nutrition-questionnaire-dife" />
                 </a>
             </li>
@@ -112,29 +114,53 @@
     </nav>
     </header>
 
-<!-- Full Width Column -->
-<div class="content-wrapper">
-    <div class="container">
+    <!-- Full Width Column -->
+    <div class="content-wrapper">
+        <div class="container">
 
-<!-- 
-        displaing info,errors
-        flash.message="message detail"
-        flash.type="alert-info" // can be alert-danger,-info,-warning,-success
-        flash.title="Header text"
-        
-        -->
-        <g:if test="${flash.message}">
-        <div class="alert ${flash.type} alert-dismissible" style="margin-top:2px;">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-info"></i> ${flash.title}</h4>
-                ${flash.message}
+    <!-- 
+            displaing info,errors
+            flash.message="message detail"
+            flash.type="alert-info" // can be alert-danger,-info,-warning,-success
+            flash.title="Header text"
+            
+            -->
+            <g:if test="${flash.message}">
+            <div class="alert ${flash.type} alert-dismissible" style="margin-top:2px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-info"></i> ${flash.title}</h4>
+                    ${flash.message}
+            </div>
+            </g:if>
+            <g:layoutBody />
+
+
+            <div style="dispaly:none;">
+                %{-- html for save modal --}%
+                    <div class="modal fade" tabindex="-1" role="dialog" id="modal-disclaimer">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><i class="fa fa-exclamation-circle fa-lg text-warning" aria-hidden="true"></i> <g:message code="ikmb.main.disclaimer.title"/></h4>
+                          </div>
+                          <div class="modal-body">
+                            <p><g:message code="ikmb.main.disclaimer.msg"/></p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <a href='https://sms.dife.de/' target="_blank" class="btn btn-primary">
+                            <i class="fa fa-external-link fa-lg"></i>
+                            <g:message code="ikmb.main.disclaimer.bt-go"/></a>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+            <div>
         </div>
-        </g:if>
-        <g:layoutBody />
     </div>
-</div>
 
-</div>
+</div>  <!--wrapper-->
 
 
 
@@ -143,7 +169,7 @@
 
 <!-- adding javascripts -->
 
-<script>
+<script type="text/javascript" charset="utf-8">
   var AdminLTEOptions = {
     //Enable sidebar expand on hover effect for sidebar mini
     //This option is forced to true if both the fixed layout and sidebar mini
@@ -154,6 +180,14 @@
     //Bootstrap.js tooltip
     enableBSToppltip: true
   };
+
+
+  $(function() {
+
+    DZHK.init();
+
+  });
+
 </script>
     
 </body>

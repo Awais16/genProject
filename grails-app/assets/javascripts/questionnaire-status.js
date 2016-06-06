@@ -53,7 +53,7 @@ DZHK.status.fillGroupDetail=function(selector,group,index){
 	}else if(index==this.resumeFromGroup){
 		//resume from here
 		if(this.resumeStatus==3){
-			rowHtml+="<td>submitted</td>";
+			//rowHtml+="<td>submitted</td>";
 		}else{
 			rowHtml+="<td>resume</td>";
 		}
