@@ -60,7 +60,7 @@ DZHK.Answer.prototype.haveReferenceToValueSet=function(){
 	return false;
 }
 
-
+//clean this login
 DZHK.Answer.prototype.parseExtension=function(){
 	var self=this;
 	var ext={
@@ -136,6 +136,10 @@ DZHK.Answer.prototype.fillAnswer=function(selector){
 	//subclass implementations!
 };
 
+DZHK.Answer.prototype.replaceQuotes=function(val){
+	return val.replace(/["']/g, "");
+}
+
 
 /**
 * Sub classes for each specific type
@@ -164,7 +168,7 @@ DZHK.TextAnswer.prototype.render=function(selector){
 	var input=$(selector+" #"+this.getAnswerSelector()+" textarea");
 	$(input).change(function(){
 		self.question.answer={
-			"valueText":$(this).val()
+			"valueText":self.replaceQuotes($(this).val())
 		}
 	});	
 };
@@ -325,7 +329,7 @@ DZHK.IntegerAnswer.prototype.render=function(selector){
 	var input=$(selector+" #"+this.getAnswerSelector()+" input");
 	$(input).change(function(){
 		self.question.answer={
-			"valueInteger":$(this).val()
+			"valueInteger":self.replaceQuotes($(this).val())
 		}
 	});	
 };
@@ -350,7 +354,7 @@ DZHK.StringAnswer.prototype.render=function(selector){
 	var input=$(selector+" #"+this.getAnswerSelector()+" input");
 	$(input).change(function(){
 		self.question.answer={
-			"valueString":$(this).val()
+			"valueString":self.replaceQuotes($(this).val())
 		}
 	});	
 };
