@@ -112,7 +112,8 @@ class QuestionnaireResponseController {
     def test(){
         render "just a test dude!"
     }
-
+    
+    @Transactional
     def saveQR(){
         //creating new unbinded object
         QuestionnaireResponse qr= new QuestionnaireResponse(params);

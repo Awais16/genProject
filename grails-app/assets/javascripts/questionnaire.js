@@ -215,10 +215,10 @@ DZHK.quest.renderSubGroupQuestions=function(selector,group){
 		var qAnswer=this.factory.createAnswerClass(question);
 
 		var qHtml="<div class='row'><div row='col-md-5'><h4>"+question.text+"</h4></div>";
-		qHtml+="<div class='col-md-5' id='"+qAnswer.getAnswerSelector()+"'></div></div>";
+		qHtml+="<div class='col-md-5' id='"+qAnswer.getAnswerSelector()+"-sub'></div></div>";
 
 		$(selector).append(qHtml);
-		qAnswer.render(selector+" #"+qAnswer.getAnswerSelector());
+		qAnswer.render(selector+" #"+qAnswer.getAnswerSelector()+"-sub");
 
 		 if(qAnswer.haveSubGroup()){
 		 	this.processGroups("#"+qAnswer.getAnswerSelector(),qAnswer,qAnswer.question.group);

@@ -215,7 +215,7 @@ DZHK.DateAnswer.prototype.render=function(selector){
 	//save answer
 	$(answerDatePicker).on("dp.change",function(e){
 		that.question.answer={
-			"valueDate":e.date.format("L")
+			"valueDate":e.date.format(dateFormat)
 		}
 	});
 };
