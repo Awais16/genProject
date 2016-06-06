@@ -50,7 +50,7 @@
 					<!-- /.box-body -->
 					<div class="box-footer">
 						<div class="progress-group">
-			                    <span class="progress-text">Progress title</span>
+			                    <span class="progress-text"><g:message code="ikmb.fill.progress.text" /></span>
 			                    <span class="progress-number"><b>16</b>/20</span>
 
 			                    <div class="progress sm">
