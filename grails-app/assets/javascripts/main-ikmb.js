@@ -7,4 +7,6 @@ var DZHK = DZHK || {};
 
 DZHK.init=function(){
 
+	//moment.locale("de"); //not working
+
 };

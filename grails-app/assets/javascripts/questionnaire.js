@@ -23,11 +23,10 @@ DZHK.QUESTIONNAIRE_RESPONSE_DATA={
   "group" : {} // add from recieved questionnaire
 };
 
-DZHK.quest.extensions=[]; //just for reference
-
 DZHK.quest.currentGroup=0;
 DZHK.quest.currentQuestion=0;
 DZHK.quest.factory={};
+DZHK.quest.lastClicked="next";
 
 
 DZHK.quest.initResponseFromQuestionnaire=function(){
@@ -91,7 +90,7 @@ DZHK.quest.setGroup=function(group){
 	this.setGroupDesc(group.text);
 };
 
-//TODO: resume from here for direct condition on main question ie. group b/3
+
 DZHK.quest.initQuestion=function(questions){
 	//disabling progress text
 	//this.setProgressTitle("Group questions progress");
@@ -105,19 +104,108 @@ DZHK.quest.setQuestionText=function(question){
 
 DZHK.quest.renderQuestion=function(question){
 	
-	//render questionniare ui
-	this.setQuestionText(question.text);
 
-	//apply factory pattern for different type of questions to generate controls
-	var qAnswer=this.factory.createAnswerClass(question);
+	//check extension maybe have to skip
+	var test=this.checkQuestionExtensions(question);
+	if(test){
+		//render
+		//render questionniare ui
+		this.setQuestionText(question.text);
 
-	qAnswer.render(".question-answer");
-	if(qAnswer.haveSubGroup()){
-		this.processGroups(".main-box",qAnswer,qAnswer.question.group);
+		//apply factory pattern for different type of questions to generate controls
+		var qAnswer=this.factory.createAnswerClass(question);
+
+		qAnswer.render(".question-answer");
+		if(qAnswer.haveSubGroup()){
+			this.processGroups(".main-box",qAnswer,qAnswer.question.group);
+		}else{
+			//console.log
+		}
 	}else{
-		//console.log
+		//don't render, direction to skip?
+		if(this.lastClicked=="back"){
+			this.onBack();
+		}else{
+			this.onNext();
+		}
 	}
 };
+
+DZHK.quest.checkQuestionExtensions=function(question){
+	if(question.extension){
+		for (var i = question.extension.length - 1; i >= 0; i--) {
+			var extension=question.extension[i].url.substr(question.extension[i].url.lastIndexOf("/")+1);
+			if(extension=="questionnaire-enableWhen"){
+				var ext=question.extension[i].extension;
+				var condition={question:ext[0],answer:ext[1]};
+				return this.conditionCheckAnswer(condition);
+			}else{
+				//console.warn("unhandled other group extensions");
+			}
+		}
+	}
+	return true;
+}
+
+DZHK.quest.conditionCheckAnswer=function(condition){
+	var q=this.findInGroup(DZHK.QUESTIONNAIRE_RESPONSE_DATA.group,condition);
+	if(q && q.answer){
+		var matched=false;
+		if(q.type=="choice"){
+			for (var i = q.answer.length - 1; i >= 0; i--) {
+				if(q.answer[i].code==condition.answer.valueCoding.code){
+					matched=true;
+				}
+			}
+		}
+		if(matched){
+			return true;
+		}else{
+			return false;
+		}
+	}else{
+		console.warn("unable to find the linked conditional question"+condition.question.linkId);
+	}
+	return true;
+};
+
+//traversing
+DZHK.quest.findInGroup=function(group,condition){
+	
+	if(group.question){
+		for (var i = group.question.length - 1; i >= 0; i--) {
+			var q=this.findInQuestion(group.question[i],condition);
+			if(q){
+				return q;
+			}
+		}
+	}
+	if(group.group){
+		if(group.group instanceof Array){
+			//find in groups
+			for (var i = 0; i < group.group.length; i++) {
+				var qu=this.findInGroup(group.group[i],condition);
+				if(qu){
+					return qu;
+				}
+			}
+		}else{
+			return this.findInGroup(group.group,condition);
+		}
+	}
+	return false;
+};
+
+DZHK.quest.findInQuestion=function(question,condition){
+	//console.log(question.linkId);
+	if(question.linkId==condition.question.valueString){
+		return question;
+	}
+	if(question.group){
+		return this.findInGroup(question.group);
+	}
+	return false;
+}
 
 DZHK.quest.processGroups=function(selector,qAnswer,groupArray){
 	for (var i = 0; i < groupArray.length; i++) {
@@ -147,7 +235,7 @@ DZHK.quest.processSubGroup=function(selector,qAnswer,group){
 			}
 		}
 	}else{
-		console.log("no extension found for this group");
+		//console.log("no extension found for this group");
 	}
 	this.groupOrQuestionFlow(newSelector,group,qAnswer);
 };
@@ -297,63 +385,78 @@ DZHK.quest.initControl=function(){
 
 	var self=this;
 	$("#bt-back").click(function(){
-		//console.log("back g:"+self.currentGroup+" "+"q:"+self.currentQuestion);
-		if(self.currentQuestion>0){
-			self.currentQuestion--;
-		}else{
-			//first question
-			//check group
-			if(self.currentGroup>0){
-				//set previous group + last question of that group;
-				self.currentGroup--;
-				self.currentQuestion=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length-1;
-			}else{
-				console.log("first group,first question, can't go back anymore");
-				$("#bt-back").prop("disabled",true);
-			}
-		}
-		self.initGroup();
-		if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length || self.currentQuestion<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length){
-			$("#bt-next").prop("disabled",false);
-		}
-
+		self.lastClicked="back";
+		//moved to onBack
+		self.onBack();
 	});
 
 	$("#bt-next").click(function(){
-		// console.log("next g:"+self.currentGroup+" "+"q:"+self.currentQuestion);
-		if(self.currentQuestion<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length-1){
-			self.currentQuestion++;
-		}else{
-			//last question rendered already
-			//check group
-			if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length-1){
-				//load next group questions
-				self.groupFinished(DZHK.QUESTIONNAIRE_DATA.group.group[self.currentGroup]);
-				self.currentQuestion=0;
-				self.currentGroup++;
-				//event: group finished
-			}else{
-				//last group already done
-				self.questionnaireFinished();
-				$("#bt-next").prop("disabled",true);
-			}
-		}
-
-		self.initGroup();
-		//re-enable back button
-		if(self.currentGroup>0 || self.currentQuestion>0){
-			$("#bt-back").prop("disabled",false);
-		}
-
+		self.lastClicked="next";
+		self.onNext();
 	});
 
+};
+/**
+*on next event
+*/
+DZHK.quest.onNext=function(){
+	var self=this; //remove it later
+	// console.log("next g:"+self.currentGroup+" "+"q:"+self.currentQuestion);
+	if(self.currentQuestion<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length-1){
+		self.currentQuestion++;
+	}else{
+		//last question rendered already
+		//check group
+		if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length-1){
+			//load next group questions
+			self.groupFinished(DZHK.QUESTIONNAIRE_DATA.group.group[self.currentGroup]);
+			self.currentQuestion=0;
+			self.currentGroup++;
+			//event: group finished
+		}else{
+			//last group already done
+			self.questionnaireFinished();
+			$("#bt-next").prop("disabled",true);
+		}
+	}
+	self.initGroup();
+	//re-enable back button
+	if(self.currentGroup>0 || self.currentQuestion>0){
+		$("#bt-back").prop("disabled",false);
+	}
+};
+
+/**
+*on back event
+*/
+DZHK.quest.onBack=function(){
+	var self=this; //remove it later
+	//console.log("back g:"+self.currentGroup+" "+"q:"+self.currentQuestion);
+	if(self.currentQuestion>0){
+		self.currentQuestion--;
+	}else{
+		//first question
+		//check group
+		if(self.currentGroup>0){
+			//set previous group + last question of that group;
+			self.currentGroup--;
+			self.currentQuestion=DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length-1;
+		}else{
+			console.log("first group,first question, can't go back anymore");
+			$("#bt-back").prop("disabled",true);
+		}
+	}
+	self.initGroup();
+	if(self.currentGroup<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group.length || self.currentQuestion<DZHK.QUESTIONNAIRE_RESPONSE_DATA.group.group[self.currentGroup].question.length){
+		$("#bt-next").prop("disabled",false);
+	}
 };
 
 /**
 *called when group is finished!
 */
 DZHK.quest.groupFinished=function(group){
-	console.log("group finished event:"+ group.linkId);
+	//console.log("group finished event:"+ group.linkId);
 	if(group.question.length>1){
 		this.saveQuestionnaireResposne();
 	}
