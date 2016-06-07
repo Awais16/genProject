@@ -19,7 +19,7 @@ DZHK.status.init=function(){
 
 	//#questionnaire-details
 	if(DZHK.QUESTIONNAIRE_DATA.group && DZHK.QUESTIONNAIRE_DATA.group.group){
-		var selector=this.generateTableHtml("#questionnaire-details");
+		var selector="#group-detail-table";
 		var groups =DZHK.QUESTIONNAIRE_DATA.group.group;
 		for (var i = 0; i < groups.length; i++){
 			this.fillGroupDetail(selector,groups[i],i);
@@ -60,11 +60,6 @@ DZHK.status.fillGroupDetail=function(selector,group,index){
 	}
 	rowHtml+="</tr>";
 	$(selector).append(rowHtml);
-};
-
-DZHK.status.generateTableHtml=function(selector){
-	$(selector).html("<table class='table table-hover' id='group-detail-table'><thead><tr><th>Title</th><th>Details</th><th>Status</th></tr></thead></table>");
-	return "#group-detail-table";
 };
 
 DZHK.status.onSubmit=function(){

@@ -30,12 +30,12 @@
 									<th>Name</th>
 									<td>${userQuestionnaire.questionnaire.name}</td>
 								</tr>
-								<tr>
+								%{-- <tr>
 									<th>identifier</th>
 									<td>${userQuestionnaire.questionnaire.identifier}</td>
-								</tr>
+								</tr> --}%
 								<tr>
-									<th>Available since</th>
+									<th><g:message code="ikmb.status.title-available-since"/></th>
 									<td class='moment-since'>${userQuestionnaire.dateCreated}</td>
 								</tr>
 								<tr>
@@ -46,13 +46,14 @@
 											<td><g:message code="ikmb.status.not-yet-started"/></td>
 										</g:if>
 										<g:elseif test="${uqResponse.UQResponse.status==1}">
-											<td class='bg-gray'><g:message code="ikmb.status.in-progress"/></td><td>last updated: <span class='moment-since '>${uqResponse.UQResponse.lastUpdated}</span></td>
+											<td class='bg-gray'><g:message code="ikmb.status.in-progress"/></td>
+											<td> <g:message code="ikmb.status.title-last-updated"/><span class='moment-since '>${uqResponse.UQResponse.lastUpdated}</span></td>
 										</g:elseif>
 										<g:elseif test="${uqResponse.UQResponse.status==2}">
-											<td class='bg-aqua'><g:message code="ikmb.status.completed-not-submitted"/></td><td>completed : <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
+											<td class='bg-aqua'><g:message code="ikmb.status.completed-not-submitted"/></td><td><g:message code="ikmb.status.title-completed"/> <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
 										</g:elseif>
 										<g:elseif test="${uqResponse.UQResponse.status==3}">
-											<td class='bg-success'><g:message code="ikmb.status.submitted"/></td><td>submitted: <span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
+											<td class='bg-success'><g:message code="ikmb.status.submitted"/></td><td><g:message code="ikmb.status.title-submitted"/><span class='moment-since'>${uqResponse.UQResponse.lastUpdated}</span></td>
 										</g:elseif>
 									</g:if>
 									<g:else>
@@ -60,10 +61,20 @@
 									</g:else>
 								</tr>
 								<tr>
-									<td colspan="3"><h4 class='text-center'><b>Group Details</b></h4></td>
+									<td colspan="3"><h4 class='text-center'><b><g:message code="ikmb.status.table.group-details"/></b></h4></td>
 								</tr>
 								<tr>
-									<td colspan="3" id="questionnaire-details"></td>
+									<td colspan="3" id="questionnaire-details">
+										<table class='table table-hover' id='group-detail-table'>
+											<thead>
+												<tr>
+													<th><g:message code="ikmb.status.table.title"/></th>
+													<th><g:message code="ikmb.status.table.details"/></th>
+													<th>Status</th>
+												</tr>
+											</thead>
+										</table>
+									</td>
 								</tr>
 							</table>
 						</div>
