@@ -351,7 +351,7 @@ DZHK.quest.onSuccessfullSave=function(data,selector){
 		$(selector).removeClass("modal-success");
 		$(selector).modal('hide');
 		if(data.questionnaireResponse.status==3){
-			window.location="/questionnaire/home"
+			window.location="../home";
 		}
 	},1000);
 };

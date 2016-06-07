@@ -75,7 +75,7 @@ DZHK.status.onSubmit=function(){
 		//$(btSelector+" i").removeClass("fa-spin"); //#bt-modal-save
 		if(data.saved){
 			DZHK.QUESTIONNAIRE_RESPONSE_ID=data.questionnaireResponse.id;
-			window.location="/questionnaire/status/"+DZHK.USER_QUESTIONNAIRE_ID;
+			window.location.reload();
 		}
 		else{
 			//display error and then hide it.
