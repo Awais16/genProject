@@ -29,24 +29,7 @@ class BootStrap {
             //SecUserSecRole.create staffUser, staffRole
             SecUserSecRole.create participantUser, participantRole
 
-            //load users
-            def filePath= "resources/DIfE-Zugangscodes.csv"
-            def userData=grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream()
-            userData.eachCsvLine { tokens -> 
-            
-                //generate all the users and assign them participant roles
-                def pUser= new SecUser(tokens[2],tokens[3])
-                pUser.save()
-                SecUserSecRole.create pUser, participantRole
-
-                //assign them above questionnaire
-
-                userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q1);
-                userQuestionnaire.save()
-                userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q2);
-                userQuestionnaire.save()
-            }
-
+           
             def q1FilePath= "resources/genome_motivation_questionnaire.min.json"
             def q2FilePath = "resources/genome_questionnaire.min.json"
             
@@ -64,6 +47,26 @@ class BootStrap {
             userQuestionnaire.save()
             userQuestionnaire= new UserQuestionnaire(user:adminUser,questionnaire:q2);
             userQuestionnaire.save()
+
+
+             //load users
+            def filePath= "resources/DIfE-Zugangscodes.csv"
+            def userData=grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream()
+            userData.eachCsvLine { tokens -> 
+            
+                //generate all the users and assign them participant roles
+                def pUser= new SecUser(tokens[2],tokens[3])
+                pUser.save()
+                SecUserSecRole.create pUser, participantRole
+
+                //assign them above questionnaire
+
+                userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q1);
+                userQuestionnaire.save()
+                userQuestionnaire= new UserQuestionnaire(user:pUser,questionnaire:q2);
+                userQuestionnaire.save()
+            }
+
 
             //flushing all ?
             SecUserSecRole.withSession {
