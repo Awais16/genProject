@@ -286,7 +286,7 @@ DZHK.quest.groupEnableExtension=function(selector,qAnswer,group,ext){
 
 DZHK.quest.generateSubGroupHtml=function(selector,group){
 	$(selector).append("<div class='box subgroup' id='"+this.getDashedGroupId(group.linkId)+"'>"+
-			"<div class='box-header with-border'><h3 class='box-title' id='"+this.getDashedGroupId(group.linkId)+"-head'> Block# "+group.linkId+"</h3></div>"+
+			"<div class='box-header with-border'><h3 class='box-title' id='"+this.getDashedGroupId(group.linkId)+"-head'></h3></div>"+
 			"<div class='box-body'><div class='col-md-offset-1' id='"+this.getDashedGroupId(group.linkId)+"-main'></div></div>"+
 			"</div>");
 	return "#"+this.getDashedGroupId(group.linkId)+"-main";
