@@ -143,6 +143,7 @@
 				  			DZHK.QUESTIONNAIRE_RESPONSE_DATA="${uqResponse.UQResponse.data}";
 				  			DZHK.QUESTIONNAIRE_RESPONSE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_RESPONSE_DATA.replace(/&quot;/g,'"'));
 				 			DZHK.status.resumeFromGroup=${uqResponse.UQResponse.resumeFromGroup};
+				 			DZHK.QUESTIONNAIRE_RESPONSE_ID=${uqResponse.UQResponse.id};
 						</g:if>
 
 						DZHK.QUESTIONNAIRE_SAVE_URL="<g:createLink controller='questionnaireResponse' action='saveQR' absolute='true'></g:createLink>";

@@ -142,16 +142,17 @@
 					  			DZHK.QUESTIONNAIRE_RESPONSE_DATA="${resp.data}";
 					  			DZHK.QUESTIONNAIRE_RESPONSE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_RESPONSE_DATA.replace(/&quot;/g,'"'));
 					 			DZHK.quest.currentGroup=${resp.resumeFromGroup};
+					 			DZHK.QUESTIONNAIRE_RESPONSE_ID=${resp.id};
 					  		</g:if>
 					  		<g:if test="${resp.status==2}">
 					  			DZHK.QUESTIONNAIRE_RESPONSE_DATA="${resp.data}";
 					  			DZHK.QUESTIONNAIRE_RESPONSE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_RESPONSE_DATA.replace(/&quot;/g,'"'));
+					  			DZHK.QUESTIONNAIRE_RESPONSE_ID=${resp.id};
 					  		</g:if>
 						</g:if>
 						<g:else>
 							DZHK.quest.initResponseFromQuestionnaire();
 						</g:else>
-
 					  DZHK.quest.init();
 					  
 					});
