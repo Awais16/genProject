@@ -5,6 +5,7 @@ DZHK.QUESTIONNAIRE_DATA=":D";
 DZHK.USER_QUESTIONNAIRE_ID="0";
 DZHK.QUESTIONNAIRE_RESPONSE_ID="0";
 DZHK.QUESTIONNAIRE_SAVE_URL=":D";
+DZHK.USERNAME="";
 
 DZHK.status={};
 DZHK.status.resumeFromGroup=0;
@@ -63,6 +64,24 @@ DZHK.status.fillGroupDetail=function(selector,group,index){
 };
 
 DZHK.status.onSubmit=function(){
+
+	//setting other values of quesitonnaireResponse json
+	var mixIdentifier=DZHK.USER_QUESTIONNAIRE_ID+"-"+DZHK.QUESTIONNAIRE_RESPONSE_ID;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.id=mixIdentifier;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.identifier={
+		use:"official", // usual | official | temp | secondary (If known)
+		value : mixIdentifier // The value that is unique 
+	};
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.authored=moment().format(); //UTC
+	var refObj={
+		reference:DZHK.USERNAME,
+		display:DZHK.USERNAME
+	};
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.subject=refObj;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.author=refObj;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.source=refObj;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.status="completed";
+
 	//do the ajax request to save it :)
 	var self=this;
 	$.ajax({

@@ -131,7 +131,7 @@
 					  DZHK.QUESTIONNAIRE_DATA="${qJson}";
 					  DZHK.QUESTIONNAIRE_DATA=DZHK.QUESTIONNAIRE_DATA.replace(/&quot;/g,'"');
 					  DZHK.QUESTIONNAIRE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_DATA);
-					  
+					  DZHK.USERNAME="${username}";
 					  //adding repsonse data
 					  DZHK.QUESTIONNAIRE_RESPONSE_DATA.questionnaire=DZHK.QUESTIONNAIRE_DATA.id; //identifier in json
 					  DZHK.QUESTIONNAIRE_SAVE_URL="<g:createLink controller='questionnaireResponse' action='saveQR' absolute='true'></g:createLink>";

@@ -8,8 +8,9 @@ var DZHK = DZHK || {};
 DZHK.quest={};
 DZHK.QUESTIONNAIRE_DATA=":D";
 DZHK.QUESTIONNAIRE_SAVE_URL=":D";
-DZHK.USER_QUESTIONNAIRE_ID=":D";
+DZHK.USER_QUESTIONNAIRE_ID="";
 DZHK.QUESTIONNAIRE_RESPONSE_ID="";
+DZHK.USERNAME="";
 //for producing quiestionnaire response json
 DZHK.QUESTIONNAIRE_RESPONSE_DATA={
   "resourceType" : "QuestionnaireResponse",
@@ -322,6 +323,29 @@ DZHK.quest.saveQuestionnaireResposne=function(){
 
 DZHK.quest.makeAjaxRequest=function(status,btSelector,selector){
 	var self=this;
+
+	//setting other values of quesitonnaireResponse json
+	var mixIdentifier=DZHK.USER_QUESTIONNAIRE_ID+"-"+DZHK.QUESTIONNAIRE_RESPONSE_ID;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.id=mixIdentifier;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.identifier={
+		use:"official", // usual | official | temp | secondary (If known)
+		value : mixIdentifier // The value that is unique 
+	};
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.authored=moment().format(); //UTC
+	var refObj={
+		reference:DZHK.USERNAME,
+		display:DZHK.USERNAME
+	};
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.subject=refObj;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.author=refObj;
+	DZHK.QUESTIONNAIRE_RESPONSE_DATA.source=refObj;
+
+	if(status==3){
+		DZHK.QUESTIONNAIRE_RESPONSE_DATA.status="completed";
+	}else{
+		DZHK.QUESTIONNAIRE_RESPONSE_DATA.status="in-progress";
+	}
+
 	$.ajax({
 		method:"POST",
 		url:DZHK.QUESTIONNAIRE_SAVE_URL,
@@ -334,6 +358,7 @@ DZHK.quest.makeAjaxRequest=function(status,btSelector,selector){
 			self.onSuccessfullSave(data,selector);
 		}
 		else{
+			DZHK.QUESTIONNAIRE_RESPONSE_DATA.id="";
 			self.onSaveFailed(data,selector);
 		}
 	}).error(function(jqXHT,textStatus,errorThrown){

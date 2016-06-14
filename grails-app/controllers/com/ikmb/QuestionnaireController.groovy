@@ -12,7 +12,7 @@ import grails.plugin.springsecurity.annotation.Secured
 class QuestionnaireController {
 
     def questionnaireService
-
+    
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -114,8 +114,8 @@ class QuestionnaireController {
 
     def home(){
         def userquestionnaires=questionnaireService.getUserQuestionnaires()
-        // println questionnaires as JSON
-        render(view:"home", model:[questionnaires: userquestionnaires])
+        def username=questionnaireService.getLoggedInUserName()
+        render(view:"home", model:[questionnaires: userquestionnaires,username:username])
     }
 
     def status(){
@@ -134,7 +134,8 @@ class QuestionnaireController {
                 def uqStatus=questionnaireService.getUserQuestionnaireStatus(params.id)
                 //def q=[uqResponse:uqStatus,userQuestionnaire:userQuestionnaire]
                 //render q as JSON
-                render(view:"status",model:[qid:params.id,uqResponse:uqStatus,userQuestionnaire:userQuestionnaire])
+                def username=questionnaireService.getLoggedInUserName()
+                render(view:"status",model:[qid:params.id,uqResponse:uqStatus,userQuestionnaire:userQuestionnaire,username:username])
             }else{
                 flash.message=message(code:"ikmb.controller.questionnaire.no-access-msg")
                 flash.type="alert-warning"
@@ -162,21 +163,22 @@ class QuestionnaireController {
             }
 
             def uqStatus=questionnaireService.getUserQuestionnaireStatus(params.id)
+            def username=questionnaireService.getLoggedInUserName()
 
             //check response status
             if(uqStatus.status){
                 switch(uqStatus.UQResponse.status){
                     case 0:
                         //starting
-                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])
+                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,username:username])
                         break
                     case 1:
                         //resume from the group
-                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,resp:uqStatus.UQResponse])
+                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,resp:uqStatus.UQResponse,username:username])
                         break
                     case 2:
                         //editing
-                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,resp:uqStatus.UQResponse])
+                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,resp:uqStatus.UQResponse,username:username])
                         break
                     case 3:
                         //already submitted
@@ -186,12 +188,12 @@ class QuestionnaireController {
                         redirect(controller:"questionnaire",action:"home")
                         break
                     default:
-                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])
+                        render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,username:username])
                         break
                 }
             }else{
                 //no response, starting from scratch
-                render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id])
+                render(view: "fill", model:[qJson:uq.questionnaire.data, qName:uq.questionnaire.name,userQuestId:uq.id,username:username])
             }
             
         }

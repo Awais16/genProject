@@ -137,6 +137,7 @@
 						DZHK.QUESTIONNAIRE_DATA="${userQuestionnaire.questionnaire.data}";
 				  		DZHK.QUESTIONNAIRE_DATA=JSON.parse(DZHK.QUESTIONNAIRE_DATA.replace(/&quot;/g,'"'));
 						DZHK.status.currentGroup=0;
+						DZHK.USERNAME="${username}";
 						<g:if test="${uqResponse.status}">
 							DZHK.status.resumeStatus=${uqResponse.UQResponse.status};
 				  			DZHK.QUESTIONNAIRE_RESPONSE_DATA="${uqResponse.UQResponse.data}";

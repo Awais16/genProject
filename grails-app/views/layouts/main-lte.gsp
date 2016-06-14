@@ -103,6 +103,14 @@
         </ul>
         
           <ul class="nav navbar-nav navbar-right">
+            <g:if test="${username}">
+                <li>
+                    <a>
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span>${username}</span>
+                    </a>
+                </li>
+            </g:if>
             <li>
                 <a href="${createLink(uri:'/logoff')}" >
                     <i class="fa fa-sign-out margin-r-5"></i> Sign out

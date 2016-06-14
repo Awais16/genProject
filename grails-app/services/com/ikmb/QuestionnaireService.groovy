@@ -19,6 +19,16 @@
 	        }
 		}
 
+		def getLoggedInUserName(){
+			def user = springSecurityService.isLoggedIn() ?
+                springSecurityService.loadCurrentUser() :
+                null
+            if(user){
+            	return user.username
+            }
+            return null
+		}
+
 		def getUserQuestionnaireById(String userQuestionnaireId){
 			def user = springSecurityService.isLoggedIn() ?
 	            springSecurityService.loadCurrentUser() :
