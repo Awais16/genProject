@@ -12,9 +12,7 @@ class BootStrap {
 
     def init = { servletContext ->
     	
-
-
-
+        
         if(!SecUser.count()){
 
             def adminRole = new SecRole('ROLE_ADMIN').save()

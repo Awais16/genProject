@@ -254,13 +254,13 @@ DZHK.DateTimeAnswer.prototype.render=function(selector){
 	var answerDatePicker=$(selector+" #"+this.getAnswerSelector()).datetimepicker({
 		sideBySide:true,
 		locale: 'de',
-		format:"MM.DD.YYYY HH:mm"
+		format:"DD.MM.YYYY HH:mm"
 	});
 
 	//save answer
 	$(answerDatePicker).on("dp.change",function(e){
 		that.question.answer={
-			"valueDateTime":e.date.format("MM.DD.YYYY HH:mm") //(ISO 8601)
+			"valueDateTime":e.date.format("DD.MM.YYYY HH:mm") //(ISO 8601)
 		}
 	});
 };
