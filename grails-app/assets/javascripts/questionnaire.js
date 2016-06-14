@@ -223,7 +223,7 @@ DZHK.quest.processSubGroup=function(selector,qAnswer,group){
 	//generate SubGroup Html
 	var newSelector=this.generateSubGroupHtml(selector,group);
 	if(group.text){
-		$("#"+this.getDashedGroupId(group.linkId)+"-head").text("Block# "+group.linkId+" : "+group.text);
+		$("#"+this.getDashedGroupId(group.linkId)+"-head").text(group.text);
 	}
 
 	if(group.extension && group.extension.length>0){
