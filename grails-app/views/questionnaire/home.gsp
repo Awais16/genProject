@@ -7,7 +7,7 @@
 		<body>
 			<div class="box box-default" style="margin-top: 10px">
 				<div class="box-header with-border">
-					<h3 class="box-title">Questionnaire Overview</h3>
+					<h3 class="box-title"><g:message code="ikmb.home.questionnaire-overview"/></h3>
 					<a class="questionnaire_help" data-toggle="modal" data-target="#myModal" href="#">
 						<i class="fa fa-question"> help</i>
 					</a>
@@ -20,8 +20,8 @@
 						<table class="table table-striped table-hover">
 							<tbody>
 								<tr>
-									<th> Name </th>
-									<th> Available Since </th>
+									<th><g:message code="ikmb.status.title-name" /></th>
+									<th> <g:message code="ikmb.status.title-available-since"/> </th>
 									<th> </th>
 								</tr>
 								<g:each in="${questionnaires}" var="q">

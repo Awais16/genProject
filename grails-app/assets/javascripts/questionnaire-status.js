@@ -43,7 +43,7 @@ DZHK.status.fillGroupDetail=function(selector,group,index){
 		if(group.question.length>1){
 			qText+="s";
 		}
-		rowHtml+="<td>"+group.question.length+" "+qText+"</td>";
+		rowHtml+="<td>"+group.question.length+"</td>";
 	}
 
 	//status column

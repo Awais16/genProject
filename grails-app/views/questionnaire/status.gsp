@@ -27,7 +27,7 @@
 						<div class="col-md-10">
 							<table class="table table-hover table-bordered">
 								<tr>
-									<th>Name</th>
+									<th><g:message code="ikmb.status.title-name"/></th>
 									<td>${userQuestionnaire.questionnaire.name}</td>
 								</tr>
 								%{-- <tr>
@@ -39,7 +39,7 @@
 									<td class='moment-since'>${userQuestionnaire.dateCreated}</td>
 								</tr>
 								<tr>
-									<th>Status</th>
+									<th><g:message code="ikmb.status.title-status"/></th>
 									%{-- change With switch --}%
 									<g:if test="${uqResponse.status==true}">
 										<g:if test="${uqResponse.UQResponse.status==0}">
@@ -69,8 +69,8 @@
 											<thead>
 												<tr>
 													<th><g:message code="ikmb.status.table.title"/></th>
-													<th><g:message code="ikmb.status.table.details"/></th>
-													<th>Status</th>
+													<th><g:message code="ikmb.status.table.group-questions"/></th>
+													<th><g:message code="ikmb.status.title-status"/></th>
 												</tr>
 											</thead>
 										</table>
